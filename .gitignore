@@ -1,0 +1,224 @@
+# Binaries
+*.o
+*.so
+*.efi
+
+# Windows build artifacts
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.lib
+*.exp
+
+# Images (on GitHub Releases only)
+*.img
+*.img.xz
+llmk-autorun.txt
+
+# Local release outputs
+release-artifacts/
+
+# Models (on GitHub Releases only)
+*.bin
+*.safetensors
+*.gguf
+
+# Compiled OO policy blob (generated locally)
+OOPOLICY.BIN
+OOPOLICY.CRC
+
+# Tokenizer is required even for NO_MODEL images
+!tokenizer.bin
+
+# Firmware (on GitHub Releases only)
+*.ucode
+*.tgz
+
+# OVMF / UEFI vars (download separately / generated locally)
+OVMF.fd
+*.fd
+
+# Logs and debug files
+*.log
+*.txt
+qemu*.txt
+DIAGNOSTIC.md
+!llmk-autorun-oo-smoke.txt
+!llmk-autorun-oo-consult-smoke.txt
+!llmk-autorun-oo-reboot-smoke.txt
+!llmk-autorun-oo-outcome-smoke.txt
+!llmk-autorun-real-hw-handoff-smoke.txt
+!llmk-autorun-real-hw-oo-consult-smoke.txt
+!llmk-autorun-real-hw-model-chat-smoke.txt
+!llmk-autorun-real-hw-oo-smoke.txt
+!llmk-autorun-real-hw-oo-reboot-smoke.txt
+
+# Local REPL config (publish repl.cfg.example instead)
+repl.cfg
+
+# Generated build-time defaults (created by Makefile when Zig is available)
+metabion_profile.h
+
+# OS-G (Operating System Genesis) - old prototype, not part of OO core
+OS-G (Operating System Genesis)/
+
+# Olympe - old experiment, not part of OO core
+olympe/
+
+# Legacy scripts (real-hw validation, not in CI)
+scripts/collect-real-hw-oo-artifacts.ps1
+scripts/validate-real-hw-oo-artifacts.ps1
+
+# Local archived artifacts
+artifacts/
+
+# Local image scratch dir
+bootable_img_temp/
+
+# Local backups
+*.bak
+*.backup
+*.old
+
+# Temporary files
+SESSION_*.md
+GITHUB_UPLOAD.md
+serve_model.py
+test-*.ps1
+!test-qemu-autorun.ps1
+!test-oo-complete.ps1
+
+# Local OO/OS-G notes and scratch (untracked by default)
+.ops/
+NEURAL_PROTECTOR_*.md
+PHASE_*.md
+QUICKREF_PHASE_*.md
+OO_DNA*
+oo_genome.json
+oo_cortex_bridge.json
+reliability.ps1
+test_ffi_integration.c
+test_prebuild.c
+
+
+
+# Local notes (keep repo clean)
+CHAT_REPL_SUCCESS.md
+IMPLEMENTATION_COMPLETE.md
+OPTIMIZATIONS_GUIDE.md
+TEST_USB_GUIDE.md
+
+# Memory experiments (non essentiels)
+memory_adversarial.h
+memory_artistic.h
+memory_blockchain.h
+memory_consciousness.h
+memory_cosmic.h
+memory_distributed.h
+memory_dna.h
+memory_infinite.h
+memory_lightning.h
+memory_liquid.h
+memory_negative.h
+memory_neural.h
+memory_oracle.h
+memory_quantum.h
+memory_quantum2.h
+memory_schizophrenic.h
+memory_sentinel.h
+memory_speculative.h
+memory_timetravel.h
+memory_zones.h.broken
+memory_zones_fixed.h
+
+# USB mount
+usb_mount/
+
+# Local test directory
+test_dir/
+
+# Local experiments / scratch files (kept out of main history)
+hello.c
+hello_efi.c
+test_minimal.c
+tinyblas.h
+matmul_advanced.h
+llama2_fixed.c
+llama2_simple.c
+llama2_step*.c
+llama2_repl_v*.c
+
+# Local helper scripts (use the tracked build/run entrypoints instead)
+bench-matrix.ps1
+compile-fix.sh
+compile-optimized.sh
+create-bootable-image.ps1
+create-bootable-image.sh
+create-bootable-usb.ps1
+create-bootable-wsl.sh
+create-image-simple.ps1
+debug-boot-failure.ps1
+diagnose-boot.ps1
+launch-qemu-simple.ps1
+launch-qemu.ps1
+test-qemu-simple.sh
+test-qemu-wsl.sh
+test-qemu.sh
+verify-image.ps1
+write-usb-admin.ps1
+
+# VS Code
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# DIOP local runtime/test artifacts
+.diop_data/
+diop/runtime/memory/
+diop/tests/.tmp/
+diop_workspace/
+
+# Rust (oo-guard)
+oo-guard/target/
+
+# Rust (rust-guard)
+rust-guard/target/
+
+# Olympe (local build artifacts)
+olympe/build/
+
+# Keep repo minimal: non-essential docs/notes are local only
+ROADMAP.md
+REPERE.md
+OO_SPEC.md
+OO_GLOBAL_ARCHITECTURE.md
+OO_HOST_RUNTIME_V0.md
+OO_SHARED_IDENTITY_AND_JOURNAL.md
+OO_SOVEREIGN_RUNTIME_INVARIANTS.md
+
+# CI / release helpers (tracked)
+
+# Optional dev tools (downloaders, wrappers, helpers)
+tools/
+
+# Misc helpers (non essentiels)
+extract-splash-from-img.sh
+
+# Editable splash source (optional local asset)
+llm2.png
+
+# Generated/optional splash (boot works without it)
+splash.bmp
+
+# Desktop-only header (not part of booter build)
+interface_desktop.h
+
+# Repo-local toolchains dir (if created)
+tools/_toolchains/
+
+# Local toolchains (downloaded, not tracked)
+tools/_toolchains/

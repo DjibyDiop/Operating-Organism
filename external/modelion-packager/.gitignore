@@ -1,0 +1,25 @@
+# -*- conf -*-
+
+/o
+/.cosmocc
+/TAGS
+/HTAGS
+/cosmocc
+/perf.data
+/perf.data.old
+/trace.json
+
+/*.log
+/*.bin
+/*.mp3
+
+.claude
+CLAUDE.md
+
+# python
+*.pyc
+__init__.py
+uv.lock
+
+# docs build output (pushed to gitbook-docs branch by CI)
+/site

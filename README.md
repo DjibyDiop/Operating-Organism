@@ -1,1 +1,575 @@
-# Operating-Organism
+# Operating-Organism (OO)
+
+> **Experimental bare-metal AI OS** — A self-evolving cognitive system running without any operating system.  
+> By [Djiby Diop](https://github.com/Djiby-diop)
+
+---
+
+## Vision
+
+**Operating-Organism** is a research-grade bare-metal system that combines:
+
+- **UEFI x86_64 kernel** — boots directly from USB/EFI, no OS layer
+- **LLM inference engine** — llama2/Mamba SSM running on raw silicon
+- **15+ bio-inspired organ modules** — memory zones, neural pathways, immune warden
+- **D+ policy engine** — decision-making with safety constraints
+- **Federated intelligence** — multi-node learning via bare-metal network
+- **TLS oracle layer** — direct HTTPS calls to GPT-4/Claude/Gemini (no proxy)
+- **LoRA self-improvement** — the system can improve its own weights at runtime
+
+> The goal: an OS that thinks, learns, and evolves — without Linux, without libc, without compromise.
+
+---
+
+## Architecture
+
+```
+Operating-Organism/
+├── engine/
+│   ├── llama2/        — LLM inference + REPL (soma_boot.c, soma_mind.c)
+│   ├── network/       — bare-metal TCP4/TLS/mbedTLS/DNS/federation
+│   ├── kernel/        — EBS, memory zones, LAPIC timer
+│   └── ...
+├── oo-kernel/         — core memory allocator + zone manager
+├── oo-bus/            — inter-organ message bus
+├── oo-warden/         — sentinel/safety/D+ policy
+├── cellion-engine/    — cellular automata organ
+├── dreamion-engine/   — latent space exploration
+├── memorion-engine/   — episodic memory
+├── neuralfs-engine/   — neural filesystem
+├── [+10 organ engines]
+├── oo-dplus/          — D+ decision policy engine
+├── oo-model-repo/     — model weight management
+└── Makefile           — builds llama2.efi (single UEFI binary)
+```
+
+---
+
+## Current Phases Completed
+
+| Phase | Feature |
+|-------|---------|
+| 1-3   | UEFI boot, LLM inference, memory zones |
+| 4-6   | D+ policy, organ subsystems, EBS |
+| 7     | LAPIC timer, DIOP async, LoRA training |
+| 8     | Network federation (UDP discovery, heartbeat, delta push) |
+| 9A    | mbedTLS 2.28 bare-metal TLS 1.2 (39 objects, no libc) |
+| 9B    | Direct TLS oracle (DNS → TLS → GPT-4/Claude/Gemini) |
+| 9C    | Per-oracle auth (Bearer/x-api-key/URL key) |
+
+---
+
+## Build
+
+**Prerequisites:** WSL2 + `x86_64-w64-mingw32-gcc` cross-compiler + OVMF firmware
+
+```bash
+make          # builds llama2.efi
+make run      # launches in QEMU
+```
+
+---
+
+## Public Prototype
+
+A minimal public prototype is available at:  
+→ [github.com/Djiby-diop/llm-baremetal](https://github.com/Djiby-diop/llm-baremetal)
+
+---
+
+## License
+
+Research / experimental — all rights reserved.  
+Contact: djibydiopwr@gmail.com
+
+
+UEFI x86_64 bare-metal LLM + Mamba SSM inference engine. Boots from USB. No OS.
+Part of the [Operating Organism](https://github.com/Djiby-diop/oo-system) ecosystem.
+
+By Djiby Diop
+
+## Public release readiness
+
+Before making this repository public, run the documented release gates:
+
+- Playbook (EN + FR): [docs/PUBLIC_RELEASE_PLAYBOOK.md](docs/PUBLIC_RELEASE_PLAYBOOK.md)
+- Third-party license audit template: [docs/THIRD_PARTY_LICENSE_AUDIT.md](docs/THIRD_PARTY_LICENSE_AUDIT.md)
+- Translation policy (EN + FR + others): [docs/TRANSLATIONS.md](docs/TRANSLATIONS.md)
+- Automated preflight script: `./scripts/public-preflight.ps1`
+
+## Architectural role
+
+`llm-baremetal` is the **sovereign runtime** of the larger Operating Organism vision.
+It is meant to be preserved and evolved as the bare-metal / survival / recovery pillar of the system, not replaced.
+
+## OO-SomaMind V1 integration
+
+The current `OO-SomaMind V1` runtime contract is:
+
+- `MAMB` = executable bare-metal backbone format
+- `OOSS` = future OO sidecar / enriched extension format
+
+Current runtime skeleton commands:
+
+- `/core_load <file.mamb>`
+- `/mind_diag`
+- `/mind_halt_probe [loop_pos]`
+- `/mind_halt_decide [loop_pos] [threshold]`
+- `/mind_halt_sweep [start] [end] [step] [threshold]`
+- `/mind_halt_policy [threshold] [on|off]`
+- `/mind_halt_policy_save`
+- `/mind_halt_policy_load`
+- `/mind_halt_policy_apply_saved`
+- `/mind_halt_policy_apply_saved_if_needed`
+- `/mind_halt_policy_sync`
+- `/mind_halt_policy_sync_force`
+- `/mind_halt_policy_audit`
+- `/mind_audit`
+- `/mind_doctor`
+- `/mind_next`
+- `/mind_snapshot`
+- `/mind_ready`
+- `/mind_bootstrap_v1`
+- `/mind_path_v1`
+- `/mind_halt_policy_reset`
+- `/mind_halt_policy_diff`
+- `/oo_sidecar <file.ooss>`
+- `/oo_sidecar_audit`
+- `/oo_sidecar_unload`
+- `/attach_load <file>`
+- `/attach_audit`
+- `/attach_policy [status|audit|diff|sync|sync_force|reset [route]|<route> <temp> <top_p> <rep> <max_tokens>]`
+- `/attach_policy_audit`
+- `/attach_policy_diff`
+- `/attach_policy_sync`
+- `/attach_policy_sync_force`
+- `/attach_unload`
+- `/mind_status`
+
+Current sidecar behavior:
+
+- validates a minimal `OOSS` header
+- keeps the validated sidecar blob resident in memory
+- exposes a first `HaltingHead` hook when the exported layout matches the expected V1 sidecar layout
+- validates an attach request on `/attach_load` by opening the file and checking a readable `GGUF` summary or a sane legacy `.bin` header before marking it active
+- lets an active validated attach influence `SomaMind` routing as the external battery, and injects compact advisory attach context into `/ssm_infer` when the selected route is `EXTERNAL` or `DUAL`
+- applies transient attach-route sampling caps during `/ssm_infer` for `EXTERNAL` or `DUAL` routes (temperature/top_p/repetition/max_tokens), then restores the route-tuned base values after generation
+- exposes `/oo_sidecar_audit` to summarize sidecar residency, header validity, halting-hook readiness, and suggested next action
+- exposes `/attach_audit` to summarize attached-model registration, validation/backend status, relation to core, and suggested next action
+- can now early-stop active decode loops at runtime when `halt_prob >= threshold`
+- exposes a configurable runtime halt policy via `/mind_halt_policy`
+- separates runtime changes from disk persistence with `/mind_halt_policy_save` and `/mind_halt_policy_load`
+- can re-apply the saved `repl.cfg` policy as the runtime source of truth via `/mind_halt_policy_apply_saved`
+- can skip unnecessary saved-policy re-application via `/mind_halt_policy_apply_saved_if_needed` when runtime is already in sync
+- exposes `/mind_halt_policy_sync` as a simpler semantic alias for syncing runtime from `repl.cfg` only when needed
+- exposes `/mind_halt_policy_sync_force` to reload runtime from `repl.cfg` even when it is already in sync
+- exposes `/mind_halt_policy_audit` to summarize runtime policy, persisted policy, sync state, and last apply/sync effect
+- exposes `/mind_audit` to aggregate halt-policy, attach-policy, sidecar, and attach audits into one global runtime report, then append normalized readiness and next-action fields
+- exposes `/mind_doctor` to split the next safe corrective sequence into auto-fixable actions vs manual follow-up from current runtime state, then emit normalized `next_action` and `next_reason`
+- exposes `/mind_next` to print exactly one best next action from current runtime state
+- exposes `/mind_snapshot` to print a compact stable key=value machine-readable runtime snapshot (`format=kv-v1`, schema `llmk-mind-snapshot-v5`, fixed field order), including attach kind/format/validation fields plus EXTERNAL/DUAL attach policy config, preview, and persisted sync fields, plus `/mind_snapshot strict` for headerless script-friendly output
+- exposes `/soma_status` and `/soma_route` to preview the attach-driven EXTERNAL/DUAL policy caps before generation
+- exposes `/attach_policy` to inspect, audit, diff, sync, reset, or override the runtime attach policy profiles used by EXTERNAL and DUAL routes, best-effort persists overrides into `repl.cfg` so they reload at boot, and reports persisted-vs-runtime sync in `status`
+- exposes `/attach_policy_audit`, `/attach_policy_diff`, `/attach_policy_sync`, and `/attach_policy_sync_force` as direct aliases for the persisted attach-policy control plane
+- exposes `/mind_ready` as a short binary readiness check for the V1 runtime path, now with the same recommended next action used by `/mind_next`
+- exposes `/mind_bootstrap_v1` to auto-apply the obvious safe V1 bootstrap steps, including reusing stored core/sidecar/attach requests when available, and then report normalized `next_action` and `next_reason`
+- exposes `/mind_path_v1` to print the shortest recommended V1 startup sequence from the current runtime state, including `/mind_bootstrap_v1` when it is the best shortcut, then emit normalized `next_action` and `next_reason`
+- stores persisted values in `repl.cfg` via `mind_halt_enabled` and `mind_halt_threshold`
+- stores attach policy persistence in `repl.cfg` via `attach_policy_external_*` and `attach_policy_dual_*`
+- can restore runtime V1 halt defaults via `/mind_halt_policy_reset`
+- shows whether runtime halt policy is in sync with `repl.cfg` in `/mind_status`
+- shows whether runtime attach policy is in sync with `repl.cfg` in `/mind_status`
+- shows the mode and effect of the latest apply/sync action in `/mind_status`
+- shows the mode and effect of the latest attach-policy sync/apply action in `/mind_status`
+- shows normalized readiness fields plus `next_action` and `next_reason` in `/mind_status`
+- can print explicit runtime vs persisted halt deltas with `/mind_halt_policy_diff`
+- can print explicit runtime vs persisted attach-policy deltas with `/attach_policy_diff`
+- does not yet execute broader sidecar semantics (budgets, tool metadata, richer OO policies)
+
+Reference docs:
+
+- [docs/OO_SOMAMIND_RUNTIME_CONTRACT.md](docs/OO_SOMAMIND_RUNTIME_CONTRACT.md)
+- [../oo-system/docs/OO_SOMAMIND_V1_INTEGRATION_CONTRACT.md](../oo-system/docs/OO_SOMAMIND_V1_INTEGRATION_CONTRACT.md)
+
+Runtime-compatible exports can be produced either from the local runtime-side exporter or from the model-side bridge exporter in [../oo-model/scripts/export_mamb_binary.py](../oo-model/scripts/export_mamb_binary.py).
+
+## Build (Windows + WSL)
+
+### Model weights (not in git)
+
+Model weights (`.gguf` / legacy `.bin`) are intentionally not tracked in git.
+Download them from Hugging Face (or any direct URL) into `models/`.
+
+Windows:
+
+```powershell
+./scripts/get-weights.ps1 -Url "https://huggingface.co/<org>/<repo>/resolve/main/<file>.gguf" -OutName "<file>.gguf"
+```
+
+Stable public test models for this project are also published at [djibydiop/llm-baremetal](https://huggingface.co/djibydiop/llm-baremetal). To fetch one directly into `models/`:
+
+```powershell
+./scripts/get-stable-model.ps1 -File stories15M.q8_0.gguf
+
+# example for the larger legacy llama2.c export
+./scripts/get-stable-model.ps1 -File stories110M.bin
+```
+
+Linux:
+
+```bash
+./scripts/get-weights.sh "https://huggingface.co/<org>/<repo>/resolve/main/<file>.gguf" "<file>.gguf"
+```
+
+Then pass the model path to the build.
+
+1) Ensure `tokenizer.bin` is present (this repo includes it by default).
+2) Download a model file into `models/` (see above).
+   - Supported today for inference: `.bin` (llama2.c export)
+   - Supported today for inference: `.gguf` (F16/F32 + common quant types like Q4/Q5/Q8; see below)
+   - You can also use a base name without extension (the image builder will copy `.bin` and/or `.gguf` if present)
+3) Build + create boot image:
+
+```powershell
+./build.ps1
+```
+
+Example (base name):
+
+```powershell
+./build.ps1 -ModelBin models/stories110M
+
+# or explicit file
+./build.ps1 -ModelBin models/my-model.gguf
+```
+
+## Build (Linux)
+
+Prereqs (Ubuntu/Debian):
+
+```bash
+sudo apt-get update
+sudo apt-get install -y build-essential gnu-efi mtools parted dosfstools grub-pc-bin
+```
+
+Then:
+
+```bash
+cd llm-baremetal
+make clean
+make repl
+
+# Build an image with a bundled model:
+# MODEL=stories110M ./create-boot-mtools.sh
+
+# Or build a small image without embedding weights (copy your model later):
+NO_MODEL=1 ./create-boot-mtools.sh
+```
+
+## Prebuilt image (x86_64)
+
+GitHub Releases provides a prebuilt **x86_64 no-model** boot image.
+It intentionally does **not** bundle any model weights, and it does **not** hardcode a model path.
+
+Download these assets from the latest Release:
+
+- `llm-baremetal-boot-nomodel-x86_64.img.xz`
+- `SHA256SUMS.txt`
+
+Verify + extract (Linux):
+
+```bash
+sha256sum -c SHA256SUMS.txt
+xz -d llm-baremetal-boot-nomodel-x86_64.img.xz
+```
+
+Flash to a USB drive (Linux, replace `/dev/sdX`):
+
+```bash
+sudo dd if=llm-baremetal-boot-nomodel-x86_64.img of=/dev/sdX bs=4M conv=fsync status=progress
+```
+
+Copy your model to the USB EFI/FAT partition:
+
+- Copy your model file (`.gguf` or legacy `.bin`) to the root of the FAT partition (or create a `models/` folder and put it there).
+- `tokenizer.bin` is already included in the Release image.
+
+Note: some UEFI FAT drivers can be unreliable with long filenames. If you hit "file not found / open failed" issues, prefer an 8.3-compatible filename (e.g. `STORIES11.GGU`) or use the FAT 8.3 alias (e.g. `STORIE~1.GGU`) when setting `model=` in `repl.cfg`.
+
+Boot the USB on an x86_64 UEFI machine, then select/load your model from the REPL.
+
+## Recommended conversational setup (8GB RAM)
+
+On an 8GB machine, "conversational" works best with a **small instruct/chat GGUF model** rather than a large 7B model.
+
+Recommended target:
+
+- Size: ~0.5B-1B parameters
+- Format: `.gguf`
+- Quantization: `Q4_0/Q4_1/Q5_0/Q5_1/Q8_0` (scalar path) and `Q4_K/Q5_K/Q6_K` (dequant via gguf_kquant)
+
+Suggested first-run settings:
+
+- Keep context small at first (e.g. 256-512) to avoid running out of RAM (KV cache grows with context).
+- If your model is Q8_0 and you want lower RAM usage, enable `gguf_q8_blob=1` (default in the Release image).
+
+Useful REPL commands:
+
+- `/diag` to inspect GOP, RAM, CPU features, and detected model paths
+- `/diag_report` to save the same diagnostic view plus model inventory to `llmk-diag.txt`
+- `/models` to list `.gguf`/`.bin` found in the root and `models\\`
+- `/model_info <file>` to inspect a model before loading, including files in root, `models\\`, and FAT 8.3-resolved names
+- `/oo_status` to inspect runtime engine state plus persistence/continuity artifacts (`OOSTATE.BIN`, `OORECOV.BIN`, `OOJOUR.LOG`, `OOCONSULT.LOG`, `OOHANDOFF.TXT`)
+- `/oo_outcome` to inspect `OOOUTCOME.LOG`, pending next-boot checks, and confirmed adaptation outcomes
+- `/oo_explain` to explain the latest consult decision, with `/oo_explain verbose` for confidence/plan/dynamics details and `/oo_explain boot` for latest confirmed boot comparison plus recent confirmed history
+- `/oo_reboot_probe` to arm a reboot continuity check, reboot, then verify that OO state came back aligned on the next boot
+- `/cfg` to confirm effective `repl.cfg` settings
+
+Recent OO consult builds also expose higher-level operator fields in `/oo_status`, `/oo_log`, and `/oo_explain verbose`, including:
+
+- `last.consult.boot_relation` / `boot_bias`
+- `last.consult.trend` / `trend_bias`
+- `last.consult.saturation` / `saturation_bias`
+- `last.consult.operator_summary`
+
+This makes it easier to see cases such as `positive_but_saturated`, where a previously successful action is still favored by history but is no longer directly applicable because the target is already at its bound.
+
+For a first real-machine no-model check, the image also ships with [llmk-autorun-real-hw-oo-smoke.txt](llmk-autorun-real-hw-oo-smoke.txt). Run it with `/autorun llmk-autorun-real-hw-oo-smoke.txt` or point `autorun_file` to it in `repl.cfg`.
+
+For a real-machine reboot continuity check, the image also ships with [llmk-autorun-real-hw-oo-reboot-smoke.txt](llmk-autorun-real-hw-oo-reboot-smoke.txt). Run it with `/autorun llmk-autorun-real-hw-oo-reboot-smoke.txt`; the first `/oo_reboot_probe` arms the check and reboots, then the next boot verifies continuity and continues the script.
+
+### Flashing from Windows
+
+- Use Rufus: select the `.img` (or extract from `.img.xz` first), partition scheme **GPT**, target **UEFI (non CSM)**.
+
+## Run (QEMU)
+
+```powershell
+./run.ps1 -Preflight -Gui
+```
+
+Host -> sovereign handoff smoke:
+
+```powershell
+./test-qemu-handoff.ps1
+
+# optional if oo-host is not in the default sibling path
+./test-qemu-handoff.ps1 -OoHostRoot ..\oo-host
+```
+
+This smoke flow also extracts OOHANDOFF.TXT beside the repo so [oo-host/sync-check](../oo-host/README.md) can verify the aligned host/export/receipt state.
+
+Model-backed OO consult smoke in QEMU:
+
+```powershell
+./test-qemu-autorun.ps1 -Mode oo_consult_smoke -ModelBin stories15M.q8_0.gguf -SkipPrebuild
+```
+
+This validates `/oo_consult`, `/oo_log`, and `OOCONSULT.LOG` creation with a small bundled model before moving to real hardware.
+
+No-model OO outcome / adaptation learning smoke in QEMU:
+
+```powershell
+./test-qemu-autorun.ps1 -Mode oo_outcome_smoke -Accel tcg -SkipPrebuild
+```
+
+This validates the consult -> persist -> reboot-verified outcome -> learned reselection loop, including `/oo_outcome`, `/oo_explain boot`, recent confirmed history, and operator-facing summaries persisted in `OOCONSULT.LOG`.
+
+For faster iteration, use the unified QEMU wrapper [run-qemu-oo-validation.ps1](run-qemu-oo-validation.ps1):
+
+```powershell
+# run one focused lane
+./run-qemu-oo-validation.ps1 -Mode consult -ModelBin stories15M.q8_0.gguf -Accel tcg -SkipPrebuild
+./run-qemu-oo-validation.ps1 -Mode reboot -Accel tcg
+./run-qemu-oo-validation.ps1 -Mode handoff -Accel tcg
+
+# or run the core QEMU matrix end to end
+./run-qemu-oo-validation.ps1 -Mode all-core -ModelBin stories15M.q8_0.gguf -Accel tcg -SkipPrebuild
+```
+
+The wrapper keeps QEMU as the primary iteration loop for no-model smoke, reboot continuity, host -> sovereign handoff, and model-backed OO consult so hardware reboots are reserved for larger milestones only.
+
+For a real UEFI/USB handoff check, copy `sovereign_export.json` from the host runtime onto the FAT root of the USB image, then run [llmk-autorun-real-hw-handoff-smoke.txt](llmk-autorun-real-hw-handoff-smoke.txt) with `/autorun llmk-autorun-real-hw-handoff-smoke.txt`.
+
+To stage that file from the sibling host workspace, use [llm-baremetal/prepare-real-hw-handoff.ps1](prepare-real-hw-handoff.ps1). It refreshes `oo-host/data/sovereign_export.json`, can copy both the export and the real-hardware handoff autorun script onto a mounted FAT/USB root, and can also build a dedicated `llm-baremetal-boot-real-hw-handoff.img` image with the export already injected.
+
+For the next milestone — model-backed sovereign chat on a real machine — use [prepare-real-hw-chat.ps1](prepare-real-hw-chat.ps1). It generates a dedicated `llm-baremetal-boot-real-hw-chat.img` with a bundled model, a generated `repl.cfg`, and conversational defaults already set:
+
+```powershell
+./prepare-real-hw-chat.ps1 -ModelBin stories110M.bin
+
+# optional: boot straight into a tiny chat smoke
+./prepare-real-hw-chat.ps1 -ModelBin stories110M.bin -AutoSmoke
+```
+
+The helper keeps the image interactive by default. With `-AutoSmoke`, it points `autorun_file` at [llmk-autorun-real-hw-model-chat-smoke.txt](llmk-autorun-real-hw-model-chat-smoke.txt) so the machine can prove model load + first response automatically.
+
+To continue the OO path with a real model, the same helper also supports `-AutoOoConsultSmoke`. That enables `oo_enable=1`, `oo_llm_consult=1`, and boots into [llmk-autorun-real-hw-oo-consult-smoke.txt](llmk-autorun-real-hw-oo-consult-smoke.txt) to prove model-backed `/oo_consult` plus `OOCONSULT.LOG` creation:
+
+```powershell
+./prepare-real-hw-chat.ps1 -ModelBin stories110M.bin -AutoOoConsultSmoke
+```
+
+For an interactive real-hardware OO image without autorun or auto-shutdown, use `-EnableOoConsult` instead. This keeps the boot in the REPL while pre-enabling `oo_enable=1` and `oo_llm_consult=1`:
+
+```powershell
+./prepare-real-hw-chat.ps1 -ModelBin stories110M.bin -EnableOoConsult -OutImagePath ..\llm-baremetal-boot-real-hw-oo-consult-interactive.img
+```
+
+Validated demo image:
+
+```powershell
+./prepare-real-hw-chat.ps1 -ModelBin stories110M.bin -EnableOoConsult -SkipPrebuild -CtxLen 256 -MaxTokens 96 -Temperature 0.75 -TopP 0.95 -TopK 80 -RepeatPenalty 1.15 -OutImagePath ..\llm-baremetal-boot-demo-stories110M.img
+```
+
+This produces a clean interactive USB/demo image with the bundled `stories110M.bin` model, conversational defaults, OO consult enabled, and no autorun shutdown path. After boot, a short live demo can be:
+
+- `/cfg`
+- `/diag`
+- `hi`
+- `/oo_status`
+- `/oo_consult`
+- `/oo_explain`
+
+Published demo artifacts on Hugging Face now include both the raw and compressed forms:
+
+- `llm-baremetal-boot-demo-stories110M.img`
+- `llm-baremetal-boot-demo-stories110M.img.xz`
+- `SHA256SUMS-demo-stories110M.txt`
+- `SHA256SUMS-demo-stories110M-xz.txt`
+
+After the real-machine run, collect the produced OO artifacts from the mounted FAT partition or from an image copy with [collect-real-hw-oo-artifacts.ps1](collect-real-hw-oo-artifacts.ps1):
+
+```powershell
+./collect-real-hw-oo-artifacts.ps1 -UsbRoot E:\
+
+# or directly from an image file
+./collect-real-hw-oo-artifacts.ps1 -ImagePath .\llm-baremetal-boot-real-hw-chat.img
+```
+
+It gathers `OOCONSULT.LOG`, `OOJOUR.LOG`, `OOSTATE.BIN`, `OORECOV.BIN`, `OOHANDOFF.TXT`, and `llmk-diag.txt` into a timestamped folder under `artifacts/` and writes a small summary file for review.
+
+Then validate the collected folder with [validate-real-hw-oo-artifacts.ps1](validate-real-hw-oo-artifacts.ps1):
+
+```powershell
+./validate-real-hw-oo-artifacts.ps1
+
+# explicit folder also works
+./validate-real-hw-oo-artifacts.ps1 -ArtifactsDir .\artifacts\real-hw-oo-20260316-012323
+```
+
+By default it expects `OOSTATE.BIN`, `OORECOV.BIN`, `OOJOUR.LOG`, and a consult trace in `OOCONSULT.LOG`. Optional stricter checks are available with `-RequireDiag` and `-RequireHandoff`.
+
+If you want a single entrypoint for the whole real-machine consult milestone, use [run-real-hw-oo-consult-validation.ps1](run-real-hw-oo-consult-validation.ps1):
+
+```powershell
+# phase 1: prepare the real-hardware image
+./run-real-hw-oo-consult-validation.ps1 -Phase prepare -ModelBin stories110M.bin
+
+# phase 2: after the physical boot, collect + validate from the mounted USB FAT root
+./run-real-hw-oo-consult-validation.ps1 -Phase collect -UsbRoot E:\
+```
+
+The `prepare` phase builds the image with `-AutoOoConsultSmoke`; the `collect` phase chains collection plus validation automatically.
+
+For the real-machine host -> sovereign handoff milestone, use [run-real-hw-handoff-validation.ps1](run-real-hw-handoff-validation.ps1):
+
+```powershell
+# phase 1: refresh host export + build the dedicated handoff image
+./run-real-hw-handoff-validation.ps1 -Phase prepare
+
+# phase 2: after the physical boot, collect + validate from the mounted USB FAT root
+./run-real-hw-handoff-validation.ps1 -Phase collect -UsbRoot E:\
+```
+
+The `prepare` phase refreshes `oo-host/data/sovereign_export.json` and builds `llm-baremetal-boot-real-hw-handoff.img`; the `collect` phase requires `OOHANDOFF.TXT`, allows a missing consult log, writes a handoff-focused validation report, and runs `oo-bot sync-check` when the sibling [oo-host](../oo-host/README.md) workspace is available.
+
+For the real-machine reboot continuity milestone, use [run-real-hw-oo-reboot-validation.ps1](run-real-hw-oo-reboot-validation.ps1):
+
+```powershell
+# phase 1: build the dedicated reboot continuity image
+./run-real-hw-oo-reboot-validation.ps1 -Phase prepare
+
+# phase 2: after the physical reboot cycle, collect + validate from the mounted USB FAT root
+./run-real-hw-oo-reboot-validation.ps1 -Phase collect -UsbRoot E:\
+```
+
+The `prepare` phase builds `llm-baremetal-boot-real-hw-oo-reboot.img` with `oo_enable=1` and the reboot smoke autorun; the firmware also makes a best-effort attempt to set UEFI `BootNext` to the current USB boot entry before resetting so the second boot returns to the USB device more reliably. The `collect` phase requires the `reboot_probe_arm` and `reboot_probe_verified` journal markers, allows a missing consult log, and writes a reboot-focused validation report.
+
+The chained `collect` phase also writes `oo-real-validation-report.md` into the artifact folder so the real-machine milestone has a human-readable receipt with artifact sizes, consult decision, confidence fields, and parsed journal events.
+
+The host runtime lives in the separate `oo-host` repository and is expected by default as a sibling clone beside this repo.
+
+Validate everything (recommended after pulling updates):
+
+```powershell
+./validate.ps1
+
+# explicit override also works with a relative sibling path
+./validate.ps1 -OoHostRoot ..\oo-host
+```
+
+When the sibling [oo-host](../oo-host/README.md) workspace is present, validation also runs the handoff smoke plus `oo-bot sync-check` end to end. Relative `-OoHostRoot` overrides are resolved against the repo root first, so sibling-path invocations stay stable.
+
+## Release candidate
+
+The current release-candidate status is tracked in [RELEASE_CANDIDATE.md](RELEASE_CANDIDATE.md).
+
+## OS-G (Operating System Genesis) — pillar
+
+OS-G is included as a self-contained kernel-governor prototype (Memory Warden + D+ pipeline) under:
+
+- `OS-G (Operating System Genesis)/`
+
+Quick validation (UEFI/QEMU smoke test, prints `RESULT: PASS/FAIL`):
+
+```powershell
+./run-osg-smoke.ps1 -Profile release
+
+# or via the main runner
+./run.ps1 -OsgSmoke
+```
+
+Host-side tests/tools (requires `std` feature):
+
+```powershell
+cd 'OS-G (Operating System Genesis)'
+cargo test --features std
+```
+
+## Notes
+
+- Model weights are intentionally not tracked in git; use GitHub Releases or your own files.
+- Optional config: copy `repl.cfg.example` -> `repl.cfg` (not committed) and rebuild.
+
+Optional OO policy gate:
+
+- If a file named `policy.dplus` exists on the FAT root, the firmware treats it as a D+ policy (OS-G style) and gates `/oo*` commands from it.
+- Otherwise, it falls back to a simpler legacy file `oo-policy.dplus`.
+- If neither file is present, behavior is unchanged.
+
+Example `policy.dplus` (D+ style; deny-by-default; requires `@@LAW` + `@@PROOF`):
+
+```text
+@@LAW
+allow /oo_list
+allow /oo_new
+allow /oo_note
+deny /oo_exec*
+
+@@PROOF
+proof op:7
+```
+
+Legacy example `oo-policy.dplus` (best-effort):
+
+```text
+mode=deny_by_default
+allow=/oo_list
+allow=/oo_new
+allow=/oo_note
+deny=/oo_exec*
+```
+
+
+
