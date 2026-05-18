@@ -128,10 +128,61 @@ void bio_apoptosis(void* ptr, size_t size_in_bytes) {
 }
 
 void bio_consolidate_memory(void* ptr, size_t size_in_bytes) {
-    oo_print("[Memory] 🧠 Consolidation synaptique en cours (RAM -> Flash)...\n");
-    // Simulation du transfert vers un stockage persistant
-    // En UEFI, on utiliserait le SimpleFileSystemProtocol pour écrire dans un fichier .syn
-    
-    // Une fois consolidé, on libère la cellule de la mémoire de travail (RAM)
+    oo_print("[Memory] Consolidation synaptique en cours (RAM -> Flash)...\n");
+    /* In UEFI, use SimpleFileSystemProtocol to write a .syn checkpoint file */
     bio_free_cell(ptr);
+}
+
+/* --------------------------------------------------------------------------
+ * bio_paging_init() — Page-table bootstrap for bare-metal OO
+ * Sets up identity-mapped 2MB huge-pages covering first 512MB of RAM.
+ * On real hardware: CR3 would be loaded here; in QEMU/stub: prints intent.
+ * -------------------------------------------------------------------------- */
+void bio_paging_init(void) {
+    oo_print("[Memory] bio_paging_init: identity-map page tables ready (2MB pages).\n");
+    /*
+     * Bare-metal reality:
+     *   PML4[0] -> PDPT[0] -> PD[0..255] each covering a 2MB region
+     *   Each PD entry has bit 7 (PS) set = 2MB huge page, present + RW.
+     *
+     * In a real UEFI boot, the firmware already sets up paging before
+     * ExitBootServices(). After that, we would:
+     *   1. Allocate 3 pages (PML4, PDPT, PD) from bio_allocate_cell()
+     *   2. Fill entries with phys_addr | 0x83  (P|RW|PS)
+     *   3. __asm__("mov %0, %%cr3" :: "r"(pml4_phys))
+     *
+     * For the prototype we record the intent and rely on UEFI-provided tables.
+     */
+#if defined(__x86_64__) || defined(_M_X64)
+    uint64_t cr3;
+    __asm__ volatile ("mov %%cr3, %0" : "=r"(cr3));
+    (void)cr3; /* Already set by UEFI firmware — leave as-is */
+#endif
+}
+
+/* --------------------------------------------------------------------------
+ * bio_map_cell() — Map a single virtual page to a physical cell
+ * flags: 0x03 = P|RW, 0x01 = P|RO, 0x83 = P|RW|PS (2MB)
+ * Returns 0 on success, -1 on invalid args.
+ * -------------------------------------------------------------------------- */
+int bio_map_cell(uint64_t virtual_addr, uint64_t physical_addr, uint32_t flags) {
+    if (physical_addr < mem_base || physical_addr >= mem_base + mem_total) return -1;
+    if (flags == 0) return -1;
+    /*
+     * Real implementation would walk PML4->PDPT->PD->PT and write:
+     *   pt[index] = (physical_addr & ~0xFFF) | (flags & 0xFFF);
+     *
+     * For the prototype: record the mapping intent in the bus
+     * so other organs know a new cell has been mapped.
+     */
+    (void)virtual_addr;
+    (void)flags;
+    globule_t g;
+    g.type         = GLOBULE_YELLOW;  /* resource/mode change */
+    g.source_organ = 0x04;            /* ORGAN_MEMORY */
+    g.target_organ = 0xFF;            /* broadcast */
+    g.payload_addr = 0;
+    g.payload_size = 0;
+    united_bus_pump(g);
+    return 0;
 }

@@ -39,7 +39,35 @@ void sense_feel_temperature(void) {
     oo_print("[Sense] Thermoception: temperature checked (stub).\n");
 }
 
-void sense_transduce_serial(const char* data, uint32_t len) {
+void sense_update_retina(const char* visual_buffer, uint32_t size) {
+    if (!visual_buffer || size == 0) return;
+
+    /* Bare-metal: write text to VGA text buffer at 0xB8000 (80x25 color text mode) */
+    volatile uint16_t* vga = (volatile uint16_t*)0xB8000;
+    uint8_t attr = 0x0F; /* white on black */
+    uint32_t max_chars = 80 * 25;
+    uint32_t n = size < max_chars ? size : max_chars;
+
+    for (uint32_t i = 0; i < n; i++) {
+        vga[i] = (uint16_t)((attr << 8) | (uint8_t)visual_buffer[i]);
+    }
+
+    /* Emit a RED globule so cortex knows the retina was updated */
+    static oo_stimulus_t retina_stim;
+    retina_stim.type      = STIMULUS_VISION;
+    retina_stim.intensity = 80;
+    retina_stim.timestamp = 0;
+    retina_stim.raw_data[0] = (uint8_t)(size & 0xFF);
+    retina_stim.raw_data[1] = (uint8_t)((size >> 8) & 0xFF);
+
+    globule_t g;
+    g.type         = GLOBULE_RED;
+    g.source_organ = ORGAN_SENSORY;
+    g.target_organ = ORGAN_CORTEX;
+    g.payload_addr = 0;
+    g.payload_size = sizeof(oo_stimulus_t);
+    united_bus_pump(g);
+}
     static oo_stimulus_t last;
     last.type = STIMULUS_SERIAL;
     last.intensity = 100;

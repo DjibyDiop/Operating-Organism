@@ -63,11 +63,15 @@ This allows incremental harmonization without blocking legacy modules.
 - `kernel-baremetal`
 - `memory-baremetal`
 - `network-baremetal`
+- `proprioception-baremetal`
 - `reflex-baremetal`
+- `regen-baremetal`
 - `sense-baremetal`
 - `shadow-baremetal`
 - `swarm-baremetal`
 - `united-baremetal`
+- `vital-baremetal`
+- `vocal-baremetal`
 
 ## 7) Adoption Strategy
 
