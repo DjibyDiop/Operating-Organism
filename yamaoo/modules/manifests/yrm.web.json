@@ -1,0 +1,19 @@
+{
+  "name": "yrm.web",
+  "type": "worker-module",
+  "version": "0.1.0",
+  "description": "OO Web Cortex: fetch web, extraction semantique, resume, memoire.",
+  "capabilities": [
+    "web.fetch",
+    "web.extract",
+    "web.summarize",
+    "web.store.memory"
+  ],
+  "executionMode": "isolated",
+  "iaHooks": [
+    "observe",
+    "optimize",
+    "control"
+  ],
+  "status": "active"
+}

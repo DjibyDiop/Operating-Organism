@@ -1,0 +1,19 @@
+{
+  "name": "yrm.cortex",
+  "type": "core-module",
+  "version": "0.1.0",
+  "description": "Orchestration cognitive des intentions vers les modules YRM.",
+  "capabilities": [
+    "intent.translate",
+    "intent.route",
+    "intent.plan",
+    "context.share"
+  ],
+  "executionMode": "privileged",
+  "iaHooks": [
+    "observe",
+    "optimize",
+    "control"
+  ],
+  "status": "active"
+}

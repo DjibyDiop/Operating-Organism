@@ -1,0 +1,15 @@
+# Build / deps
+backend/target/
+backend/apache-maven-3.9.6/
+frontend/node_modules/
+frontend/dist/
+frontend/artifacts/
+modules/kernel_agent/target/
+
+# Local / editor
+.vscode/
+*.local
+.DS_Store
+
+# Misc local files
+Document sans titre.docx

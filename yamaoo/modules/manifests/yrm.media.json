@@ -1,0 +1,18 @@
+{
+  "name": "yrm.media",
+  "type": "sensory-module",
+  "version": "0.1.0",
+  "description": "Neural media: cinema, music, streaming et traduction live.",
+  "capabilities": [
+    "media.cinema",
+    "media.music",
+    "media.stream",
+    "media.translate.live"
+  ],
+  "executionMode": "native",
+  "iaHooks": [
+    "observe",
+    "control"
+  ],
+  "status": "active"
+}

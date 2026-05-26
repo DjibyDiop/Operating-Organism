@@ -1,0 +1,18 @@
+{
+  "name": "yrm.creator",
+  "type": "service-module",
+  "version": "0.1.0",
+  "description": "Module de creation et diffusion multimedia.",
+  "capabilities": [
+    "asset.compose",
+    "stream.prepare",
+    "publish.plan",
+    "localize.content"
+  ],
+  "executionMode": "isolated",
+  "iaHooks": [
+    "observe",
+    "optimize"
+  ],
+  "status": "active"
+}

@@ -1,0 +1,20 @@
+[package]
+name = "yama-kernel-agent"
+version = "0.1.0"
+edition = "2021"
+description = "Agent Baremetal de l'Organisme YamaOO — Collecte les métriques hardware et les transmet au noyau Java."
+authors = ["DIOP_MIND / YamaOO"]
+
+# ─── AUCUNE dépendance externe ──────────────────────────────────────────────
+# L'agent est volontairement ultra-lean pour survivre dans un environnement
+# baremetal sans gestionnaire de paquets, sans réseau externe.
+# Il utilise uniquement la bibliothèque standard Rust (std).
+[dependencies]
+
+[profile.release]
+# Optimisation maximale pour un agent système ultra-performant
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true      # Retire les symboles de debug → binaire <200KB
+panic = "abort"   # Pas de stack unwinding → crash rapide et propre
