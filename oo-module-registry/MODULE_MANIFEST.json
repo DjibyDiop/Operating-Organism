@@ -24,13 +24,13 @@
       "type": "core",
       "role": "CPU, interrupt, task scheduling",
       "status": "complete",
-      "headers": ["nervous_system.h"],
+      "headers": ["oo_scheduler.h"],
       "implementations": ["oo_scheduler.c"],
       "dependencies": ["united-baremetal"],
       "exports": ["kernel_init", "task_yield", "interrupt_register"],
       "buildDir": "kernel-baremetal/build",
       "includes": "kernel-baremetal/include",
-      "notes": "Uses biological naming: oo_scheduler.c instead of oo_kernel.c"
+      "notes": "Renamed from oo_kernel to oo_scheduler (biological kernel → task scheduler)"
     },
     {
       "id": 2,
@@ -67,13 +67,13 @@
       "role": "Heartbeat, homeostasis, vital signs, consciousness framework",
       "status": "complete",
       "headers": ["vital_consciousness.h", "vital_dream_sim.h", "vital_homeostasis.h", "vital_metabolism.h", "vital_nociception.h", "vital_spark.h", "vital_synapse.h"],
-      "implementations": ["vital_consciousness.c", "vital_dream_sim.c", "vital_homeostasis.c", "vital_metabolism.c", "vital_nociception.c", "vital_spark.c", "vital_synapse.c"],
+      "implementations": ["consciousness_fsm.c", "dream_simulator.c", "energy_metabolism.c", "epigenetics.c", "homeostasis_regulator.c", "life_loop.c", "metabolic_forth.c", "nociception.c", "oo_stubs.c", "ouroboros.asm", "pineal_gland.c", "quantum_vault.rs", "swarm_sync.c", "synapse_network.c", "temporal_engine.asm", "uefi_entry.c", "united_bus_stub.c", "vital_beat.asm", "vital_core_unifier.c", "vital_guardian.rs", "vital_persistence.c", "aura_visualizer.c", "biotic_entropy.c"],
       "dependencies": ["reflex-baremetal", "memory-baremetal"],
       "exports": ["heartbeat", "vital_status", "health_check", "consciousness_init"],
       "buildDir": "vital-baremetal/build",
       "includes": "vital-baremetal/include",
-      "complexity": "EXPANDED - 7 interdisciplinary modules (far more than 90% C baseline)",
-      "notes": "Contains consciousness, nociception, dream simulation, metabolism - subsystem scope"
+      "complexity": "SUBSYSTEM - 7 header themes, 23 implementation files (C, ASM, Rust mix), artifacts (.o, .so, .a, .efi)",
+      "notes": "Contains consciousness FSM, dream sim, metabolism, nociception, epigenetics, homeostasis, synapse network, and boot integration. Mix of C/ASM/Rust. This is NOT a simple module - it's a complete subsystem."
     },
     {
       "id": 5,
