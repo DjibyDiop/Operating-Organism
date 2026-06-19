@@ -64,6 +64,18 @@ colony-server/temp_node*/
 picture oo/
 Gemini_Generated_*.png
 
+# Nested repository-owned files not tracked by this aggregate repo
+yamaoo/.github/
+yamaoo/CONTRIBUTING.md
+yamaoo/README.md
+yamaoo/artifacts/
+yamaoo/boot-test-pc.bat
+yamaoo/docs/
+yamaoo/modules/manifests/yrm.graph.json
+yamaoo/modules/manifests/yrm.vault.json
+yamaoo/native_desktop/
+yamaoo/run-yamaoo-native.bat
+yamaoo/scripts/
 # Python and notebook runtime noise
 .pytest_cache/
 .ipynb_checkpoints/
