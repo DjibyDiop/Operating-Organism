@@ -1,0 +1,280 @@
+{
+  "version": "1.0.0",
+  "description": "Central registry of all OO organism modules, drivers, and subsystems",
+  "lastUpdated": "2026-06-18",
+  "vitalChain": ["united-baremetal", "kernel-baremetal", "memory-baremetal", "reflex-baremetal", "vital-baremetal", "network-baremetal", "bot-baremetal"],
+  "organs": [
+    {
+      "id": 0,
+      "name": "united-baremetal",
+      "type": "bus",
+      "role": "Universal hub / inter-organ communication",
+      "status": "complete",
+      "headers": ["united_bus.h"],
+      "implementations": ["united_bus.c"],
+      "dependencies": [],
+      "exports": ["globule_send", "globule_receive", "bus_init"],
+      "buildDir": "united-baremetal/build",
+      "includes": "united-baremetal/include"
+    },
+    {
+      "id": 1,
+      "name": "kernel-baremetal",
+      "type": "core",
+      "role": "CPU, interrupt, task scheduling",
+      "status": "complete",
+      "headers": ["oo_kernel.h"],
+      "implementations": ["oo_kernel.c"],
+      "dependencies": ["united-baremetal"],
+      "exports": ["kernel_init", "task_yield", "interrupt_register"],
+      "buildDir": "kernel-baremetal/build",
+      "includes": "kernel-baremetal/include"
+    },
+    {
+      "id": 2,
+      "name": "memory-baremetal",
+      "type": "core",
+      "role": "Physical memory management, paging",
+      "status": "complete",
+      "headers": ["oo_memory.h"],
+      "implementations": ["oo_memory.c"],
+      "dependencies": ["kernel-baremetal"],
+      "exports": ["malloc", "free", "page_alloc"],
+      "buildDir": "memory-baremetal/build",
+      "includes": "memory-baremetal/include"
+    },
+    {
+      "id": 3,
+      "name": "reflex-baremetal",
+      "type": "sensorimotor",
+      "role": "Fast reactive responses, GPIO, immediate actions",
+      "status": "complete",
+      "headers": ["oo_reflex.h"],
+      "implementations": ["oo_reflex.c"],
+      "dependencies": ["memory-baremetal", "kernel-baremetal"],
+      "exports": ["reflex_trigger", "gpio_write"],
+      "buildDir": "reflex-baremetal/build",
+      "includes": "reflex-baremetal/include"
+    },
+    {
+      "id": 4,
+      "name": "vital-baremetal",
+      "type": "core",
+      "role": "Heartbeat, homeostasis, vital signs",
+      "status": "complete",
+      "headers": ["oo_vital.h"],
+      "implementations": ["oo_vital.c"],
+      "dependencies": ["reflex-baremetal", "memory-baremetal"],
+      "exports": ["heartbeat", "vital_status", "health_check"],
+      "buildDir": "vital-baremetal/build",
+      "includes": "vital-baremetal/include"
+    },
+    {
+      "id": 5,
+      "name": "network-baremetal",
+      "type": "io",
+      "role": "Network stack, UDP/TCP, packet handling",
+      "status": "complete",
+      "headers": ["oo_network.h"],
+      "implementations": ["nic_core.c", "nic_e1000.c", "nic_virtio.c", "udp_stack.c"],
+      "dependencies": ["vital-baremetal"],
+      "exports": ["net_send", "net_receive", "udp_send", "udp_listen"],
+      "buildDir": "network-baremetal/build",
+      "includes": "network-baremetal/include"
+    },
+    {
+      "id": 6,
+      "name": "bot-baremetal",
+      "type": "sensorimotor",
+      "role": "Motor control, immune responses, adaptive behavior",
+      "status": "complete",
+      "headers": ["bot_controller.h", "bot_dna.h", "territory_map.h", "threat_detection.h"],
+      "implementations": ["bot_controller.c", "bot_dna.c", "territory_map.c", "threat_detection.c", "instinct_layer.c"],
+      "dependencies": ["network-baremetal", "vital-baremetal"],
+      "exports": ["bot_move", "bot_sense", "threat_alert"],
+      "buildDir": "bot-baremetal/build",
+      "includes": "bot-baremetal/include"
+    },
+    {
+      "id": 7,
+      "name": "sense-baremetal",
+      "type": "sensory",
+      "role": "Sensory input, perception, analog/digital sensor integration",
+      "status": "complete",
+      "headers": ["oo_sense.h"],
+      "implementations": ["oo_sense.c"],
+      "dependencies": ["bot-baremetal"],
+      "exports": ["sensor_read", "sense_process"],
+      "buildDir": "sense-baremetal/build",
+      "includes": "sense-baremetal/include"
+    },
+    {
+      "id": 8,
+      "name": "proprioception-baremetal",
+      "type": "sensory",
+      "role": "Body awareness, position/movement feedback",
+      "status": "stub",
+      "headers": ["oo_proprioception.h"],
+      "implementations": ["proprioception_stub.c"],
+      "dependencies": ["sense-baremetal"],
+      "exports": ["proprioception_init", "body_state_get"],
+      "buildDir": "proprioception-baremetal/build",
+      "includes": "proprioception-baremetal/include",
+      "todo": "Implement full body-state tracking with IMU/accelerometer fusion"
+    },
+    {
+      "id": 9,
+      "name": "vocal-baremetal",
+      "type": "io",
+      "role": "Audio output, speech synthesis, alerts",
+      "status": "partial",
+      "headers": ["oo_vocal.h"],
+      "implementations": ["oo_vocal.c"],
+      "dependencies": ["network-baremetal"],
+      "exports": ["vocal_speak", "vocal_alert"],
+      "buildDir": "vocal-baremetal/build",
+      "includes": "vocal-baremetal/include",
+      "todo": "Expand audio codec support and streaming"
+    },
+    {
+      "id": 10,
+      "name": "dream-baremetal",
+      "type": "cognitive",
+      "role": "Pattern consolidation, memory replay, offline learning",
+      "status": "complete",
+      "headers": ["oo_dream.h"],
+      "implementations": ["oo_dream.c"],
+      "dependencies": ["memory-baremetal"],
+      "exports": ["dream_start", "dream_consolidate"],
+      "buildDir": "dream-baremetal/build",
+      "includes": "dream-baremetal/include"
+    },
+    {
+      "id": 11,
+      "name": "evolution-baremetal",
+      "type": "meta",
+      "role": "Genetic algorithm, agent evolution, fitness evaluation",
+      "status": "complete",
+      "headers": ["oo_evolution.h"],
+      "implementations": ["oo_evolution.c"],
+      "dependencies": ["dream-baremetal"],
+      "exports": ["evolve_generation", "fitness_eval"],
+      "buildDir": "evolution-baremetal/build",
+      "includes": "evolution-baremetal/include"
+    },
+    {
+      "id": 12,
+      "name": "shadow-baremetal",
+      "type": "cognitive",
+      "role": "Internal modeling, hypothesis generation, world-model",
+      "status": "complete",
+      "headers": ["oo_shadow.h"],
+      "implementations": ["oo_shadow.c"],
+      "dependencies": ["evolution-baremetal"],
+      "exports": ["shadow_predict", "model_update"],
+      "buildDir": "shadow-baremetal/build",
+      "includes": "shadow-baremetal/include"
+    },
+    {
+      "id": 13,
+      "name": "identity-baremetal",
+      "type": "cognitive",
+      "role": "Self-model, identity continuity, preferences",
+      "status": "complete",
+      "headers": ["oo_identity.h"],
+      "implementations": ["oo_identity.c"],
+      "dependencies": ["shadow-baremetal"],
+      "exports": ["identity_get", "identity_update"],
+      "buildDir": "identity-baremetal/build",
+      "includes": "identity-baremetal/include"
+    },
+    {
+      "id": 14,
+      "name": "vocal-baremetal",
+      "type": "io",
+      "role": "Language generation, intent expression, output",
+      "status": "partial",
+      "headers": ["oo_vocal.h"],
+      "implementations": ["oo_vocal.c"],
+      "dependencies": ["identity-baremetal"],
+      "exports": ["express_intent", "generate_speech"],
+      "buildDir": "vocal-baremetal/build",
+      "includes": "vocal-baremetal/include"
+    },
+    {
+      "id": 15,
+      "name": "swarm-baremetal",
+      "type": "collective",
+      "role": "Multi-agent coordination, collective behavior",
+      "status": "complete",
+      "headers": ["oo_swarm.h"],
+      "implementations": ["oo_swarm.c"],
+      "dependencies": ["identity-baremetal", "network-baremetal"],
+      "exports": ["swarm_join", "swarm_signal"],
+      "buildDir": "swarm-baremetal/build",
+      "includes": "swarm-baremetal/include"
+    },
+    {
+      "id": 16,
+      "name": "llm-baremetal",
+      "type": "cognitive",
+      "role": "Core language model, reasoning, decision-making",
+      "status": "complete",
+      "headers": ["oo_llm.h"],
+      "implementations": ["oo_llm.c"],
+      "dependencies": ["swarm-baremetal", "shadow-baremetal"],
+      "exports": ["llm_infer", "llm_forward"],
+      "buildDir": "llm-baremetal/build",
+      "includes": "llm-baremetal/include"
+    }
+  ],
+  "layerStack": [
+    {
+      "layer": "Cognitive Core",
+      "organs": ["llm-baremetal"],
+      "description": "High-level reasoning, language models, planning"
+    },
+    {
+      "layer": "Execution",
+      "organs": ["oo-host", "oo-dplus", "oo-system"],
+      "description": "Runtime orchestration, dispatch, FFI boundaries"
+    },
+    {
+      "layer": "Simulation",
+      "organs": ["oo-sim", "oo-lab"],
+      "description": "Testing, validation, offline learning"
+    },
+    {
+      "layer": "Evolution",
+      "organs": ["oo-dplus", "evolution-baremetal"],
+      "description": "Agent adaptation, genetic algorithms"
+    },
+    {
+      "layer": "Meta",
+      "organs": ["control-planes"],
+      "description": "Coordination, state management, homeostasis"
+    },
+    {
+      "layer": "Interface",
+      "organs": ["yamaoo", "desktop_display", "oo_hud"],
+      "description": "User interface, visualization, control"
+    },
+    {
+      "layer": "Vital Chain",
+      "organs": ["united-baremetal", "kernel-baremetal", "memory-baremetal", "reflex-baremetal", "vital-baremetal", "network-baremetal", "bot-baremetal"],
+      "description": "Core OS services that must never fail"
+    }
+  ],
+  "buildValidation": {
+    "preLink": [
+      "Check for undefined symbols: nm -u *.o | grep -v __",
+      "Verify organ registration in oo_organ_state.h",
+      "Validate header files match implementations"
+    ],
+    "postBuild": [
+      "Run smoke_baremetal.ps1",
+      "Verify EFI binary has all vital chain symbols",
+      "Symbol audit: objdump -t final.efi | grep FUNC"
+    ]
+  }
+}

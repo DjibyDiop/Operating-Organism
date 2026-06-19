@@ -1,0 +1,152 @@
+name: CI Smoke + Module Validation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-manifest:
+    name: Validate Module Manifest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Validate MODULE_MANIFEST.json structure
+        run: |
+          if [ ! -f "oo-module-registry/MODULE_MANIFEST.json" ]; then
+            echo "❌ MODULE_MANIFEST.json not found"
+            exit 1
+          fi
+          
+          # Validate JSON
+          python3 -m json.tool oo-module-registry/MODULE_MANIFEST.json > /dev/null
+          echo "✅ MODULE_MANIFEST.json is valid JSON"
+          
+          # Check organ count
+          organ_count=$(jq '.organs | length' oo-module-registry/MODULE_MANIFEST.json)
+          echo "📋 Found $organ_count organs in registry"
+          
+          # Validate vital chain
+          vital_length=$(jq '.vitalChain | length' oo-module-registry/MODULE_MANIFEST.json)
+          echo "❤️  Vital chain length: $vital_length"
+
+  validate-headers:
+    name: Validate Header Files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check all headers in MODULE_MANIFEST exist
+        run: |
+          jq -r '.organs[] | .headers[]' oo-module-registry/MODULE_MANIFEST.json | while read header; do
+            # Search in include dirs
+            if ! find . -path ./cleanup_archive_* -prune -o -name "$header" -print | grep -q .; then
+              echo "⚠️  Header $header not found (may be OK if generated)"
+            fi
+          done
+          echo "✅ Header validation complete"
+
+  build-rust:
+    name: Build Rust (matrix)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+
+      - name: Cache cargo registry and target
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Build oo-host
+        run: |
+          cd oo-host
+          cargo build --locked --workspace
+
+      - name: Build native_desktop (if present)
+        run: |
+          if [ -d "yamaoo/native_desktop" ]; then
+            cd yamaoo/native_desktop
+            cargo build --locked
+          else
+            echo "no native_desktop found"
+          fi
+        shell: bash
+
+  validate-baremetal:
+    name: Validate Baremetal Organs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check vital chain organs exist
+        run: |
+          vital_chain='united-baremetal kernel-baremetal memory-baremetal reflex-baremetal vital-baremetal network-baremetal bot-baremetal'
+          for organ in $vital_chain; do
+            if [ -d "$organ" ]; then
+              echo "✅ $organ found"
+            else
+              echo "❌ CRITICAL: $organ (vital chain) not found!"
+              exit 1
+            fi
+          done
+
+      - name: Validate organ structure (has include/ and src/)
+        run: |
+          jq -r '.organs[] | .name' oo-module-registry/MODULE_MANIFEST.json | while read organ; do
+            if [ -d "$organ" ]; then
+              if [ -d "$organ/include" ] && [ -d "$organ/src" ]; then
+                echo "✅ $organ has include/ and src/"
+              else
+                echo "⚠️  $organ missing expected structure"
+              fi
+            fi
+          done
+
+      - name: Pre-link validation (if Makefile exists)
+        run: |
+          if [ -f "Makefile" ]; then
+            echo "🔍 Checking for undefined symbol validation in Makefile..."
+            if grep -q "nm.*-u" Makefile; then
+              echo "✅ Makefile has undefined symbol checks"
+            else
+              echo "⚠️  Consider adding 'nm -u *.o' checks to Makefile"
+            fi
+          fi
+
+  smoke-summary:
+    name: CI Smoke Summary
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [validate-manifest, validate-headers, build-rust, validate-baremetal]
+    steps:
+      - name: Report status
+        run: |
+          echo "=== CI Smoke Report ==="
+          echo "Module Registry: validate-manifest=${{ needs.validate-manifest.result }}"
+          echo "Headers: validate-headers=${{ needs.validate-headers.result }}"
+          echo "Rust Build: build-rust=${{ needs.build-rust.result }}"
+          echo "Baremetal: validate-baremetal=${{ needs.validate-baremetal.result }}"
+          
+          if [ "${{ needs.validate-manifest.result }}" = "failure" ] || \
+             [ "${{ needs.validate-baremetal.result }}" = "failure" ]; then
+            echo "❌ CRITICAL: Manifest or vital chain validation failed"
+            exit 1
+          fi
+          
+          echo "✅ Smoke tests passed"
