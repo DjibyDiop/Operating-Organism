@@ -11,7 +11,7 @@ OO combines a sovereign bare-metal runtime, a host twin, and governed autonomy l
 - A governed autonomy system where survival invariants are evaluated before objectives.
 - A workspace that separates core runtime, optional support lanes, experiments, and archive/reference zones.
 
-Reference anchors: [OO_VISION.md](OO_VISION.md), [ORGANISM_MANIFEST.md](ORGANISM_MANIFEST.md).
+Reference anchors: [OO_VISION.md](docs/OO_VISION.md), [ORGANISM_MANIFEST.md](docs/ORGANISM_MANIFEST.md).
 
 ## What OO Is Not
 
@@ -37,7 +37,9 @@ Dual view:
 - Biological view: organs, reflexes, memory, vitals, cortex, circulation.
 - Engineering view: engines, modules, contracts, control planes, invariants, artifacts.
 
-Supporting docs: [ARCHITECTURE.md](ARCHITECTURE.md), [oo-system/README.md](oo-system/README.md), [OO_ORGAN_CATALOG.md](OO_ORGAN_CATALOG.md), [OO_CONTROL_PLANES.md](OO_CONTROL_PLANES.md).
+Documentation index: [docs/README.md](docs/README.md).
+
+Supporting docs: [ARCHITECTURE.md](docs/ARCHITECTURE.md), [oo-system/README.md](oo-system/README.md), [OO_ORGAN_CATALOG.md](docs/OO_ORGAN_CATALOG.md), [OO_CONTROL_PLANES.md](docs/OO_CONTROL_PLANES.md).
 
 ## Repository Map
 
@@ -62,7 +64,7 @@ OO is C-first. Project-owned source should converge to at least 90% C. The remai
 
 Python, TypeScript, PowerShell, and shell are support/orchestration languages only. They must not become survival-chain growth languages.
 
-Full rules: [LANGUAGE_POLICY.md](LANGUAGE_POLICY.md).
+Full rules: [LANGUAGE_POLICY.md](docs/LANGUAGE_POLICY.md).
 
 ## Survival And Homeostasis First
 
@@ -75,7 +77,7 @@ Runtime modes:
 - `SAFE`: vital risk or policy uncertainty; deny high-risk actions and keep only safe subsets.
 - `RECOVERY`: restore state, replay journals, verify invariants, then return to `NORMAL` only when safe.
 
-Invariant and flow specs: [OO_HOMEOSTASIS_INVARIANTS.md](OO_HOMEOSTASIS_INVARIANTS.md), [OO_CROSS_ORGAN_FLOWS.md](OO_CROSS_ORGAN_FLOWS.md).
+Invariant and flow specs: [OO_HOMEOSTASIS_INVARIANTS.md](docs/OO_HOMEOSTASIS_INVARIANTS.md), [OO_CROSS_ORGAN_FLOWS.md](docs/OO_CROSS_ORGAN_FLOWS.md).
 
 ## Control Model
 
@@ -86,7 +88,7 @@ OO uses A+B+C control simultaneously:
 - Reflex/safety preemption handles threshold breaches before strategic planning completes.
 - Conflict resolution principle: survival invariants first, hard policy second, optimization last.
 
-Details: [OO_CONTROL_PLANES.md](OO_CONTROL_PLANES.md).
+Details: [OO_CONTROL_PLANES.md](docs/OO_CONTROL_PLANES.md).
 
 ## Quickstart
 
@@ -140,18 +142,18 @@ References: [llm-baremetal/docs/SECURITY.md](llm-baremetal/docs/SECURITY.md), [l
 
 Vision and manifesto:
 
-- [OO_VISION.md](OO_VISION.md)
-- [ORGANISM_MANIFEST.md](ORGANISM_MANIFEST.md)
-- [MANIFESTO_OO.md](MANIFESTO_OO.md)
+- [OO_VISION.md](docs/OO_VISION.md)
+- [ORGANISM_MANIFEST.md](docs/ORGANISM_MANIFEST.md)
+- [MANIFESTO_OO.md](docs/MANIFESTO_OO.md)
 
 Architecture and control:
 
-- [ARCHITECTURE.md](ARCHITECTURE.md)
-- [DESIGN_PRINCIPLES.md](DESIGN_PRINCIPLES.md)
-- [OO_ORGAN_CATALOG.md](OO_ORGAN_CATALOG.md)
-- [OO_CONTROL_PLANES.md](OO_CONTROL_PLANES.md)
-- [OO_HOMEOSTASIS_INVARIANTS.md](OO_HOMEOSTASIS_INVARIANTS.md)
-- [OO_CROSS_ORGAN_FLOWS.md](OO_CROSS_ORGAN_FLOWS.md)
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- [DESIGN_PRINCIPLES.md](docs/DESIGN_PRINCIPLES.md)
+- [OO_ORGAN_CATALOG.md](docs/OO_ORGAN_CATALOG.md)
+- [OO_CONTROL_PLANES.md](docs/OO_CONTROL_PLANES.md)
+- [OO_HOMEOSTASIS_INVARIANTS.md](docs/OO_HOMEOSTASIS_INVARIANTS.md)
+- [OO_CROSS_ORGAN_FLOWS.md](docs/OO_CROSS_ORGAN_FLOWS.md)
 
 Runtime and integration contracts:
 
@@ -170,16 +172,16 @@ Validation and recovery:
 
 Governance:
 
-- [LANGUAGE_POLICY.md](LANGUAGE_POLICY.md)
+- [LANGUAGE_POLICY.md](docs/LANGUAGE_POLICY.md)
 - [CONTRIBUTING.md](CONTRIBUTING.md)
-- [ROADMAP.md](ROADMAP.md)
-- [README_CENTRAL_SPEC.md](README_CENTRAL_SPEC.md)
+- [ROADMAP.md](docs/ROADMAP.md)
+- [README_CENTRAL_SPEC.md](docs/README_CENTRAL_SPEC.md)
 
 ## Roadmap Snapshot
 
 Phase status:
 
-- Phase 0: doctrine freeze and module classification is documented in [ARCHITECTURE.md](ARCHITECTURE.md).
+- Phase 0: doctrine freeze and module classification is documented in [ARCHITECTURE.md](docs/ARCHITECTURE.md).
 - Phase 1: Minimal Viable OO focuses on deterministic boot, core organs, survival modes, memory journal, reflex preemption, and one telemetry path.
 - Phase 2: deterministic build/test/release must remove hidden dependencies and produce reproducible artifacts.
 - Phase 3: survival mode validation must prove `NORMAL`, `DEGRADED`, `SAFE`, and `RECOVERY` under fault injection.
@@ -187,7 +189,7 @@ Phase status:
 
 Near-term milestone: make survival/homeostasis robustness testable before expanding autonomy.
 
-References: [ROADMAP.md](ROADMAP.md), [oo-system/ROADMAP.md](oo-system/ROADMAP.md), [oo-model/ROADMAP.md](oo-model/ROADMAP.md), [llm-baremetal/oo-dplus/ROADMAP.md](llm-baremetal/oo-dplus/ROADMAP.md).
+References: [ROADMAP.md](docs/ROADMAP.md), [oo-system/ROADMAP.md](oo-system/ROADMAP.md), [oo-model/ROADMAP.md](oo-model/ROADMAP.md), [llm-baremetal/oo-dplus/ROADMAP.md](llm-baremetal/oo-dplus/ROADMAP.md).
 
 ## Contribution Boundaries
 

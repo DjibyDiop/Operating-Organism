@@ -1,0 +1,30 @@
+[submodule "bounty-helix"]
+	path = bounty-helix
+	url = https://github.com/batteryphil/bounty-helix.git
+[submodule "llama2.c"]
+	path = llama2.c
+	url = https://github.com/karpathy/llama2.c.git
+[submodule "llm-baremetal"]
+	path = llm-baremetal
+	url = https://github.com/Djiby-diop/llm-baremetal.git
+[submodule "llm.c"]
+	path = llm.c
+	url = https://github.com/karpathy/llm.c.git
+[submodule "oo-dplus"]
+	path = oo-dplus
+	url = https://github.com/Djiby-diop/oo-dplus.git
+[submodule "oo-host"]
+	path = oo-host
+	url = https://github.com/Djiby-diop/oo-host.git
+[submodule "oo-lab"]
+	path = oo-lab
+	url = https://github.com/Djiby-diop/oo-lab.git
+[submodule "oo-model"]
+	path = oo-model
+	url = https://github.com/Djiby-diop/oo-model.git
+[submodule "oo-sim"]
+	path = oo-sim
+	url = https://github.com/Djiby-diop/oo-sim.git
+[submodule "oo-system"]
+	path = oo-system
+	url = https://github.com/Djiby-diop/oo-system.git
