@@ -4,8 +4,19 @@ OO is a survival-first operating organism, not only an operating system.
 
 OO combines a sovereign bare-metal runtime, a host twin, and governed autonomy loops. The target is a long-lived system with explicit survival invariants, persistent memory, audit trails, policy gates, and reproducible build paths.
 
-## What OO Is
+## Public / Private Boundary
 
+This is the public-facing repository for Operating Organism.
+
+All related implementation repositories, model assets, deployment material, private experiments, and operational workspaces are private unless Djiby Diop explicitly publishes them. Public visibility of this repository does not make the broader project public.
+
+## Source Protection
+
+Copyright (c) 2026 Djiby Diop. All rights reserved.
+
+This repository is visible for inspection, research, documentation, and portfolio review. No open-source license or reuse permission is granted unless stated in writing. See [LICENSE](LICENSE), [NOTICE](NOTICE), [SECURITY.md](SECURITY.md), and [SIGNATURE.md](SIGNATURE.md).
+
+## What OO Is
 - A long-lived organism with goals, memory, modes, policies, and recovery paths.
 - A bare-metal-first runtime with host-side observation and orchestration.
 - A governed autonomy system where survival invariants are evaluated before objectives.
