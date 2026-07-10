@@ -123,3 +123,19 @@ USB-BOOT-FILES/
 *.pdb
 desktop_display/log.txt
 desktop_display/oo_voice_state.json
+# Private/local Operating Organism workspaces.
+# These paths may contain source that is not part of the public repository,
+# private model work, local tools, credentials, or generated build state.
+internal-outils/
+external-model/
+oo-diop/
+oo-intelligence/
+document/
+colony-server/public/
+**/gemini_key.txt
+**/*_key.txt
+**/*.pem
+**/*.key
+**/.env
+**/.env.*
+

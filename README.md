@@ -14,7 +14,7 @@ All related implementation repositories, model assets, deployment material, priv
 
 Copyright (c) 2026 Djiby Diop. All rights reserved.
 
-This repository is visible for inspection, research, documentation, and portfolio review. No open-source license or reuse permission is granted unless stated in writing. See [LICENSE](LICENSE), [NOTICE](NOTICE), [SECURITY.md](SECURITY.md), and [SIGNATURE.md](SIGNATURE.md).
+This repository is visible for inspection, research, documentation, and portfolio review. No open-source license or reuse permission is granted unless stated in writing. See [LICENSE](LICENSE), [NOTICE](NOTICE), [SECURITY.md](SECURITY.md), and [SIGNATURE.md](SIGNATURE.md), and [PUBLIC_SOURCE_BOUNDARY.md](docs/PUBLIC_SOURCE_BOUNDARY.md).
 
 ## What OO Is
 - A long-lived organism with goals, memory, modes, policies, and recovery paths.
@@ -232,3 +232,4 @@ Install both runtime services in one pass on Debian:
 Entry point: [deploy/systemd/install-oo-stack.sh](deploy/systemd/install-oo-stack.sh)
 
 Guide: [deploy/systemd/README.md](deploy/systemd/README.md)
+

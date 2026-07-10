@@ -19,6 +19,8 @@ This directory contains the long-form project references for Operating Organism.
 
 ## Project Policy
 
+- [Public Source Boundary](PUBLIC_SOURCE_BOUNDARY.md)
+
 - [Bare Metal Standard](BAREMETAL_STANDARD.md)
 - [Language Policy](LANGUAGE_POLICY.md)
 - [Language Strategy](LANGUAGE_STRATEGY.md)

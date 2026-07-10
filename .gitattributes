@@ -1,0 +1,15 @@
+# Keep generated source archives focused on the public repository surface.
+internal-outils/ export-ignore
+external-model/ export-ignore
+oo-diop/ export-ignore
+oo-intelligence/ export-ignore
+document/ export-ignore
+colony-server/public/ export-ignore
+
+# Local secret and environment files must never be part of release archives.
+**/gemini_key.txt export-ignore
+**/*_key.txt export-ignore
+**/*.pem export-ignore
+**/*.key export-ignore
+**/.env export-ignore
+**/.env.* export-ignore
