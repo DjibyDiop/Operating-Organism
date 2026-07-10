@@ -120,8 +120,8 @@ if (-not $SkipPreflight) {
     $inv_pass = 0; $inv_fail = 0
 
     function Inv($n, $label, $cond, $detail="") {
-        if ($cond) { OK  "INV-$n: $label"; $script:inv_pass++ }
-        else        { ERR "INV-$n: $label $detail"; $script:inv_fail++ }
+        if ($cond) { OK  "INV-$($n): $label"; $script:inv_pass++ }
+        else        { ERR "INV-$($n): $label $detail"; $script:inv_fail++ }
     }
 
     Inv 1 "QEMU available"           (Test-Path $QEMU)
@@ -171,7 +171,9 @@ $qemu_args = @(
     "-drive",   "format=raw,file=$IMG",
     "-serial",  "file:$OO_UART",
     "-serial",  "file:$SERIAL_LOG",
-    "-monitor", "none"
+    "-netdev",  "user,id=net0",
+    "-device",  "e1000,netdev=net0",
+    "-monitor", "tcp:127.0.0.1:4444,server,nowait"
 )
 
 if ($Interactive) {

@@ -3,16 +3,36 @@
 
 extern void oo_print(const char* msg);
 
+#include "wifi_core.h"
+
+// Aether-Fabric Rust FFI
+extern int aether_fabric_init(const uint8_t* node_id_buf);
+extern int aether_fabric_receive(const uint8_t* payload_buf, size_t payload_len);
+
 static oo_respiration_stats_t global_stats = {0, 0};
 
 void network_init(void) {
     oo_print("[NetworkBaremetal] 🌐 Systeme respiratoire initialise. Attente du lien NIC...\n");
     // Initialisation des drivers NIC (ex: Intel e1000 ou Realtek)
     global_stats.link_up = 1; 
+    
+    // Init Wi-Fi Core
+    wifi_core_init();
+
+    // Init Aether-Fabric with a dummy NodeId for now
+    uint8_t dummy_id[16] = {1, 2, 3, 4};
+    aether_fabric_init(dummy_id);
+    oo_print("[Aether-Fabric] 🌌 P2P module initialized.\n");
 }
 
 void network_inhale(const uint8_t* frame, size_t size) {
     if (!frame || size == 0) return;
+
+    // Route packet to Aether-Fabric P2P layer
+    if (aether_fabric_receive(frame, size) == 0) {
+        // Handled completely by Aether-Fabric
+        return;
+    }
 
     // Simulation de classification (Bronches)
     globule_type_t type = GLOBULE_RED;

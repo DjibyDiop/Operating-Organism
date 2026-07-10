@@ -3,7 +3,7 @@ CFLAGS ?= -std=c11 -Wall -Wextra -Iinclude
 .RECIPEPREFIX := >
 
 SRC := $(wildcard src/*.c)
-OBJ_DIR := build
+OBJ_DIR := build/obj
 OBJ := $(patsubst src/%.c,$(OBJ_DIR)/%.o,$(SRC))
 
 .PHONY: build test clean
