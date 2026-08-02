@@ -134,6 +134,7 @@ document/
 colony-server/public/
 internal&external-project/
 oo-d+/
+OPI/
 *.wasm
 New Text Document.txt
 test_thermoregulator
