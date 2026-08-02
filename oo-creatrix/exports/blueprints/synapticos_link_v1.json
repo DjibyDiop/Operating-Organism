@@ -1,0 +1,22 @@
+[
+    {
+        "Layer": "L1: Biological Receptor",
+        "Function": "Synaptic signal capture",
+        "Engine": "BioSafety"
+    },
+    {
+        "Layer": "L2: Recursive Signal Filter",
+        "Function": "Noise reduction via meta-gradients",
+        "Engine": "RecursiveEngine"
+    },
+    {
+        "Layer": "L3: Neural-Kernel Bridge",
+        "Function": "Translation to eBPF instructions",
+        "Engine": "NeuralBridge"
+    },
+    {
+        "Layer": "L4: Execution Guard",
+        "Function": "Zero-latency safety enforcement",
+        "Engine": "Discovery"
+    }
+]

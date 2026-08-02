@@ -14,11 +14,13 @@ EFI_LDS := $(firstword $(wildcard $(addsuffix /elf_$(ARCH)_efi.lds,$(EFI_LIBDIR_
 EFI_CRT0 := $(firstword $(wildcard $(addsuffix /crt0-efi-$(ARCH).o,$(EFI_LIBDIR_CANDIDATES))))
 EFI_LIBDIR := $(firstword $(foreach d,$(EFI_LIBDIR_CANDIDATES),$(if $(wildcard $(d)/libgnuefi.a),$(d),)))
 
+ifneq ($(filter-out clean test,$(MAKECMDGOALS)),)
 ifeq ($(strip $(EFI_LDS)),)
 $(error Could not find elf_$(ARCH)_efi.lds (install gnu-efi))
 endif
 ifeq ($(strip $(EFI_CRT0)),)
 $(error Could not find crt0-efi-$(ARCH).o (install gnu-efi))
+endif
 endif
 
 CFLAGS = -ffreestanding -fno-stack-protector -fpic -fshort-wchar -mno-red-zone \
@@ -107,4 +109,7 @@ $(TARGET): $(TARGET_SO)
 clean:
 	rm -f $(ALL_OBJECTS) $(TARGET_SO) $(TARGET) $(TARGET_LIB)
 
-.PHONY: all clean
+test:
+	$(MAKE) -f Makefile.host test CC=$(CC)
+
+.PHONY: all clean test

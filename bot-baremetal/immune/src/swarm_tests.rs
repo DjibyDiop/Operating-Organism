@@ -29,11 +29,11 @@ mod swarm_tests {
     #[test]
     fn test_threat_escalation_vigilance() {
         let mut swarm = SwarmMind::new();
-        let ev = SwarmEvent {
+        let ev = SwarmEvent { signature: None,
             from_role:    AgentRole::MemWatch,
             threat_level: ThreatLevel::Vigilance,
             description:  "Unusual memory pattern".into(),
-            timestamp_ns: 0,
+            timestamp_ns: crate::swarm_mind::now_ns(),
             confidence:   70,
         };
         let result = swarm.process_event(ev);
@@ -46,23 +46,23 @@ mod swarm_tests {
         let mut swarm = SwarmMind::new();
 
         // DORMANT → VIGILANCE
-        swarm.process_event(SwarmEvent {
+        swarm.process_event(SwarmEvent { signature: None,
             from_role: AgentRole::MemWatch, threat_level: ThreatLevel::Vigilance,
-            description: "s1".into(), timestamp_ns: 0, confidence: 70,
+            description: "s1".into(), timestamp_ns: crate::swarm_mind::now_ns(), confidence: 70,
         });
         assert_eq!(swarm.current_level(), ThreatLevel::Vigilance);
 
         // VIGILANCE → ALERT
-        swarm.process_event(SwarmEvent {
+        swarm.process_event(SwarmEvent { signature: None,
             from_role: AgentRole::FsWatch, threat_level: ThreatLevel::Alert,
-            description: "s2".into(), timestamp_ns: 0, confidence: 80,
+            description: "s2".into(), timestamp_ns: crate::swarm_mind::now_ns(), confidence: 80,
         });
         assert_eq!(swarm.current_level(), ThreatLevel::Alert);
 
         // ALERT → COMBAT
-        swarm.process_event(SwarmEvent {
+        swarm.process_event(SwarmEvent { signature: None,
             from_role: AgentRole::ProcWatch, threat_level: ThreatLevel::Combat,
-            description: "s3".into(), timestamp_ns: 0, confidence: 91,
+            description: "s3".into(), timestamp_ns: crate::swarm_mind::now_ns(), confidence: 91,
         });
         assert_eq!(swarm.current_level(), ThreatLevel::Combat);
     }
@@ -71,11 +71,11 @@ mod swarm_tests {
     fn test_invalid_transition_blocked() {
         let mut swarm = SwarmMind::new();
         // DORMANT → COMBAT direct est interdit (matrice de transition)
-        let ev = SwarmEvent {
+        let ev = SwarmEvent { signature: None,
             from_role:    AgentRole::KernelWatch,
             threat_level: ThreatLevel::Combat,
             description:  "direct jump".into(),
-            timestamp_ns: 0,
+            timestamp_ns: crate::swarm_mind::now_ns(),
             confidence:   99,
         };
         let result = swarm.process_event(ev);
@@ -87,11 +87,11 @@ mod swarm_tests {
     #[test]
     fn test_low_confidence_blocked() {
         let mut swarm = SwarmMind::new();
-        let ev = SwarmEvent {
+        let ev = SwarmEvent { signature: None,
             from_role:    AgentRole::MemWatch,
             threat_level: ThreatLevel::Vigilance,
             description:  "low confidence".into(),
-            timestamp_ns: 0,
+            timestamp_ns: crate::swarm_mind::now_ns(),
             confidence:   30,   // < 60% → bloqué
         };
         let result = swarm.process_event(ev);

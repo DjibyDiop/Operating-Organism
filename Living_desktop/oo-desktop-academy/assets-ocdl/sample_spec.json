@@ -1,0 +1,30 @@
+{
+    "version": "1.0.0",
+    "design_name": "Living-Window-Alpha",
+    "metadata": {
+        "author": "Unified DSA Agent",
+        "type": "organic_frame"
+    },
+    "biological_properties": {
+        "respiration_rate": 0.5,
+        "neural_connectivity": true,
+        "metabolic_state": "active"
+    },
+    "layout_config": {
+        "engine": "AdaptiveGrid",
+        "fluidity": 0.8,
+        "padding": "10px"
+    },
+    "cells": [
+        {
+            "id": "cell_001",
+            "type": "LivingGlass",
+            "flex": 1
+        },
+        {
+            "id": "cell_002",
+            "type": "NeuralMembrane",
+            "flex": 2
+        }
+    ]
+}

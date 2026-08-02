@@ -11,6 +11,10 @@ use std::sync::Arc;
 use std::fs::OpenOptions;
 use std::io::Write;
 
+pub fn now_ns() -> u64 {
+    std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos() as u64
+}
+
 /// Niveaux de menace — miroir de threat_levels.h
 #[repr(u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
@@ -222,7 +226,7 @@ impl SwarmMind {
             self.antigens.push(Antigen {
                 signature,
                 frequency: 1,
-                last_seen: 0, // Mock timestamp
+                last_seen: crate::swarm_mind::now_ns(),
             });
             eprintln!("[SwarmMind] 🛡️ Nouvel antigène appris via signature ADN.");
         }
@@ -295,7 +299,7 @@ impl SwarmMind {
     /// Écrit l'événement dans le journal partagé OOJOUR.LOG via l'UEFI SimpleFileSystem
     fn log_to_oojour(&self, message: &str) {
         if let Ok(mut file) = OpenOptions::new().create(true).append(true).open("OOJOUR.LOG") {
-            let timestamp = 1715258800; // Mock timestamp
+            let timestamp = crate::swarm_mind::now_ns();
             let json = format!(
                 "{{\"oo_type\":\"BOT_EVENT\",\"version\":1,\"timestamp\":{},\"from\":\"bot-baremetal\",\"to\":\"llm-baremetal\",\"payload\":{{\"message\":\"{}\"}}}}\n",
                 timestamp, message

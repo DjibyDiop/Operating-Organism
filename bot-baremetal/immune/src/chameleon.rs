@@ -77,13 +77,13 @@ impl ChameleonAgent {
             self.covers.len(), self.cloak_activations
         );
 
-        SwarmEvent {
+        SwarmEvent { signature: None,
             from_role:    AgentRole::Chameleon,
             threat_level: ThreatLevel::Survival,
             description:  format!(
                 "Camouflage active: {} agents re-labeled", self.covers.len()
             ),
-            timestamp_ns: 0,
+            timestamp_ns: crate::swarm_mind::now_ns(),
             confidence:   100,
         }
     }

@@ -40,7 +40,7 @@ impl QuarantineAgent {
             kind:        QuarantineKind::Process,
             identifier:  format!("pid:{}", pid),
             reason:      reason.to_string(),
-            timestamp:   0,
+            timestamp: crate::swarm_mind::now_ns(),
             is_released: false,
         };
         self.quarantined.push(entry);
@@ -48,11 +48,11 @@ impl QuarantineAgent {
 
         eprintln!("[Quarantine] Process pid={} isolated — reason: {}", pid, reason);
 
-        SwarmEvent {
+        SwarmEvent { signature: None,
             from_role:    AgentRole::Quarantine,
             threat_level: ThreatLevel::Alert,
             description:  format!("Process {} quarantined: {}", pid, reason),
-            timestamp_ns: 0,
+            timestamp_ns: crate::swarm_mind::now_ns(),
             confidence:   95,
         }
     }
@@ -63,7 +63,7 @@ impl QuarantineAgent {
             kind:        QuarantineKind::File,
             identifier:  path.to_string(),
             reason:      reason.to_string(),
-            timestamp:   0,
+            timestamp: crate::swarm_mind::now_ns(),
             is_released: false,
         };
         self.quarantined.push(entry);
@@ -71,11 +71,11 @@ impl QuarantineAgent {
 
         eprintln!("[Quarantine] File '{}' isolated — reason: {}", path, reason);
 
-        SwarmEvent {
+        SwarmEvent { signature: None,
             from_role:    AgentRole::Quarantine,
             threat_level: ThreatLevel::Alert,
             description:  format!("File '{}' quarantined: {}", path, reason),
-            timestamp_ns: 0,
+            timestamp_ns: crate::swarm_mind::now_ns(),
             confidence:   90,
         }
     }

@@ -87,7 +87,7 @@ impl KernelWatchAgent {
             address:     current_ssdt.get(hooked[0]).copied().unwrap_or(0),
             module:      "unknown".to_string(),
             confidence,
-            timestamp:   0,
+            timestamp: crate::swarm_mind::now_ns(),
         };
         self.detections.push(det);
         self.threats_found += 1;
@@ -97,13 +97,13 @@ impl KernelWatchAgent {
             hooked.len(), confidence
         );
 
-        Some(SwarmEvent {
+        Some(SwarmEvent { signature: None,
             from_role:    AgentRole::KernelWatch,
             threat_level: ThreatLevel::Combat,
             description:  format!(
                 "SSDT hook: {} syscall(s) hijacked", hooked.len()
             ),
-            timestamp_ns: 0,
+            timestamp_ns: crate::swarm_mind::now_ns(),
             confidence,
         })
     }
@@ -125,7 +125,7 @@ impl KernelWatchAgent {
                 address:     driver_base,
                 module:      format!("hidden@{:#x}", driver_base),
                 confidence:  80,
-                timestamp:   0,
+                timestamp: crate::swarm_mind::now_ns(),
             };
             self.detections.push(det);
 
@@ -134,14 +134,14 @@ impl KernelWatchAgent {
                 driver_base, driver_size
             );
 
-            return Some(SwarmEvent {
+            return Some(SwarmEvent { signature: None,
                 from_role:    AgentRole::KernelWatch,
                 threat_level: ThreatLevel::Combat,
                 description:  format!(
                     "Hidden driver detected at {:#x} ({} bytes)",
                     driver_base, driver_size
                 ),
-                timestamp_ns: 0,
+                timestamp_ns: crate::swarm_mind::now_ns(),
                 confidence:   80,
             });
         }
@@ -169,14 +169,14 @@ impl KernelWatchAgent {
             hidden.len(), hidden
         );
 
-        Some(SwarmEvent {
+        Some(SwarmEvent { signature: None,
             from_role:    AgentRole::KernelWatch,
             threat_level: ThreatLevel::Combat,
             description:  format!(
                 "DKOM detected: {} process(es) hidden from OS list: {:?}",
                 hidden.len(), hidden
             ),
-            timestamp_ns: 0,
+            timestamp_ns: crate::swarm_mind::now_ns(),
             confidence:   92,
         })
     }

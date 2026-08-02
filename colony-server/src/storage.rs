@@ -9,6 +9,7 @@ use crate::models::{
     OrganismRegistry,
     PeerRegistration,
     ThreatRegistry,
+    HermesMessage,
 };
 use anyhow::{Context, Result};
 use chrono::Utc;
@@ -468,6 +469,64 @@ impl Storage {
         }
 
         Ok(total_size as f64 / (1024.0 * 1024.0))  // Convert to MB
+    }
+
+    /// Save a registry state JSON associated with an organism
+    pub fn store_registry(&self, organism_id: &str, registry: &serde_json::Value) -> Result<()> {
+        let path = self.path(&format!("{}/{}_registry.json", ORGANISMS_DIR, organism_id));
+        self.write_json_path(&path, registry)?;
+        Ok(())
+    }
+
+    /// Read the registry state JSON associated with an organism
+    pub fn get_registry(&self, organism_id: &str) -> Result<serde_json::Value> {
+        let path = self.path(&format!("{}/{}_registry.json", ORGANISMS_DIR, organism_id));
+        if path.exists() {
+            self.read_json_path(&path)
+        } else {
+            Ok(serde_json::json!([]))
+        }
+    }
+
+    /// Save a Hermes message to the target organism's inbox file
+    pub fn store_hermes_message(&self, from: &str, to: &str, channel: u32, data: &serde_json::Value) -> Result<HermesMessage> {
+        let msg = HermesMessage {
+            message_id: Uuid::new_v4().to_string(),
+            from_organism_id: from.to_string(),
+            to_organism_id: to.to_string(),
+            channel,
+            data: data.clone(),
+            timestamp: Utc::now(),
+        };
+        let path = self.path(&format!("{}/{}_hermes_inbox.ndjson", ORGANISMS_DIR, to));
+        let mut file = OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(&path)?;
+        writeln!(file, "{}", serde_json::to_string(&msg)?)?;
+        Ok(msg)
+    }
+
+    /// Retrieve all Hermes messages in the inbox for an organism, then clear the inbox
+    pub fn fetch_and_clear_hermes_inbox(&self, organism_id: &str) -> Result<Vec<HermesMessage>> {
+        let path = self.path(&format!("{}/{}_hermes_inbox.ndjson", ORGANISMS_DIR, organism_id));
+        if !path.exists() {
+            return Ok(vec![]);
+        }
+        let file = std::fs::File::open(&path)?;
+        let reader = BufReader::new(file);
+        let mut messages = Vec::new();
+        for line in reader.lines() {
+            let line = line?;
+            if let Ok(msg) = serde_json::from_str::<HermesMessage>(&line) {
+                messages.push(msg);
+            }
+        }
+        
+        // Clear the inbox file to consume the messages
+        let _ = std::fs::remove_file(&path);
+        
+        Ok(messages)
     }
 }
 

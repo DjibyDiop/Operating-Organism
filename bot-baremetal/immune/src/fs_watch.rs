@@ -35,11 +35,11 @@ impl FsWatchAgent {
                            ".pay2me", ".zzzzz", ".zepto"];
         if ransom_exts.iter().any(|e| extension.ends_with(e)) {
             self.threats_caught += 1;
-            return Some(SwarmEvent {
+            return Some(SwarmEvent { signature: None,
                 from_role:    AgentRole::FsWatch,
                 threat_level: ThreatLevel::Combat,
                 description:  format!("Ransomware extension detected: {}", path),
-                timestamp_ns: 0,
+                timestamp_ns: crate::swarm_mind::now_ns(),
                 confidence:   90,
             });
         }
@@ -48,13 +48,13 @@ impl FsWatchAgent {
         let total_mods: u32 = self.recent_modifications.values().sum();
         if total_mods >= self.mass_modify_threshold {
             self.threats_caught += 1;
-            return Some(SwarmEvent {
+            return Some(SwarmEvent { signature: None,
                 from_role:    AgentRole::FsWatch,
                 threat_level: ThreatLevel::Alert,
                 description:  format!(
                     "Mass file modification detected ({} files)", total_mods
                 ),
-                timestamp_ns: 0,
+                timestamp_ns: crate::swarm_mind::now_ns(),
                 confidence:   70,
             });
         }

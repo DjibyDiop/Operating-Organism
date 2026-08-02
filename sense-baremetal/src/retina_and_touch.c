@@ -9,14 +9,16 @@ void sense_init(void) {
     oo_print("[SenseBaremetal] Recepteurs sensoriels (Toucher, Vue) calibres.\n");
 }
 
-void sense_transduce_keystroke(uint8_t scancode) {
+void sense_transduce_keystroke(uint16_t scancode, uint16_t unicode) {
     static oo_stimulus_t last_stimulus;
     last_stimulus.type        = STIMULUS_TOUCH;
     last_stimulus.intensity   = 100;
     last_stimulus.timestamp   = 0;
-    last_stimulus.raw_data[0] = scancode;
+    last_stimulus.raw_data[0] = (uint8_t)(scancode & 0xFF);
+    last_stimulus.raw_data[1] = (uint8_t)(unicode & 0xFF);
 
     globule_t g;
+    g.globule_id   = 0;
     g.type         = GLOBULE_RED;
     g.source_organ = ORGAN_SENSORY;
     g.target_organ = ORGAN_CORTEX;
@@ -39,10 +41,11 @@ void sense_update_retina(const char* visual_buffer, uint32_t size) {
     }
 
     globule_t g;
+    g.globule_id   = 0;
     g.type         = GLOBULE_RED;
     g.source_organ = ORGAN_SENSORY;
     g.target_organ = ORGAN_CORTEX;
-    g.payload_addr = 0;
+    g.payload_addr = (void*)visual_buffer; /* Pointeur vers le buffer VGA */
     g.payload_size = size;
     united_bus_pump(g);
 }
@@ -52,11 +55,12 @@ void sense_feel_temperature(void) {
     uint32_t current_temp = 45;
     if (current_temp > 95) {
         globule_t alarm;
-        alarm.type         = GLOBULE_WHITE;
+        alarm.globule_id   = 0;
+        alarm.type         = GLOBULE_WHITE; /* Urgence thermique critique */
         alarm.source_organ = ORGAN_SENSORY;
         alarm.target_organ = 0xFF; /* broadcast */
-        alarm.payload_addr = 0;
-        alarm.payload_size = 0;
+        alarm.payload_addr = (void*)0;
+        alarm.payload_size = current_temp; /* Température pour diagnostic */
         united_bus_pump(alarm);
     }
 }
@@ -70,10 +74,11 @@ void sense_transduce_serial(const char* data, uint32_t len) {
     for (uint32_t i = 0; i < copy; i++) last.raw_data[i] = (uint8_t)data[i];
 
     globule_t g;
+    g.globule_id   = 0;
     g.type         = GLOBULE_RED;
     g.source_organ = ORGAN_SENSORY;
     g.target_organ = ORGAN_CORTEX;
-    g.payload_addr = 0;
+    g.payload_addr = (void*)&last; /* Stimulus sériel complet */
     g.payload_size = len;
     united_bus_pump(g);
 }

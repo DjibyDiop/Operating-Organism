@@ -1,0 +1,37 @@
+{
+  "appstore_version": "1.0",
+  "modules": [
+    {
+      "name": "thermoregulator",
+      "category": "ADAPTATION",
+      "version": "1.0.0",
+      "description": "Regulates system temperature by monitoring PMU and throttling context execution under high stress.",
+      "dna_file": "tools/oo-genesis/thermoregulator.json",
+      "dependencies": []
+    },
+    {
+      "name": "djibion",
+      "category": "META",
+      "version": "1.0.0",
+      "description": "Ensures system coherence gate checking and DNA validation.",
+      "dna_file": "",
+      "dependencies": []
+    },
+    {
+      "name": "immunion",
+      "category": "IDENTITY",
+      "version": "1.1.0",
+      "description": "Threat pattern recognition and vaccine/antibody propagation over the united bus.",
+      "dna_file": "",
+      "dependencies": []
+    },
+    {
+      "name": "sysmonitor",
+      "category": "MONITORING",
+      "version": "1.0.0",
+      "description": "Sandboxed WASM Thermostat Monitor checking system metrics and commanding fans/cooling.",
+      "dna_file": "sysmonitor.wasm",
+      "dependencies": []
+    }
+  ]
+}

@@ -2,7 +2,7 @@ mod models;
 mod storage;
 
 use axum::{
-    extract::State,
+    extract::{State, Query},
     http::StatusCode,
     routing::{get, post},
     Json, Router,
@@ -128,6 +128,7 @@ async fn main() {
 
     // Build router
     let app = Router::new()
+        .nest_service("/", tower_http::services::ServeDir::new("public"))
         .route("/heartbeat", post(handle_heartbeat))
         .route("/status", get(handle_status))
         .route("/mesh/status", get(handle_mesh_status))
@@ -137,6 +138,9 @@ async fn main() {
         .route("/threats/latest", get(handle_threats_latest))
         .route("/mutations/fitness", get(handle_mutations_fitness))
         .route("/admin/dump", get(handle_admin_dump))
+        .route("/api/hermes", post(handle_post_hermes))
+        .route("/api/hermes/inbox", get(handle_get_hermes_inbox))
+        .route("/api/registry", get(handle_get_registry).post(handle_post_registry))
         .with_state(state);
 
     // Start server
@@ -832,3 +836,75 @@ async fn handle_admin_dump(
         }
     }
 }
+
+#[derive(serde::Deserialize)]
+pub struct OrganismQuery {
+    pub organism_id: String,
+}
+
+/// POST /api/registry - Submit local registry to colony registry
+async fn handle_post_registry(
+    State(state): State<Arc<AppState>>,
+    Query(query): Query<OrganismQuery>,
+    Json(registry): Json<serde_json::Value>,
+) -> Result<StatusCode, StatusCode> {
+    let storage = state.storage.lock().unwrap();
+    match storage.store_registry(&query.organism_id, &registry) {
+        Ok(()) => Ok(StatusCode::OK),
+        Err(e) => {
+            eprintln!("Failed to store registry: {}", e);
+            Err(StatusCode::INTERNAL_SERVER_ERROR)
+        }
+    }
+}
+
+/// GET /api/registry - Retrieve local registry from colony registry
+async fn handle_get_registry(
+    State(state): State<Arc<AppState>>,
+    Query(query): Query<OrganismQuery>,
+) -> Result<Json<serde_json::Value>, StatusCode> {
+    let storage = state.storage.lock().unwrap();
+    match storage.get_registry(&query.organism_id) {
+        Ok(registry) => Ok(Json(registry)),
+        Err(e) => {
+            eprintln!("Failed to get registry: {}", e);
+            Err(StatusCode::INTERNAL_SERVER_ERROR)
+        }
+    }
+}
+
+/// POST /api/hermes - Send a Hermes message to a peer node's inbox
+async fn handle_post_hermes(
+    State(state): State<Arc<AppState>>,
+    Json(payload): Json<models::HermesPayload>,
+) -> Result<Json<models::HermesMessage>, StatusCode> {
+    let storage = state.storage.lock().unwrap();
+    match storage.store_hermes_message(
+        &payload.from_organism_id,
+        &payload.to_organism_id,
+        payload.channel,
+        &payload.data,
+    ) {
+        Ok(msg) => Ok(Json(msg)),
+        Err(e) => {
+            eprintln!("Failed to store hermes message: {}", e);
+            Err(StatusCode::INTERNAL_SERVER_ERROR)
+        }
+    }
+}
+
+/// GET /api/hermes/inbox - Retrieve and clear pending Hermes messages
+async fn handle_get_hermes_inbox(
+    State(state): State<Arc<AppState>>,
+    Query(query): Query<OrganismQuery>,
+) -> Result<Json<Vec<models::HermesMessage>>, StatusCode> {
+    let storage = state.storage.lock().unwrap();
+    match storage.fetch_and_clear_hermes_inbox(&query.organism_id) {
+        Ok(messages) => Ok(Json(messages)),
+        Err(e) => {
+            eprintln!("Failed to fetch hermes inbox: {}", e);
+            Err(StatusCode::INTERNAL_SERVER_ERROR)
+        }
+    }
+}
+

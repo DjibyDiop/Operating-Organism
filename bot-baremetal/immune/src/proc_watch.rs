@@ -39,14 +39,14 @@ impl ProcWatchAgent {
         for (p, c) in &suspicious_pairs {
             if parent_l.contains(p) && child_l.contains(c) {
                 self.threats_caught += 1;
-                return Some(SwarmEvent {
+                return Some(SwarmEvent { signature: None,
                     from_role:    AgentRole::ProcWatch,
                     threat_level: ThreatLevel::Alert,
                     description:  format!(
                         "Suspicious spawn: {} → {} (pid={})",
                         parent_name, child_name, child_pid
                     ),
-                    timestamp_ns: 0,
+                    timestamp_ns: crate::swarm_mind::now_ns(),
                     confidence:   78,
                 });
             }
@@ -61,14 +61,14 @@ impl ProcWatchAgent {
         // Montée vers SYSTEM (level 4) depuis un niveau normal (< 3) = suspect
         if from_level < 3 && to_level >= 4 {
             self.threats_caught += 1;
-            return Some(SwarmEvent {
+            return Some(SwarmEvent { signature: None,
                 from_role:    AgentRole::ProcWatch,
                 threat_level: ThreatLevel::Alert,
                 description:  format!(
                     "Privilege escalation: pid={} level {} → {}",
                     pid, from_level, to_level
                 ),
-                timestamp_ns: 0,
+                timestamp_ns: crate::swarm_mind::now_ns(),
                 confidence:   82,
             });
         }
@@ -80,13 +80,13 @@ impl ProcWatchAgent {
                                   bot_pids: &[u32]) -> Option<SwarmEvent> {
         if bot_pids.contains(&target_pid) {
             self.threats_caught += 1;
-            return Some(SwarmEvent {
+            return Some(SwarmEvent { signature: None,
                 from_role:    AgentRole::ProcWatch,
                 threat_level: ThreatLevel::Survival,
                 description:  format!(
                     "Debugger attached to Bot process pid={}", target_pid
                 ),
-                timestamp_ns: 0,
+                timestamp_ns: crate::swarm_mind::now_ns(),
                 confidence:   95,
             });
         }

@@ -1,0 +1,70 @@
+# =============================================================================
+# VITAL-BAREMETAL — Host-side organ build (Windows / dev without gnu-efi)
+# =============================================================================
+# Produces object files under build/obj/ for liboo-all.a assembly.
+# Full vital.efi still requires the main Makefile + gnu-efi (Linux/WSL).
+
+CC ?= gcc
+OBJ_DIR := build/obj
+
+CFLAGS = -std=c11 -Wall -Wextra -O2 -ffreestanding -mno-red-zone \
+         -DVITAL_BAREMETAL -DVITAL_STANDALONE \
+         -I include \
+         -I ../united-baremetal/include \
+         -I ../kernel-baremetal/include \
+         -I ../swarm-baremetal/include \
+         -I ../bot-baremetal/include \
+         -I ../bot-baremetal/core \
+         -I ../bot-baremetal/instinct \
+         -I ../llm-baremetal/oo-storage/core
+
+C_SOURCES = \
+    src/life_loop.c \
+    src/consciousness_fsm.c \
+    src/homeostasis_regulator.c \
+    src/nociception.c \
+    src/energy_metabolism.c \
+    src/synapse_network.c \
+    src/dream_simulator.c \
+    src/epigenetics.c \
+    src/aura_visualizer.c \
+    src/biotic_entropy.c \
+    src/metabolic_forth.c \
+    src/swarm_sync.c \
+    src/vital_core_unifier.c \
+    src/pineal_gland.c \
+    src/vital_persistence.c \
+    src/oo_stubs.c
+
+C_OBJECTS = $(patsubst src/%.c,$(OBJ_DIR)/%.o,$(C_SOURCES))
+EXTRA_OBJECTS = $(OBJ_DIR)/united_bus_stub.o
+ALL_OBJECTS = $(C_OBJECTS) $(EXTRA_OBJECTS)
+
+.PHONY: host-lib build test clean
+
+host-lib build: $(ALL_OBJECTS)
+	@echo "[VitalHost] $(words $(ALL_OBJECTS)) objects ready in $(OBJ_DIR)/"
+
+test: build
+	$(CC) $(CFLAGS) tests/test_vital.c $(ALL_OBJECTS) -o build/test_vital.exe
+	build/test_vital.exe
+
+$(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/united_bus_stub.o: src/united_bus_stub.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR):
+ifeq ($(OS),Windows_NT)
+	@if not exist $(subst /,\,$@) mkdir $(subst /,\,$@)
+else
+	mkdir -p $@
+endif
+
+clean:
+ifeq ($(OS),Windows_NT)
+	@if exist build rmdir /s /q build
+else
+	rm -rf build
+endif

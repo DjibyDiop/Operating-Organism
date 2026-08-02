@@ -10,6 +10,11 @@ extern "C" {
 // Main loop for the dream organ runtime.
 void dream_baremetal_loop(void);
 
+// Phase 6: Dream Mode (Idle-Time Learning) & Memory Consolidation
+void trigger_diop_sleep_learning(void);
+unsigned int dream_get_sleep_cycles(void);
+unsigned int dream_get_consolidated_count(void);
+
 #ifdef __cplusplus
 }
 #endif

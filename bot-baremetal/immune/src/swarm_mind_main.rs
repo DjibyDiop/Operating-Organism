@@ -18,7 +18,7 @@ fn main() {
     eprintln!();
 
     // Event 1: Activité suspecte détectée par MemWatch
-    let ev1 = SwarmEvent {
+    let ev1 = SwarmEvent { signature: None,
         from_role:    AgentRole::MemWatch,
         threat_level: ThreatLevel::Vigilance,
         description:  "Unusual memory write pattern detected in heap region".into(),
@@ -28,7 +28,7 @@ fn main() {
     swarm.process_event(ev1);
 
     // Event 2: Shellcode signature confirmée
-    let ev2 = SwarmEvent {
+    let ev2 = SwarmEvent { signature: None,
         from_role:    AgentRole::MemWatch,
         threat_level: ThreatLevel::Alert,
         description:  "Shellcode NOP-sled signature in pid 4821".into(),
@@ -38,7 +38,7 @@ fn main() {
     swarm.process_event(ev2);
 
     // Event 3: Process injection confirmée par ProcWatch
-    let ev3 = SwarmEvent {
+    let ev3 = SwarmEvent { signature: None,
         from_role:    AgentRole::ProcWatch,
         threat_level: ThreatLevel::Combat,
         description:  "Process hollowing confirmed in pid 4821 (parent: winword.exe)".into(),

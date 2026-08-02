@@ -86,9 +86,44 @@ void oo_scheduler_set_state(oo_homeostasis_state_t new_state) {
 
 void oo_scheduler_heartbeat(void) {
     // Écoute des signaux de contrôle sur le bus sanguin
-    globule_t inbox[4];
-    int control_msgs = united_bus_absorb(ORGAN_TYPE_VITAL, inbox, 4);
-    
+    globule_t inbox[8];
+    int control_msgs = united_bus_absorb(ORGAN_TYPE_VITAL, inbox, 8);
+
+    // Traitement des signaux reçus du bus
+    for (int i = 0; i < control_msgs; i++) {
+        globule_t *g = &inbox[i];
+
+        if (g->type == GLOBULE_WHITE) {
+            // Alerte immunitaire — passage immédiat en mode COMBAT
+            body_hormones.adrenaline = 200; // Pic d'adrénaline maximal
+            body_hormones.melatonin  = 0;   // Annulation du sommeil
+            oo_scheduler_set_state(OO_STATE_COMBAT);
+            oo_print("[Kernel] ⚡ ALERTE IMMUNITAIRE reçue — OO_STATE_COMBAT.\n");
+
+        } else if (g->type == GLOBULE_YELLOW) {
+            // Signal de contrôle hormonal du vital
+            // payload: [0]=force [1]=tension [2]=circadian_phase [3]=consciousness
+            if (g->payload_addr && g->payload_size >= 1) {
+                uint8_t *data = (uint8_t*)g->payload_addr;
+                // Si circadian phase == NADIR (3) et pas en combat → sommeil
+                if (g->payload_size >= 3 && data[2] == 3
+                    && current_state == OO_STATE_RELAXED) {
+                    body_hormones.melatonin  = 200;
+                    body_hormones.adrenaline = 0;
+                }
+                // Retour au calme si adrénaline redescend naturellement
+                if (body_hormones.adrenaline > 0) {
+                    body_hormones.adrenaline--;
+                }
+            }
+            // Retour en VIGILANT si adrénaline retombe (décroissance naturelle)
+            if (current_state == OO_STATE_COMBAT
+                && body_hormones.adrenaline < 50) {
+                oo_scheduler_set_state(OO_STATE_VIGILANT);
+                oo_print("[Kernel] Adrénaline retombée — retour OO_STATE_VIGILANT.\n");
+            }
+        }
+    }
     // Rythme Circadien : Alternance Jour/Nuit automatique
     circadian_clock++;
     if (circadian_clock % CYCLE_DURATION == 0) {
@@ -115,13 +150,14 @@ void oo_scheduler_heartbeat(void) {
         temp = temp->next;
     }
 
-    // Battement de cœur : Exécution des tâches
+    // Battement de cœur : Exécution coopérative (Cyclic Executive)
+    // Le noyau réel exécute les organes alloués en temps CPU.
     oo_organ_task_t* curr = head_organ;
     while (curr != NULL) {
         if (!curr->is_sleeping && curr->current_cpu_share > 0) {
-            // Dans un vrai noyau, on ferait un saut de contexte ici.
-            // Pour le "peaufinage", on simule l'activité cérébrale/immunitaire.
             if (curr->entry_point) {
+                // Exécution réelle de la tranche de temps de l'organe
+                // (Modèle coopératif : l'organe doit rendre la main de lui-même)
                 curr->entry_point();
             }
         }

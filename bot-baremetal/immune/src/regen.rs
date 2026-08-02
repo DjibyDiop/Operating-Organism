@@ -50,7 +50,7 @@ impl RegenAgent {
         // Mise à jour du snapshot existant ou création
         if let Some(snap) = self.snapshots.iter_mut().find(|s| s.role == role) {
             snap.generation    = generation;
-            snap.snapshot_time = 0; // TODO: timestamp réel
+            snap.snapshot_time = crate::swarm_mind::now_ns();
             snap.is_valid      = true;
         } else {
             self.snapshots.push(AgentSnapshot::new(role, generation));
@@ -74,14 +74,14 @@ impl RegenAgent {
 
         // En production : recréer l'agent depuis le snapshot ADN
         // Pour l'instant : signal de confirmation
-        Some(SwarmEvent {
+        Some(SwarmEvent { signature: None,
             from_role:    AgentRole::Regen,
             threat_level: ThreatLevel::Survival,
             description:  format!(
                 "Agent {:?} regenerated (gen {}→{})",
                 role, snap.generation, new_gen
             ),
-            timestamp_ns: 0,
+            timestamp_ns: crate::swarm_mind::now_ns(),
             confidence:   100,
         })
     }
@@ -99,13 +99,13 @@ impl RegenAgent {
                     role
                 );
                 // Tenter une régénération depuis zéro (génération 1)
-                events.push(SwarmEvent {
+                events.push(SwarmEvent { signature: None,
                     from_role:    AgentRole::Regen,
                     threat_level: ThreatLevel::Survival,
                     description:  format!(
                         "Agent {:?} cold-regenerated (no snapshot)", role
                     ),
-                    timestamp_ns: 0,
+                    timestamp_ns: crate::swarm_mind::now_ns(),
                     confidence:   70,
                 });
             }

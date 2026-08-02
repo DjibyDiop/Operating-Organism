@@ -38,13 +38,13 @@ impl NetWatchAgent {
         // Détection de C2 beacon : trop de connexions vers la même destination
         if *count >= self.beacon_threshold {
             self.threats_caught += 1;
-            return Some(SwarmEvent {
+            return Some(SwarmEvent { signature: None,
                 from_role:    AgentRole::NetWatch,
                 threat_level: ThreatLevel::Alert,
                 description:  format!(
                     "C2 beacon suspected: {} ({} connections)", key, count
                 ),
-                timestamp_ns: 0,
+                timestamp_ns: crate::swarm_mind::now_ns(),
                 confidence:   72,
             });
         }
@@ -52,13 +52,13 @@ impl NetWatchAgent {
         // Détection d'exfiltration : volume de données sortantes anormal
         if self.outbound_bytes >= self.exfil_threshold_bytes {
             self.threats_caught += 1;
-            return Some(SwarmEvent {
+            return Some(SwarmEvent { signature: None,
                 from_role:    AgentRole::NetWatch,
                 threat_level: ThreatLevel::Combat,
                 description:  format!(
                     "Data exfiltration suspected: {} bytes sent", self.outbound_bytes
                 ),
-                timestamp_ns: 0,
+                timestamp_ns: crate::swarm_mind::now_ns(),
                 confidence:   80,
             });
         }

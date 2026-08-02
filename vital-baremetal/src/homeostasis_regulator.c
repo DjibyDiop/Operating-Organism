@@ -69,11 +69,15 @@ void homeostasis_regulate(void) {
                               : FORCE_YANG;
     vital_shift_balance(force, 1);
     
-    // Si la charge immunitaire est critique → alerte totale
+    // Si la charge immunitaire est critique → alerte totale sur le bus
     if (board.immune_load.value >= board.immune_load.max_viable) {
         globule_t alert;
-        alert.type = GLOBULE_WHITE;
-        alert.target_organ = 0xFF;
+        alert.globule_id   = 0;                 // Assigné par united_bus_pump()
+        alert.type         = GLOBULE_WHITE;     // Alerte immunitaire prioritaire
+        alert.source_organ = 15;               // VITAL_SPARK (organe vital, id=15)
+        alert.target_organ = ORGAN_BROADCAST;  // 0xFF — broadcast à tous
+        alert.payload_addr = (void*)&board.immune_load; // Pointeur vers le param
+        alert.payload_size = sizeof(oo_vital_param_t);
         united_bus_pump(alert);
     }
 }

@@ -1,23 +1,33 @@
-CC ?= cc
+CC ?= gcc
 CFLAGS ?= -std=c11 -Wall -Wextra -Iinclude
 .RECIPEPREFIX := >
 
 SRC := $(wildcard src/*.c)
-OBJ_DIR := build
+OBJ_DIR := build/obj
 OBJ := $(patsubst src/%.c,$(OBJ_DIR)/%.o,$(SRC))
 
-.PHONY: build test clean
+.PHONY: all build test clean
 
-build: $(OBJ)
+all build: $(OBJ)
 
 $(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
 >$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR):
->mkdir -p $(OBJ_DIR)
+ifeq ($(OS),Windows_NT)
+>@if not exist $(subst /,\,$@) mkdir $(subst /,\,$@)
+else
+>mkdir -p $@
+endif
 
 test: build
->@echo "Smoke test passed: objects built ($(words $(OBJ)))"
+>$(MAKE) -C ../identity-baremetal build CC=$(CC)
+>$(CC) $(CFLAGS) -Iinclude -I../identity-baremetal/include -I../united-baremetal/include tests/test_evolution.c build/obj/mutation.o ../identity-baremetal/build/obj/self_recognition.o ../united-baremetal/build/obj/united_bus.o -o build/test_evolution.exe
+>build/test_evolution.exe
 
 clean:
->rm -rf $(OBJ_DIR)
+ifeq ($(OS),Windows_NT)
+>@if exist build rmdir /s /q build
+else
+>rm -rf build
+endif

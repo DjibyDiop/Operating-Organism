@@ -50,6 +50,7 @@ if (-not $ROOT) { $ROOT = "C:\Users\djibi\OneDrive\Bureau\baremetal" }
 $QEMU      = "C:\Program Files\qemu\qemu-system-x86_64.exe"
 $OVMF_CODE = "C:\Program Files\qemu\share\edk2-x86_64-code.fd"
 $OVMF_VARS_SRC = "C:\Program Files\qemu\share\edk2-i386-vars.fd"
+$OVMF_CODE_TMP = "$env:TEMP\oo-edk2-code.fd"
 $OVMF_VARS_TMP = "$env:TEMP\oo-edk2-vars.fd"
 $IMG       = "$ROOT\llm-baremetal\llm-baremetal-boot.img"
 $OO_UART   = "$ROOT\llm-baremetal\OO_UART.log"
@@ -63,20 +64,20 @@ function HDR($msg)  { Write-Host "`n$msg" -ForegroundColor Magenta }
 
 # ── Banner ────────────────────────────────────────────────────────────────────
 Write-Host ""
-Write-Host "  ██████╗  ██████╗      ██████╗  ██████╗ " -ForegroundColor Cyan
-Write-Host "  ██╔═══██╗██╔═══██╗    ██╔══██╗██╔═══██╗" -ForegroundColor Cyan
-Write-Host "  ██║   ██║██║   ██║    ██████╔╝██║   ██║" -ForegroundColor Cyan
-Write-Host "  ██║   ██║██║   ██║    ██╔══██╗██║   ██║" -ForegroundColor Cyan
-Write-Host "  ╚██████╔╝╚██████╔╝    ██████╔╝╚██████╔╝" -ForegroundColor Cyan
-Write-Host "   ╚═════╝  ╚═════╝     ╚═════╝  ╚═════╝ " -ForegroundColor Cyan
+Write-Host "   OOO    OOO          OOO    OOO   " -ForegroundColor Cyan
+Write-Host "  O   O  O   O        O   O  O   O  " -ForegroundColor Cyan
+Write-Host "  O   O  O   O  ====  O   O  O   O  " -ForegroundColor Cyan
+Write-Host "  O   O  O   O        O   O  O   O  " -ForegroundColor Cyan
+Write-Host "   OOO    OOO          OOO    OOO   " -ForegroundColor Cyan
+Write-Host "                                    " -ForegroundColor Cyan
 Write-Host ""
-Write-Host "  Operating Organism — Boot Launcher" -ForegroundColor White
+Write-Host "  Operating Organism - Boot Launcher" -ForegroundColor White
 Write-Host "  $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')" -ForegroundColor Gray
 Write-Host ""
 
-# ── PRE-FLIGHT ────────────────────────────────────────────────────────────────
+# ==============================================================================
 if (-not $SkipPreflight) {
-    HDR "── Pre-Flight: Organ Inventory ──────────────────────────────"
+    HDR "=== Pre-Flight: Organ Inventory ============================"
 
     $organs = @(
         @{ Name="united-baremetal";        Bio="Cardiovascular (IPC bus)" },
@@ -115,7 +116,7 @@ if (-not $SkipPreflight) {
     Write-Host ""
     Write-Host "  Organs: $organ_ok OK, $organ_warn warnings" -ForegroundColor $(if ($organ_warn -eq 0) { "Green" } else { "Yellow" })
 
-    HDR "── Pre-Flight: Homeostasis Invariants ───────────────────────"
+    HDR "=== Pre-Flight: Homeostasis Invariants ====================="
 
     $inv_pass = 0; $inv_fail = 0
 
@@ -133,7 +134,7 @@ if (-not $SkipPreflight) {
     Inv 7 "D+ policy gate"           (Test-Path "$ROOT\llm-baremetal\thalamic-bloom\oo_thalamic_bridge.h")
     Inv 8 "Memory allocator"         (Test-Path "$ROOT\memory-baremetal\src\bio_alloc.c")
     Inv 9 "Cortex EFI entry"         (Test-Path "$ROOT\llm-baremetal\llama2.efi")
-    Inv 10 "Colony config"           (Test-Path "$ROOT\oo-host\colony_url.txt") 2>$null
+    Inv 10 "Colony config"           (Test-Path "$ROOT\oo-host\colony_url.txt")
 
     Write-Host ""
     Write-Host "  Invariants: $inv_pass/10 PASS" -ForegroundColor $(if ($inv_fail -eq 0) { "Green" } else { "Yellow" })
@@ -149,12 +150,13 @@ if (-not $SkipPreflight) {
     }
 }
 
-# ── BOOT ──────────────────────────────────────────────────────────────────────
-HDR "── Boot: UEFI → llama2.efi → United-Bus → Cortex → REPL ────"
+# ==============================================================================
+HDR "=== Boot: UEFI -> llama2.efi -> United-Bus -> Cortex -> REPL ==="
 Write-Host "  Accel: $Accel  |  RAM: ${MemMB}MB  |  Image: $(Split-Path $IMG -Leaf)" -ForegroundColor Gray
 Write-Host ""
 
-# Fresh VARS copy (UEFI needs writable EFI variables)
+# Fresh firmware copies (Windows locks Program Files OVMF; UEFI needs writable VARS)
+Copy-Item $OVMF_CODE $OVMF_CODE_TMP -Force
 Copy-Item $OVMF_VARS_SRC $OVMF_VARS_TMP -Force
 
 # Clear previous logs
@@ -166,7 +168,7 @@ $qemu_args = @(
     "-machine", "q35,accel=$Accel",
     "-cpu",     "max",
     "-m",       "$MemMB",
-    "-drive",   "if=pflash,format=raw,readonly=on,file=$OVMF_CODE",
+    "-drive",   "if=pflash,format=raw,readonly=on,file=$OVMF_CODE_TMP",
     "-drive",   "if=pflash,format=raw,file=$OVMF_VARS_TMP",
     "-drive",   "format=raw,file=$IMG",
     "-serial",  "file:$OO_UART",
@@ -181,7 +183,7 @@ if ($Interactive) {
     Write-Host "  Mode: Interactive (SDL window)" -ForegroundColor Cyan
 } else {
     $qemu_args += @("-display", "none")
-    Write-Host "  Mode: Headless (UART → $OO_UART)" -ForegroundColor Cyan
+    Write-Host "  Mode: Headless (UART -> $OO_UART)" -ForegroundColor Cyan
 }
 
 # Live UART tail job
@@ -214,7 +216,7 @@ if ($TimeoutSec -gt 0) {
     $proc = Start-Process -FilePath $QEMU -ArgumentList $qemu_args -PassThru -NoNewWindow
     $ended = $proc.WaitForExit($TimeoutSec * 1000)
     if (-not $ended) {
-        Write-Host "  [Timeout] ${TimeoutSec}s reached — stopping QEMU" -ForegroundColor Yellow
+        Write-Host "  [Timeout] ${TimeoutSec}s reached - stopping QEMU" -ForegroundColor Yellow
         $proc.Kill()
         $exit_code = 0  # timeout = not a crash
     } else {
@@ -236,8 +238,8 @@ if ($tail_job) {
 Write-Host ""
 Write-Host "  QEMU exited (code: $exit_code)" -ForegroundColor $(if ($exit_code -eq 0) { "Green" } else { "Yellow" })
 
-# ── POST-BOOT REPORT ──────────────────────────────────────────────────────────
-HDR "── Post-Boot: Organism Health Report ───────────────────────"
+# ==============================================================================
+HDR "=== Post-Boot: Organism Health Report =========================="
 
 # Parse OO UART for key events
 if (Test-Path $OO_UART) {
@@ -269,10 +271,10 @@ if (Test-Path $SERIAL_LOG) {
 }
 
 Write-Host ""
-Write-Host "══════════════════════════════════════════════════════════" -ForegroundColor Magenta
+Write-Host "==========================================================" -ForegroundColor Magenta
 Write-Host "  OO Boot $(if ($exit_code -eq 0) { 'COMPLETE' } else { "EXIT $exit_code" })" -ForegroundColor $(if ($exit_code -eq 0) { "Green" } else { "Yellow" })
 Write-Host "  UART log : $OO_UART" -ForegroundColor Gray
-Write-Host "══════════════════════════════════════════════════════════" -ForegroundColor Magenta
+Write-Host "==========================================================" -ForegroundColor Magenta
 Write-Host ""
 
 exit $exit_code

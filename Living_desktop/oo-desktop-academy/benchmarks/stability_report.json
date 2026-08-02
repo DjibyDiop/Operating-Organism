@@ -1,0 +1,14 @@
+[
+    {
+        "node_id": "CORE-ALPHA",
+        "final_vitality": 0.977,
+        "respiration_rate": 0.2,
+        "status": "STABLE"
+    },
+    {
+        "node_id": "CORE-BETA",
+        "final_vitality": 0.9655,
+        "respiration_rate": 0.3,
+        "status": "STABLE"
+    }
+]

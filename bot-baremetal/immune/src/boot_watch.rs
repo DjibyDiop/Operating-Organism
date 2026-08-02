@@ -101,7 +101,7 @@ impl BootWatchAgent {
 
         let entry = self.watched.iter_mut().find(|e| e.path == path)?;
         entry.current_hash = actual_hash;
-        entry.last_checked = 0; // TODO: timestamp réel
+        entry.last_checked = crate::swarm_mind::now_ns();
         entry.is_intact = entry.check_integrity();
 
         if !entry.is_intact {
@@ -122,11 +122,11 @@ impl BootWatchAgent {
                 ThreatLevel::Combat
             };
 
-            return Some(SwarmEvent {
+            return Some(SwarmEvent { signature: None,
                 from_role:    AgentRole::BootWatch,
                 threat_level: level,
                 description:  violation,
-                timestamp_ns: 0,
+                timestamp_ns: crate::swarm_mind::now_ns(),
                 confidence:   99,   // Hash = preuve absolue
             });
         }
@@ -135,17 +135,30 @@ impl BootWatchAgent {
     }
 
     /// Vérifie tous les fichiers enregistrés (batch scan).
-    /// En production : appelé à chaque boot et à intervalle régulier.
-    pub fn verify_all_with_mock(&mut self) -> Vec<SwarmEvent> {
-        let paths: Vec<String> = self.watched.iter().map(|e| e.path.clone()).collect();
-        let hashes: Vec<[u8; 32]> = self.watched
-            .iter()
-            .map(|e| e.expected_hash)  // Mock : hash "correct" pour test
-            .collect();
+    /// En production : lit le vrai fichier et calcule son hachage SHA-256.
+    pub fn verify_all(&mut self) -> Vec<SwarmEvent> {
+        use sha2::{Sha256, Digest};
+        use std::fs::File;
+        use std::io::Read;
 
+        let paths: Vec<String> = self.watched.iter().map(|e| e.path.clone()).collect();
         let mut events = Vec::new();
-        for (path, hash) in paths.iter().zip(hashes.iter()) {
-            if let Some(ev) = self.verify_file(path, *hash) {
+
+        for path in paths {
+            let mut actual_hash = [0u8; 32];
+            if let Ok(mut file) = File::open(&path) {
+                let mut hasher = Sha256::new();
+                let mut buffer = [0u8; 8192];
+                while let Ok(n) = file.read(&mut buffer) {
+                    if n == 0 { break; }
+                    hasher.update(&buffer[..n]);
+                }
+                actual_hash = hasher.finalize().into();
+            } else {
+                // Fichier manquant ou inaccessible, on simule un hash invalide 
+                // (rempli de 0 alors que le hash attendu ne l'est pas)
+            }
+            if let Some(ev) = self.verify_file(&path, actual_hash) {
                 events.push(ev);
             }
         }

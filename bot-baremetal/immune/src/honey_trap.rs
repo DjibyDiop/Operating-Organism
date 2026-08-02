@@ -81,7 +81,7 @@ impl HoneyTrapAgent {
         for pot in &mut self.pots {
             if pot.is_active && pot.location == location {
                 pot.touch_count  += 1;
-                pot.last_touched  = 0; // TODO: timestamp réel
+                pot.last_touched = crate::swarm_mind::now_ns();
                 self.total_touches += 1;
 
                 eprintln!(
@@ -89,14 +89,14 @@ impl HoneyTrapAgent {
                     pot.honey_type, location, attacker_pid, pot.touch_count
                 );
 
-                return Some(SwarmEvent {
+                return Some(SwarmEvent { signature: None,
                     from_role:    AgentRole::HoneyTrap,
                     threat_level: ThreatLevel::Combat,
                     description:  format!(
                         "HoneyPot touched: {:?} at '{}' by pid={}",
                         pot.honey_type, location, attacker_pid
                     ),
-                    timestamp_ns: 0,
+                    timestamp_ns: crate::swarm_mind::now_ns(),
                     confidence:   98, // Quasi-certitude : seul un attaquant touche un leurre
                 });
             }

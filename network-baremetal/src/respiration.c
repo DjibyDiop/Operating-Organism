@@ -5,9 +5,16 @@ extern void oo_print(const char* msg);
 
 #include "wifi_core.h"
 
-// Aether-Fabric Rust FFI
-extern int aether_fabric_init(const uint8_t* node_id_buf);
-extern int aether_fabric_receive(const uint8_t* payload_buf, size_t payload_len);
+// Aether-Fabric Rust FFI (weak fallbacks when libaether_fabric is not linked)
+__attribute__((weak)) int aether_fabric_init(const uint8_t* node_id_buf) {
+    (void)node_id_buf;
+    return 0;
+}
+__attribute__((weak)) int aether_fabric_receive(const uint8_t* payload_buf, size_t payload_len) {
+    (void)payload_buf;
+    (void)payload_len;
+    return -1;
+}
 
 static oo_respiration_stats_t global_stats = {0, 0};
 
@@ -44,7 +51,7 @@ void network_inhale(const uint8_t* frame, size_t size) {
     // Conversion en Globule
     globule_t cell;
     cell.type = type;
-    cell.source_organ = 5; // ORGAN_TYPE_NETWORK
+    cell.source_organ = ORGAN_SENSORY; // 4 = ORGAN_SENSORY (Drivers / I/O)
     cell.target_organ = (type == GLOBULE_YELLOW) ? 3 : 0; // Kernel vs Cortex
     
     cell.payload_addr = (void*)frame;

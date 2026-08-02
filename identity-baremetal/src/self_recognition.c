@@ -66,3 +66,22 @@ void identity_trust_dna(const oo_dna_signature_t* new_signature) {
         oo_print("[IdentityBaremetal] 🧬 Nouvelle sequence ADN incorporee (Evolution du Soi).\n");
     }
 }
+
+int identity_get_trusted_count(void) {
+    return trusted_count;
+}
+
+int identity_verify_genome_integrity(void) {
+    if (trusted_count > MAX_TRUSTED_DNA) return 0;
+    for (int i = 0; i < trusted_count; i++) {
+        int all_zero = 1;
+        for (int j = 0; j < 32; j++) {
+            if (trusted_genome[i].hash[j] != 0) {
+                all_zero = 0;
+                break;
+            }
+        }
+        if (all_zero && trusted_count > 0) return 0;
+    }
+    return 1;
+}

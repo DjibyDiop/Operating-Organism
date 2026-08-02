@@ -1,0 +1,19 @@
+{
+    "version": "1.1.0",
+    "theme": "Deep Sea",
+    "biological_properties": {
+        "respiration_rate": 0.2,
+        "neural_connectivity": true
+    },
+    "layout_config": {
+        "engine": "AdaptiveGrid",
+        "fluidity": 0.9
+    },
+    "cells": [
+        {
+            "id": "root_node",
+            "type": "ViscousFluid",
+            "flex": 1
+        }
+    ]
+}

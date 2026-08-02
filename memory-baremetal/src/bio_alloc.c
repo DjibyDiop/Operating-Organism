@@ -1,6 +1,8 @@
 #include "../include/bio_mem.h"
 #include "../../united-baremetal/include/united_bus.h"
 
+extern void oo_print(const char *msg); /* Fourni par vital-baremetal/llm-baremetal */
+
 // Variables d'état de l'allocateur
 static uint64_t mem_base = 0;
 static uint64_t mem_total = 0;
@@ -28,7 +30,7 @@ void bio_mem_init(uint64_t physical_memory_base, uint64_t total_memory_bytes) {
     mem_total = total_memory_bytes;
     
     // Initialiser toutes les cellules à 0 (libres)
-    for (int i = 0; i < sizeof(cell_bitmap); i++) {
+    for (uint32_t i = 0; i < (uint32_t)sizeof(cell_bitmap); i++) {
         cell_bitmap[i] = 0;
     }
 }
@@ -51,9 +53,13 @@ void* bio_allocate_cell(void) {
     // Alerte de pression métabolique (Si moins de 5% de RAM libre)
     if (free_count < (BITMAP_MAX_CELLS / 20)) {
         globule_t pressure;
-        pressure.type = GLOBULE_YELLOW;
-        pressure.target_organ = 3; // ORGAN_TYPE_VITAL (Kernel)
-        // Signal d'hypoglycémie/manque de ressources
+        pressure.globule_id   = 0;              /* Assigné par le bus */
+        pressure.type         = GLOBULE_YELLOW; /* Signal métabolique */
+        pressure.source_organ = ORGAN_MEMORY;
+        pressure.target_organ = ORGAN_BROADCAST;
+        pressure.payload_addr = (void*)0;
+        /* Nombre de cellules libres restantes — le scheduler règle le cpu_share en conséquence */
+        pressure.payload_size = free_count;
         united_bus_pump(pressure);
     }
     
@@ -128,6 +134,7 @@ void bio_apoptosis(void* ptr, size_t size_in_bytes) {
 }
 
 void bio_consolidate_memory(void* ptr, size_t size_in_bytes) {
+    (void)size_in_bytes; /* Conservé pour la signature : Phase 3 écrira en Flash */
     oo_print("[Memory] Consolidation synaptique en cours (RAM -> Flash)...\n");
     /* In UEFI, use SimpleFileSystemProtocol to write a .syn checkpoint file */
     bio_free_cell(ptr);
@@ -178,9 +185,10 @@ int bio_map_cell(uint64_t virtual_addr, uint64_t physical_addr, uint32_t flags) 
     (void)virtual_addr;
     (void)flags;
     globule_t g;
+    g.globule_id   = 0;
     g.type         = GLOBULE_YELLOW;  /* resource/mode change */
-    g.source_organ = 0x04;            /* ORGAN_MEMORY */
-    g.target_organ = 0xFF;            /* broadcast */
+    g.source_organ = ORGAN_MEMORY;
+    g.target_organ = ORGAN_BROADCAST;
     g.payload_addr = 0;
     g.payload_size = 0;
     united_bus_pump(g);

@@ -22,4 +22,10 @@ int identity_is_self(const oo_dna_signature_t* signature);
 /// Enregistre une nouvelle signature de confiance (ex: après une mise à jour d'évolution)
 void identity_trust_dna(const oo_dna_signature_t* new_signature);
 
+/// Retourne le nombre de signatures ADN enregistrées et de confiance
+int identity_get_trusted_count(void);
+
+/// Vérifie l'intégrité globale du génome mémorisé dans le Thymus
+int identity_verify_genome_integrity(void);
+
 #endif // OO_DNA_HASH_H

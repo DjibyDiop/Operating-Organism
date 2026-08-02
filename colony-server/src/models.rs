@@ -181,3 +181,24 @@ pub struct LiveOrganism {
     pub is_alive: bool,
     pub continuity_epoch: u64,
 }
+
+/// A message traversing the Hermes communication bus
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct HermesMessage {
+    pub message_id: String,
+    pub from_organism_id: String,
+    pub to_organism_id: String,
+    pub channel: u32,
+    pub data: serde_json::Value,
+    pub timestamp: DateTime<Utc>,
+}
+
+/// Request payload to inject a message into the Hermes bus
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct HermesPayload {
+    pub from_organism_id: String,
+    pub to_organism_id: String,
+    pub channel: u32,
+    pub data: serde_json::Value,
+}
+

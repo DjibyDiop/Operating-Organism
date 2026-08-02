@@ -25,7 +25,7 @@ void sense_init(void);
 
 /// --- LE TOUCHER (Clavier / Souris / I2C) ---
 /// Convertit une frappe clavier brute en influx nerveux (Globule Rouge)
-void sense_transduce_keystroke(uint8_t scancode);
+void sense_transduce_keystroke(uint16_t scancode, uint16_t unicode);
 
 /// --- LA RÉTINE (Vision / Écran) ---
 /// Met à jour la perception visuelle de l'organisme (Framebuffer / Texte)

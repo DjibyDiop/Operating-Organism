@@ -73,7 +73,7 @@ impl NeutralizerAgent {
             target:     format!("pid:{}", pid),
             success:    true,   // En production : vrai résultat de l'OS
             confidence,
-            timestamp:  0,
+            timestamp: crate::swarm_mind::now_ns(),
             audit_note: format!("Reason: {} | conf={}%", reason, confidence),
         };
 
@@ -85,14 +85,14 @@ impl NeutralizerAgent {
         self.actions_taken.push(result);
         self.total_kills += 1;
 
-        Some(SwarmEvent {
+        Some(SwarmEvent { signature: None,
             from_role:    AgentRole::Neutralizer,
             threat_level: ThreatLevel::Combat,
             description:  format!(
                 "Process pid={} terminated: {} (conf={}%)",
                 pid, reason, confidence
             ),
-            timestamp_ns: 0,
+            timestamp_ns: crate::swarm_mind::now_ns(),
             confidence,
         })
     }
@@ -119,7 +119,7 @@ impl NeutralizerAgent {
             target:     path.to_string(),
             success:    true,
             confidence,
-            timestamp:  0,
+            timestamp: crate::swarm_mind::now_ns(),
             audit_note: format!("Quarantine delete | conf={}%", confidence),
         };
 
@@ -131,11 +131,11 @@ impl NeutralizerAgent {
         self.actions_taken.push(result);
         self.total_kills += 1;
 
-        Some(SwarmEvent {
+        Some(SwarmEvent { signature: None,
             from_role:    AgentRole::Neutralizer,
             threat_level: ThreatLevel::Combat,
             description:  format!("File deleted from quarantine: '{}'", path),
-            timestamp_ns: 0,
+            timestamp_ns: crate::swarm_mind::now_ns(),
             confidence,
         })
     }

@@ -10,4 +10,7 @@ void proprioception_init(void);
 /// Scanne les piles et les zones mémoires critiques
 void proprioception_check_posture(void);
 
+/// Retourne 1 si la posture est stable (équilibre OK), 0 si anomalie
+int proprioception_is_balanced(void);
+
 #endif // OO_PROPRIOCEPTION_H

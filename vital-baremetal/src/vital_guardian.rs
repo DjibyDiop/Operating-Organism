@@ -171,10 +171,18 @@ fn check_code_integrity() {
     }
 }
 
-/// Checksum simplifié (en production : CRC32 hardware via SSE4.2)
+/// Checksum FNV-1a (Scan réel du code en mémoire)
 fn compute_simple_checksum() -> u32 {
-    // Simulation - en vrai on scannerait le segment .text
-    0xCAFEBABE
+    unsafe {
+        let ptr = vital_rust_guardian as *const u8;
+        let mut hash: u32 = 2166136261;
+        // On scanne les 1024 premiers octets de notre propre code pour vérifier l'intégrité
+        for i in 0..1024 {
+            hash ^= *ptr.add(i) as u32;
+            hash = hash.wrapping_mul(16777619);
+        }
+        hash
+    }
 }
 
 /// Retourne la vitalité globale

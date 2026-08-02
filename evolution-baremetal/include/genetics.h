@@ -23,4 +23,9 @@ int evolution_apply_mutation(const uint8_t* lora_weights, size_t size);
 /// Si un pattern extrait par le Dream-Baremetal est efficace, il est "sacralisé".
 void evolution_evaluate_fitness(uint32_t pattern_id, uint8_t success_rate);
 
+/// Inspections génomiques & historique des mutations
+uint32_t evolution_get_generation(void);
+uint32_t evolution_get_mutation_count(void);
+const oo_mutation_t* evolution_get_mutation(uint32_t index);
+
 #endif // OO_GENETICS_H

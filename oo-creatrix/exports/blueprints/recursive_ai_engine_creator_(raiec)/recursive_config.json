@@ -1,0 +1,6 @@
+{
+    "engine_type": "Recursive-Omega",
+    "evolution_threshold": 0.91,
+    "active_mutation": true,
+    "benchmark_ref": "PAT-6591-OO"
+}

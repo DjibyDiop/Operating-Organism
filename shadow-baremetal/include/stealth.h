@@ -22,4 +22,9 @@ void shadow_panic_purge(void);
 /// Détourne l'attention de l'attaquant vers une zone mémoire factice.
 void shadow_necrosis(void* fake_organ_ptr, size_t size);
 
+/// Getters d'état pour surveillance anti-forensic
+uint8_t shadow_get_camouflage_level(void);
+int shadow_is_purged(void);
+int shadow_is_dead(void);
+
 #endif // OO_STEALTH_H

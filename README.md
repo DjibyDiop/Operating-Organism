@@ -1,235 +1,349 @@
-# OO (Operating Organism)
+<p align="center">
+  <img src="oo-assets/Operating_Organism_LinkedIn_banner_202607141248.jpeg" alt="Operating Organism — Banner" width="100%" style="border-radius: 12px;" />
+</p>
 
-OO is a survival-first operating organism, not only an operating system.
+<h1 align="center">🧬 Operating Organism (OO)</h1>
 
-OO combines a sovereign bare-metal runtime, a host twin, and governed autonomy loops. The target is a long-lived system with explicit survival invariants, persistent memory, audit trails, policy gates, and reproducible build paths.
+<p align="center">
+  <strong>Un organisme vivant souverain — bare-metal, autonome, résilient.</strong><br>
+  <em>Ce n'est pas un OS. C'est quelque chose de vivant.</em>
+</p>
 
-## Public / Private Boundary
+<p align="center">
+  <img src="https://img.shields.io/badge/Language-C--First%20%E2%89%A590%25-00599C?style=for-the-badge&logo=c" alt="C-First" />
+  <img src="https://img.shields.io/badge/Runtime-UEFI%20Bare--Metal-FF6F00?style=for-the-badge&logo=uboot" alt="UEFI Bare-Metal" />
+  <img src="https://img.shields.io/badge/Homeostasis-NORMAL%20%E2%86%92%20DEGRADED%20%E2%86%92%20SAFE-4CAF50?style=for-the-badge" alt="Homeostasis FSM" />
+  <img src="https://img.shields.io/badge/Autonomy-D%2B%20Governed-9C27B0?style=for-the-badge" alt="D+ Governed" />
+  <img src="https://img.shields.io/badge/Habitat-QEMU%20%7C%20Sovereign%20Hardware-607D8B?style=for-the-badge" alt="Habitat" />
+  <img src="https://img.shields.io/badge/Status-Active%20Development-brightgreen?style=for-the-badge" alt="Status" />
+</p>
 
-This is the public-facing repository for Operating Organism.
+---
 
-All related implementation repositories, model assets, deployment material, private experiments, and operational workspaces are private unless Djiby Diop explicitly publishes them. Public visibility of this repository does not make the broader project public.
+> [!IMPORTANT]
+> **Dépôt de présentation publique**
+> Ce dépôt présente l'architecture et la vision d'Operating Organism. L'implémentation complète, les modèles neuronaux, et les environnements d'exploitation restent privés sous le contrôle exclusif de **Djiby Diop**. Ce qui est visible ici n'est qu'une fraction de ce qui existe.
 
-## Source Protection
+---
 
-Copyright (c) 2026 Djiby Diop. All rights reserved.
+## ✨ Qu'est-ce que l'Operating Organism ?
 
-This repository is visible for inspection, research, documentation, and portfolio review. No open-source license or reuse permission is granted unless stated in writing. See [LICENSE](LICENSE), [NOTICE](NOTICE), [SECURITY.md](SECURITY.md), and [SIGNATURE.md](SIGNATURE.md), and [PUBLIC_SOURCE_BOUNDARY.md](docs/PUBLIC_SOURCE_BOUNDARY.md).
+L'**Operating Organism (OO)** est un système bare-metal UEFI conçu autour d'un principe biologique : **la survie avant tout**. Là où un OS classique gère des processus, OO gère des **organes**. Là où un OS répond à des appels système, OO maintient son **homéostasie**.
 
-## What OO Is
-- A long-lived organism with goals, memory, modes, policies, and recovery paths.
-- A bare-metal-first runtime with host-side observation and orchestration.
-- A governed autonomy system where survival invariants are evaluated before objectives.
-- A workspace that separates core runtime, optional support lanes, experiments, and archive/reference zones.
+OO n'est pas un projet académique. C'est une conviction architecturale : les systèmes critiques du futur devront être **vivants** — capables de se dégrader gracieusement, de se réparer, et de persévérer même lorsque tout tombe.
 
-Reference anchors: [OO_VISION.md](docs/OO_VISION.md), [ORGANISM_MANIFEST.md](docs/ORGANISM_MANIFEST.md).
+```
+         ┌─────────────────────────────────────────────────────┐
+         │                 OPERATING ORGANISM                  │
+         │          "Survive. Adapt. Remain Sovereign."        │
+         └──────────────────────┬──────────────────────────────┘
+                                │
+         ┌──────────────────────▼──────────────────────────────┐
+         │  HOMEOSTASIS FSM                                    │
+         │  NORMAL → DEGRADED → SAFE → RECOVERY → NORMAL      │
+         └──────────┬───────────────────────────┬──────────────┘
+                    │                           │
+      ┌─────────────▼──────────┐    ┌──────────▼──────────────┐
+      │   CORTEX (LLM + REPL)  │    │   HERMES BUS (21 ch)    │
+      │   Inference souveraine │    │   Transport événements  │
+      └──────────┬─────────────┘    └──────────┬──────────────┘
+                 │                             │
+      ┌──────────▼─────────────────────────────▼──────────────┐
+      │  ORGANES: kernel · memory · reflex · senses · vocal   │
+      │           identity · network · evolution · dream      │
+      └────────────────────────────────────────────────────────┘
+```
 
-## What OO Is Not
+---
 
-- Not a replacement for full desktop OS ecosystems.
-- Not uncontrolled autonomy.
-- Not a web UI, model lab, or host process pretending to be the organism.
-- Not a reason to keep complexity without owners, invariants, and tests.
+## 🎨 Vitra — La Mascotte de l'Organisme
 
-## Core Architecture At A Glance
+Vitra est l'entité qui incarne l'intelligence et la résilience de l'Operating Organism. Elle n'est pas un simple logo — elle est la **représentation consciente** du système, capable de manifester ses états homéostasiques.
 
-| Layer | Biological view | Engineering view | Primary path |
-|---|---|---|---|
-| 1 | Cortex | Sovereign inference/runtime shell | `llm-baremetal` |
-| 2 | Kernel | Execution and scheduling boundary | `kernel-baremetal`, `oo-host` |
-| 3 | Circulation | Typed event bus and flow control | `united-baremetal` |
-| 4 | Memory | Working/persistent continuity | `memory-baremetal`, `oo-model` |
-| 5 | Reflex/vitals | Homeostasis, safety, recovery modes | `reflex-baremetal`, `vital-baremetal` |
-| 6 | Senses/interface | Telemetry, ingestion, operator bridge | `network-baremetal`, `vocal-baremetal`, `yamaoo` |
-| 7 | Evolution/lab | Simulation, policy, experiments | `oo-dplus`, `oo-sim`, `oo-lab`, `oo-system` |
+<p align="center">
+  <img src="oo-assets/AI_mascot_Vitra_calm_202607141248.jpeg" alt="Vitra — État calme (NORMAL)" width="31%" style="border-radius: 10px; margin: 4px;" />
+  <img src="oo-assets/AI_mascot_Vitra_high_processing_202607141248.jpeg" alt="Vitra — Haute activité (INFERENCE)" width="31%" style="border-radius: 10px; margin: 4px;" />
+  <img src="oo-assets/AI_mascot_Vitra_alert_202607141248.jpeg" alt="Vitra — Alerte (DEGRADED)" width="31%" style="border-radius: 10px; margin: 4px;" />
+</p>
+<p align="center"><em>Vitra dans ses trois états principaux : Calme (NORMAL) · Haute Activité (INFERENCE) · Alerte (DEGRADED)</em></p>
 
-Dual view:
+---
 
-- Biological view: organs, reflexes, memory, vitals, cortex, circulation.
-- Engineering view: engines, modules, contracts, control planes, invariants, artifacts.
+## 🏗️ Architecture du Système
 
-Documentation index: [docs/README.md](docs/README.md).
+OO est structuré comme un réseau nerveux et cellulaire où chaque composant est un **organe** avec des invariants de survie, des points de défaillance documentés, et un contrat d'interface.
 
-Supporting docs: [ARCHITECTURE.md](docs/ARCHITECTURE.md), [oo-system/README.md](oo-system/README.md), [OO_ORGAN_CATALOG.md](docs/OO_ORGAN_CATALOG.md), [OO_CONTROL_PLANES.md](docs/OO_CONTROL_PLANES.md).
+<p align="center">
+  <img src="oo-assets/Operating_Organism_system_archit…_202607141248.jpeg" alt="Architecture système OO" width="90%" style="border-radius: 10px;" />
+</p>
 
-## Repository Map
+### Les Couches de l'Organisme
 
-| Component | Role | Language | Status | Primary path |
-|---|---|---|---|---|
-| `llm-baremetal` | Sovereign UEFI/bare-metal runtime and cortex lane | C, scripts | Core | [llm-baremetal](llm-baremetal) |
-| `oo-host` | Host twin, state orchestration, audit/replay support | Rust | Support/core-adjacent | [oo-host](oo-host) |
-| `oo-dplus` | D+ language and policy experimentation | Rust | Experimental/support | [oo-dplus](oo-dplus) |
-| `oo-sim` | Simulation and behavior test lane | C, scripts | Support | [oo-sim](oo-sim) |
-| `oo-lab` | Experimentation and prototype lane | Multi | Support/incubation | [oo-lab](oo-lab) |
-| `oo-model` | Offline model governance, data, export, validation | Python, Rust | Support | [oo-model](oo-model) |
-| `oo-system` | Integration contracts, runtime specs, validation scripts | C, Python, PowerShell | Canonical support | [oo-system](oo-system) |
+| # | Couche | Analogie Biologique | Rôle Technique | Module |
+|---|--------|---------------------|----------------|--------|
+| **1** | **Cortex** | Cerveau & raisonnement | LLM bare-metal + REPL souverain (Mamba SSM) | `llm-baremetal` |
+| **2** | **Kernel** | Régulation neuronale | Ordonnancement, interruptions, politique | `kernel-baremetal` |
+| **3** | **Hermes Bus** | Système circulatoire | Transport d'événements typés (21 canaux) | `united-baremetal` |
+| **4** | **Memory** | Hippocampe & cortex | Mémoire de travail, persistance FAT32 | `memory-baremetal` |
+| **5** | **Reflexes** | Moelle épinière | Homéostasie FSM, D+ Warden, sécurité | `reflex-baremetal` |
+| **6** | **Senses** | Organes sensoriels | Réseau E1000, Wi-Fi RTL8188EU, inputs | `network-baremetal` / `sense-baremetal` |
+| **7** | **Identity** | ADN & épigenèse | Djibion policy, signatures, continuité | `identity-baremetal` |
+| **8** | **Evolution** | Mutation adaptative | OO-Genesis, D+ compilation, auto-extension | `evolution-baremetal` / `oo-dplus` |
 
-Reference zones:
+---
 
-- `llm.c`, `llama2.c`, and `llm-baremetal-github` style forks are reference or upstream zones, not automatic core dependencies.
-- `yamaoo` is a host-side interface/observability lane, not a required bare-metal dependency.
+## 🖥️ Interface & Living Desktop
 
-## Language Direction
+L'organisme dispose d'une interface visuelle bare-metal rendue directement via le GOP UEFI — sans couche OS intermédiaire.
 
-OO is C-first. Project-owned source should converge to at least 90% C. The remaining 10% is reserved for bounded Rust and C++ support code.
+<p align="center">
+  <img src="oo-assets/Boot_screen_Operating_Organism_202607141248.jpeg" alt="Boot screen UEFI GOP" width="48%" style="border-radius: 10px; margin: 4px;" />
+  <img src="oo-assets/Desktop_UI_design_Operating_Orga…_202607141248.jpeg" alt="Living Desktop UI" width="48%" style="border-radius: 10px; margin: 4px;" />
+</p>
+<p align="center"><em>Boot screen UEFI GOP (gauche) · Living Desktop avec OO-Shell (droite)</em></p>
 
-Python, TypeScript, PowerShell, and shell are support/orchestration languages only. They must not become survival-chain growth languages.
+<p align="center">
+  <img src="oo-assets/Advanced_AI_HUD_interface_OO_202607141248.jpeg" alt="HUD Avancé" width="48%" style="border-radius: 10px; margin: 4px;" />
+  <img src="oo-assets/Organic_CLI_for_Operating_Organism_202607141248.jpeg" alt="OO CLI Organique" width="48%" style="border-radius: 10px; margin: 4px;" />
+</p>
+<p align="center"><em>HUD Neural en temps réel (gauche) · REPL Organique bare-metal (droite)</em></p>
 
-Full rules: [LANGUAGE_POLICY.md](docs/LANGUAGE_POLICY.md).
+---
 
-## Survival And Homeostasis First
+## 🧠 Innovations Clés
 
-OO evaluates survival invariants before objective execution. The vital path must continue even when cortex work, host tooling, UI, network, or experiments degrade.
+### 1. Homéostasie comme Principe Architecturale
 
-Runtime modes:
+OO ne "gère" pas les erreurs — il **maintient un état physiologique**. Toute défaillance déclenche une transition d'état contrôlée :
 
-- `NORMAL`: invariants green; objectives may run inside policy.
-- `DEGRADED`: non-vital failure or pressure; throttle optional work and preserve continuity.
-- `SAFE`: vital risk or policy uncertainty; deny high-risk actions and keep only safe subsets.
-- `RECOVERY`: restore state, replay journals, verify invariants, then return to `NORMAL` only when safe.
+```
+NORMAL ──fault──▶ DEGRADED ──pressure──▶ SAFE ──checkpoint──▶ RECOVERY ──restore──▶ NORMAL
+                       │                    │
+                  non-vital            vital-risk
+                   failure              detected
+```
 
-Invariant and flow specs: [OO_HOMEOSTASIS_INVARIANTS.md](docs/OO_HOMEOSTASIS_INVARIANTS.md), [OO_CROSS_ORGAN_FLOWS.md](docs/OO_CROSS_ORGAN_FLOWS.md).
+Chaque organe a un **invariant de survie** documenté dans `OO_HOMEOSTASIS_INVARIANTS.md`. Si un organe viole son invariant, le D+ Warden l'isole avant qu'il ne contamine les systèmes vitaux.
 
-## Control Model
+### 2. D+ Warden — La Membrane de Sécurité
 
-OO uses A+B+C control simultaneously:
+Le système D+ (Djibion+) est une couche de politique comportementale gouvernant **toute action** de l'organisme :
 
-- Centralized strategic control keeps mission direction, global goals, mode transitions, and policy posture coherent.
-- Distributed organ autonomy lets organs perform local health checks, scheduling, and fallback inside global policy.
-- Reflex/safety preemption handles threshold breaches before strategic planning completes.
-- Conflict resolution principle: survival invariants first, hard policy second, optimization last.
+```c
+// Chaque action passe par le filtre D+
+DjibionVerdict verdict = djibion_check(&g_djibion, action, context);
+if (verdict.blocked) {
+    oo_journal_event("dplus_blocked", action.name);
+    return OO_STATUS_GOVERNED;  // Refus politique, pas erreur
+}
+```
 
-Details: [OO_CONTROL_PLANES.md](docs/OO_CONTROL_PLANES.md).
+### 3. OO-Genesis — L'Auto-Extension
 
-## Quickstart
+L'organisme peut créer de nouveaux organes à partir d'un fichier DNA JSON, en intégrant automatiquement :
+- Les fichiers C (header + source + tests)
+- La politique D+ compilée
+- L'entrée dans le module registry
+- Les règles Makefile
 
-Non-disruptive path using scripts that exist in this workspace:
+```bash
+# Depuis le REPL bare-metal :
+/genesis ADAPTATION thermoregulator
+
+# Sur le host :
+python tools/oo_genesis.py --dna tools/oo-genesis/thermoregulator.json \
+  --root . --auto-install
+```
+
+### 4. Hermes Bus — La Colonne Vertébrale
+
+21 canaux typés pour la communication inter-organes, avec journal d'audit permanent :
+
+| Canal | Hex | Usage |
+|-------|-----|-------|
+| `BOOT` | `0x0010` | Séquence de démarrage |
+| `DIOP_IN` | `0x0104` | Coach DIOP (gouvernance) |
+| `D_PLUS` | `0x0200` | Événements Warden |
+| `PULSE` | `0x1010` | Signaux vitaux globaux |
+
+---
+
+## 💻 Rendu Bioluminescent
+
+<p align="center">
+  <img src="oo-assets/Neural_Engine_core_chamber_lands…_202607141248.jpeg" alt="Neural Engine Core" width="48%" style="border-radius: 10px; margin: 4px;" />
+  <img src="oo-assets/Neural_processor_wireframe_brain_202607141248.jpeg" alt="Neural Processor Wireframe" width="48%" style="border-radius: 10px; margin: 4px;" />
+</p>
+
+---
+
+## 🚀 Démarrage Rapide
+
+### Pré-requis
+
+- Toolchain UEFI (`x86_64-w64-mingw32-gcc` ou `clang` avec `lld`)
+- QEMU avec OVMF (pour tests sans matériel)
+- Python 3.8+ (outils de build)
+- WSL2 (Windows) ou Linux natif
+
+### Build & Validation
 
 ```powershell
-# inspect current repository status
-git status --short
-
-# run the baseline bare-metal structure smoke
+# 1. Valider la structure bare-metal
 pwsh ./tools/scripts/smoke_baremetal.ps1 -FailOnMissing -FailOnStrictMissing
 
-# run targeted runtime validation when working in oo-system
-pwsh -NoProfile -Command "Push-Location ./oo-system; ./scripts/runtime-v1-smoke.ps1; Pop-Location"
-```
-
-Optional build path:
-
-```powershell
+# 2. Build complet (skip QEMU)
 pwsh ./oo-build.ps1 -SkipQemu
+
+# 3. Créer l'image boot
+wsl -e bash ./llm-baremetal/tools/scripts/make-boot-img.sh
 ```
 
-Pinned Rust toolchain:
+### OO-Shell (Démonstrateur Web)
 
 ```powershell
-rustup show active-toolchain
-cargo build --locked
+# 1. Lancer le serveur de colonie
+cd colony-server && cargo run
+
+# 2. Ouvrir le Living Desktop
+# → Naviguez vers Living_desktop/index.html dans votre navigateur
+# → Ou lancez le runtime Python :
+cd Living_desktop && python oo_desktop_runtime.py --colony http://127.0.0.1:8080
 ```
 
-Module-specific paths are documented in [oo-system/README.md](oo-system/README.md) and [llm-baremetal/README.md](llm-baremetal/README.md).
+> [!TIP]
+> **Swarm Eye** — Visualisation mesh temps réel disponible sur `http://127.0.0.1:8080/index.html` une fois le colony-server lancé.
 
-## Operator First 10 Minutes
+### Commandes REPL Clés
 
-1. Verify prerequisites for the lane you are touching: PowerShell, WSL/make/gcc where needed, pinned Rust when using Rust code.
-2. Run baseline smoke: `pwsh ./tools/scripts/smoke_baremetal.ps1 -FailOnMissing -FailOnStrictMissing`.
-3. Inspect vital artifacts/logs: `OO_UART.log`, `artifacts/`, module build output, and runtime validation reports.
-4. Decide go/no-go before deeper runs such as QEMU, image creation, host twin replay, or yamaoo.
+```
+/status              — État complet de l'organisme
+/wifi                — Interface Wi-Fi Hardware Cell
+/genesis <cat> <n>   — Générer un nouvel organe
+/oo_mode             — FSM homéostasie actuelle
+/mind_snapshot       — Snapshot cognitif Cortex
+/hermes_log          — Derniers événements bus
+/dplus_status        — Membrane D+ Warden
+/oo_persist          — État de persistance (OOSTATE.BIN)
+```
 
-Do not put unstable or internal-only workflows in the first operator path.
+---
 
-## Safety And Policy Notice
+## 📊 Infrastructure Technologique
 
-- Policy gates apply before high-risk actions.
-- Audit journals and artifacts must remain continuous enough to reconstruct decisions.
-- No ungoverned high-risk actions, uncontrolled mutation, hidden network autonomy, or silent policy bypass.
-- If policy is unavailable for a critical path, default to deny and move toward `SAFE`.
+<p align="center">
+  <img src="oo-assets/Hardware-Software_Symbiosis_diagram_202607141248.jpeg" alt="Hardware-Software Symbiosis" width="60%" style="border-radius: 10px;" />
+</p>
 
-References: [llm-baremetal/docs/SECURITY.md](llm-baremetal/docs/SECURITY.md), [llm-baremetal/README.md](llm-baremetal/README.md).
+| Composant | Technologie | Statut |
+|-----------|-------------|--------|
+| **Runtime noyau** | C11 (≥90%), UEFI EDK2 | ✅ Complet |
+| **Moteur LLM** | Mamba SSM (OOSI v3), llama2.c | ✅ Intégré |
+| **Bus événements** | Hermes (21 canaux, FAT32 audit) | ✅ Complet |
+| **Pilote Wi-Fi** | RTL8188EU USB bare-metal | ✅ Actif |
+| **Pile réseau** | E1000, TCP/HTTP bare-metal | ✅ Intégré |
+| **Interface Rust** | Garde immunitaire, colony-server | ✅ Actif |
+| **Colonie mesh** | Actix-Web, WebSocket JSON | ✅ Actif |
+| **Outils host** | Python, oo_genesis.py | ✅ Complet |
+| **D+ Warden** | Djibion policy engine (C) | ✅ Actif |
+| **Dream/Evolution** | Mutation génomique contrôlée | 🔬 Expérimental |
 
-## Documentation Index
+---
 
-Vision and manifesto:
+## 🏛️ Gouvernance & Sécurité
 
-- [OO_VISION.md](docs/OO_VISION.md)
-- [ORGANISM_MANIFEST.md](docs/ORGANISM_MANIFEST.md)
-- [MANIFESTO_OO.md](docs/MANIFESTO_OO.md)
+```
+Règle #1  Homéostasie d'abord
+          Les invariants de survie sont évalués avant toute autre tâche.
 
-Architecture and control:
+Règle #2  C-First (≥90%)
+          Le noyau cible exclusivement C standard.
+          Rust pour les gardes d'intégrité uniquement.
 
-- [ARCHITECTURE.md](docs/ARCHITECTURE.md)
-- [DESIGN_PRINCIPLES.md](docs/DESIGN_PRINCIPLES.md)
-- [OO_ORGAN_CATALOG.md](docs/OO_ORGAN_CATALOG.md)
-- [OO_CONTROL_PLANES.md](docs/OO_CONTROL_PLANES.md)
-- [OO_HOMEOSTASIS_INVARIANTS.md](docs/OO_HOMEOSTASIS_INVARIANTS.md)
-- [OO_CROSS_ORGAN_FLOWS.md](docs/OO_CROSS_ORGAN_FLOWS.md)
+Règle #3  Auditable
+          Tous les événements sont journalisés dans OOJOUR.LOG sur FAT32.
+          Aucune action ne peut être effacée rétroactivement.
 
-Runtime and integration contracts:
+Règle #4  Souverain
+          OO ne dépend d'aucun OS hôte pour survivre.
+          Il boot directement depuis l'UEFI.
+```
 
-- [oo-system/README.md](oo-system/README.md)
-- [oo-system/docs/OO_RUNTIME_V1_BLUEPRINT.md](oo-system/docs/OO_RUNTIME_V1_BLUEPRINT.md)
-- [oo-system/docs/OO_RUNTIME_V1_ORGAN_HOST_CONTRACT.md](oo-system/docs/OO_RUNTIME_V1_ORGAN_HOST_CONTRACT.md)
-- [oo-system/docs/OO_EVENT_CONTRACT.md](oo-system/docs/OO_EVENT_CONTRACT.md)
-- [llm-baremetal/docs/OO_SOMAMIND_RUNTIME_CONTRACT.md](llm-baremetal/docs/OO_SOMAMIND_RUNTIME_CONTRACT.md)
+---
 
-Validation and recovery:
+## 📂 Structure du Projet
 
-- [oo-system/docs/OO_RUNTIME_V1_REMEDIATION_PLAYBOOK.md](oo-system/docs/OO_RUNTIME_V1_REMEDIATION_PLAYBOOK.md)
-- [oo-system/docs/OO_RUNTIME_V1_REASON_CODES.md](oo-system/docs/OO_RUNTIME_V1_REASON_CODES.md)
-- [oo-system/scripts/runtime-v1-smoke.ps1](oo-system/scripts/runtime-v1-smoke.ps1)
-- [tools/scripts/smoke_baremetal.ps1](tools/scripts/smoke_baremetal.ps1)
+```
+baremetal/
+├── llm-baremetal/          # Cortex LLM + REPL bare-metal
+│   ├── engine/llama2/      # soma_repl.c — REPL souverain principal
+│   ├── oo-modules/         # Organes générés via OO-Genesis
+│   ├── oo-bus/hermes/      # Bus événements 21 canaux
+│   └── oo-hardware/        # Hardware Cell (Wi-Fi, E1000, metabolism)
+├── kernel-baremetal/       # Ordonnancement & interruptions
+├── united-baremetal/       # Hermes Bus core
+├── memory-baremetal/       # Persistance FAT32
+├── reflex-baremetal/       # Homéostasie FSM
+├── vital-baremetal/        # Signaux vitaux
+├── identity-baremetal/     # Politique Djibion
+├── colony-server/          # Serveur Rust (mesh + Swarm Eye)
+├── tools/
+│   ├── oo_genesis.py       # Auto-générateur d'organes
+│   └── oo-genesis/         # Templates DNA JSON
+├── oo-assets/              # Branding, Vitra, diagrammes
+├── Living_desktop/         # OO-Shell (interface Gemini-style)
+└── docs/                   # ROADMAP, ARCHITECTURE, LANGUAGE_POLICY
+```
 
-Governance:
+---
 
-- [LANGUAGE_POLICY.md](docs/LANGUAGE_POLICY.md)
-- [CONTRIBUTING.md](CONTRIBUTING.md)
-- [ROADMAP.md](docs/ROADMAP.md)
-- [README_CENTRAL_SPEC.md](docs/README_CENTRAL_SPEC.md)
+## 🗺️ Roadmap
 
-## Roadmap Snapshot
+| Phase | Objectif | Statut |
+|-------|----------|--------|
+| **Phase 0** | Doctrine freeze & classification des modules | ✅ Complet |
+| **Phase 1** | Minimal Viable OO (boot → survive) | ✅ Complet |
+| **Phase 2** | Build déterministe & release reproductible | 🔄 En cours |
+| **Phase 3** | Validation mode survie (injection de failles) | 📋 Planifié |
+| **Phase 4** | Host twin & observabilité yamaoo | 📋 Planifié |
+| **Phase 5** | Évolution contrôlée & maintenance long-terme | 🔬 Futur |
 
-Phase status:
+---
 
-- Phase 0: doctrine freeze and module classification is documented in [ARCHITECTURE.md](docs/ARCHITECTURE.md).
-- Phase 1: Minimal Viable OO focuses on deterministic boot, core organs, survival modes, memory journal, reflex preemption, and one telemetry path.
-- Phase 2: deterministic build/test/release must remove hidden dependencies and produce reproducible artifacts.
-- Phase 3: survival mode validation must prove `NORMAL`, `DEGRADED`, `SAFE`, and `RECOVERY` under fault injection.
-- Phase 4+: host twin, yamaoo observability, controlled evolution, dream/swarm/model governance remain outside the vital proof until measured.
+## 📖 Documentation
 
-Near-term milestone: make survival/homeostasis robustness testable before expanding autonomy.
+| Document | Description |
+|----------|-------------|
+| [ROADMAP.md](docs/ROADMAP.md) | Plan technique Phases 0→5 |
+| [ARCHITECTURE.md](docs/ARCHITECTURE.md) | Spécifications noyau et organes |
+| [LANGUAGE_POLICY.md](docs/LANGUAGE_POLICY.md) | Charte de code C-First |
+| [OO_HOMEOSTASIS_INVARIANTS.md](OO_HOMEOSTASIS_INVARIANTS.md) | Invariants critiques & FSM |
+| [OO_ORGAN_CATALOG.md](OO_ORGAN_CATALOG.md) | Catalogue de tous les organes |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Guide de contribution |
 
-References: [ROADMAP.md](docs/ROADMAP.md), [oo-system/ROADMAP.md](oo-system/ROADMAP.md), [oo-model/ROADMAP.md](oo-model/ROADMAP.md), [llm-baremetal/oo-dplus/ROADMAP.md](llm-baremetal/oo-dplus/ROADMAP.md).
+---
 
-## Contribution Boundaries
+## 🌐 Écosystème
 
-- Do not perturb active development folders with broad refactors.
-- Prefer additive, minimal, auditable changes.
-- Keep reproducibility visible: commands, inputs, outputs, checksums, and generated artifacts must be explainable.
-- Keep scripts and low-level technical docs ASCII-friendly.
-- New organs, languages, or repos must identify owner, inputs, outputs, invariants, failure mode, tests, and tier.
+<p align="center">
+  <img src="oo-assets/Operating_Organism_Security_Mesh…_202607141248.jpeg" alt="Security Mesh" width="48%" style="border-radius: 10px; margin: 4px;" />
+  <img src="oo-assets/Dual-monitor_workstation_display…_202607141248.jpeg" alt="Workstation OO" width="48%" style="border-radius: 10px; margin: 4px;" />
+</p>
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+---
 
-## Definition Of Done For This README
+<p align="center">
+  <img src="oo-assets/Operating_Organism_logo_design_202607141248.jpeg" alt="OO Logo" width="120" style="border-radius: 50%; margin-bottom: 16px;" />
+</p>
 
-The central README is complete when a new contributor can:
+<p align="center">
+  <strong>Operating Organism</strong><br>
+  <em>Développé par <strong>Djiby Diop</strong> — Droit de regard et d'audit réservé.</em><br>
+  Copyright © 2026 · Tous droits réservés
+</p>
 
-- Understand OO's mission in under 3 minutes.
-- Identify each major module and its role.
-- Run one safe smoke path without guessing.
-- Find homeostasis and control specs directly.
-- Identify policy and safety boundaries before running experiments.
-
-## Debian Full-Stack Bootstrap
-
-Install both runtime services in one pass on Debian:
-
-- `colony-server.service`
-- `oo-host-heartbeat-watch.service`
-
-Entry point: [deploy/systemd/install-oo-stack.sh](deploy/systemd/install-oo-stack.sh)
-
-Guide: [deploy/systemd/README.md](deploy/systemd/README.md)
-
+<p align="center">
+  <img src="https://img.shields.io/badge/Made%20with-💙%20%26%20C-00599C?style=flat-square" alt="Made with C" />
+  <img src="https://img.shields.io/badge/Powered%20by-Bare--Metal%20Sovereignty-FF6F00?style=flat-square" alt="Bare-metal" />
+  <img src="https://img.shields.io/badge/Mascot-Vitra%20🧬-9C27B0?style=flat-square" alt="Vitra" />
+</p>

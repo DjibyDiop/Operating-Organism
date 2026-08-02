@@ -1,0 +1,21 @@
+{
+  "organ_name": "thermoregulator",
+  "organ_id": 22,
+  "category": "ADAPTATION",
+  "language": "C",
+  "subscriptions": [
+    "OO_CH_PMU_SAMPLE",
+    "OO_CH_MEM_PRESSURE"
+  ],
+  "publications": [
+    "OO_CH_SENTINEL_TRIP"
+  ],
+  "dplus_policies": {
+    "max_temperature": 85,
+    "quarantine_on_overheat": true
+  },
+  "abilities": [
+    "monitor_msr_temp",
+    "trigger_cooling_wait"
+  ]
+}

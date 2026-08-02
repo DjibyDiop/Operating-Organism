@@ -23,11 +23,11 @@ impl MemWatchAgent {
         let nop_run = region.windows(16).any(|w| w.iter().all(|&b| b == 0x90));
         if nop_run {
             self.threats_caught += 1;
-            return Some(SwarmEvent {
+            return Some(SwarmEvent { signature: None,
                 from_role:    AgentRole::MemWatch,
                 threat_level: ThreatLevel::Alert,
                 description:  format!("NOP sled detected at 0x{:016x}", addr),
-                timestamp_ns: 0, // TODO: real timestamp
+                timestamp_ns: crate::swarm_mind::now_ns(), // TODO: real timestamp
                 confidence:   75,
             });
         }
@@ -35,11 +35,11 @@ impl MemWatchAgent {
         // Détection de MZ header dans une région non-PE (signe d'injection)
         if region.len() >= 2 && region[0] == 0x4D && region[1] == 0x5A {
             self.threats_caught += 1;
-            return Some(SwarmEvent {
+            return Some(SwarmEvent { signature: None,
                 from_role:    AgentRole::MemWatch,
                 threat_level: ThreatLevel::Alert,
                 description:  format!("MZ header in unexpected region at 0x{:016x}", addr),
-                timestamp_ns: 0,
+                timestamp_ns: crate::swarm_mind::now_ns(),
                 confidence:   80,
             });
         }

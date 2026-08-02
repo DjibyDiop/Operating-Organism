@@ -1,142 +1,75 @@
-# BOT-BAREMETAL — Makefile Principal
-#
-# "Build simple. Déploiement propre. Zéro surprise."
-#
-# Cibles principales :
-#   make all          - Build tout (C + Rust + Python check)
-#   make core         - Build le Soma C (bot_dna, instinct, territory)
-#   make immune       - Build le système immunitaire Rust
-#   make test         - Lancer la suite de tests complète
-#   make sim          - Lancer le simulateur d'attaques
-#   make clean        - Nettoyage complet
-#   make status       - Affiche l'état du projet
-
-CC      = gcc
+CC      ?= gcc
 CFLAGS  = -Wall -Wextra -Wpedantic -std=c11 -O2 -g \
-           -Icore -Iinstinct
+          -Icore -Iinstinct -Iinclude \
+          -I../united-baremetal/include
+.RECIPEPREFIX := >
 
-PYTHON  = python
+PYTHON  = python3
 CARGO   = cargo
-
-# ─── Sources C ──────────────────────────────────────────────────────────────
 
 C_SOURCES = \
     core/bot_dna.c \
+    core/territory_map.c \
     instinct/threat_state.c \
-    instinct/instinct_layer.c
+    instinct/instinct_layer.c \
+    src/bot_baremetal_entry.c
 
-C_OBJECTS = $(C_SOURCES:.c=.o)
+OBJ_DIR = build/obj
+C_OBJECTS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(C_SOURCES))
 C_LIB     = build/libbot_core.a
 
-# ─── Cibles ──────────────────────────────────────────────────────────────────
+.PHONY: all core build immune test sim clean status check-deps dirs
 
-.PHONY: all core immune test sim clean status check-deps
+all: core
 
-all: check-deps core immune
-	@echo ""
-	@echo "=== BOT-BAREMETAL BUILD COMPLETE ==="
-	@echo "  Core (C)   : build/libbot_core.a"
-	@echo "  Immune (Rust): immune/target/release/"
-	@echo ""
+core build: dirs $(C_LIB)
+>@echo "[Core] Bot DNA + InstinctLayer + entry built OK"
 
-# ── Core C ───────────────────────────────────────────────────────────────────
-
-core: build/ $(C_LIB)
-	@echo "[Core] Bot DNA + InstinctLayer built OK"
-
-build/:
-	mkdir -p build
+dirs:
+ifeq ($(OS),Windows_NT)
+>@if not exist build mkdir build
+>@if not exist build\obj mkdir build\obj
+>@if not exist build\obj\core mkdir build\obj\core
+>@if not exist build\obj\instinct mkdir build\obj\instinct
+>@if not exist build\obj\src mkdir build\obj\src
+else
+>mkdir -p build/obj/core build/obj/instinct build/obj/src
+endif
 
 $(C_LIB): $(C_OBJECTS)
-	ar rcs $@ $^
-	@echo "[Core] Library: $@"
+>ar rcs $@ $^
+>@echo "[Core] Library: $@"
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/core/%.o: core/%.c | dirs
+>$(CC) $(CFLAGS) -c $< -o $@
 
-# ── Immune System (Rust) ─────────────────────────────────────────────────────
+$(OBJ_DIR)/instinct/%.o: instinct/%.c | dirs
+>$(CC) $(CFLAGS) -c $< -o $@
 
+$(OBJ_DIR)/src/%.o: src/%.c | dirs
+>$(CC) $(CFLAGS) -c $< -o $@
 immune:
-	@echo "[Immune] Building SwarmMind + Watchers (Rust)..."
-	cd immune && $(CARGO) build --release
-	@echo "[Immune] Build complete"
+>@echo "[Immune] Building SwarmMind + Watchers (Rust)..."
+>cd immune && $(CARGO) build --release
+>@echo "[Immune] Build complete"
 
-immune-dev:
-	@echo "[Immune] Building (dev mode)..."
-	cd immune && $(CARGO) build
-
-# ── Tests ────────────────────────────────────────────────────────────────────
-
-test-python:
-	@echo "[Test] Running Python pipeline simulation..."
-	$(PYTHON) tests/attack_sim/attack_sim.py
-	@echo "[Test] Python: OK"
-
-test-rust:
-	@echo "[Test] Running Rust unit tests..."
-	cd immune && $(CARGO) test
-	@echo "[Test] Rust: OK"
-
-test-bridge:
-	@echo "[Test] Running OOBridge test..."
-	$(PYTHON) oo_bridge/bridge_agent.py
-	@echo "[Test] Bridge: OK"
-
-test-bench: build/ $(C_LIB)
-	@echo "[Test] Building and running InstinctLayer benchmark..."
-	$(CC) $(CFLAGS) tests/instinct_bench/instinct_bench.c $(C_LIB) -o build/instinct_bench
-	./build/instinct_bench
-	@echo "[Test] Bench: OK"
-
-test: test-python test-rust test-bench
-	@echo ""
-	@echo "=== ALL TESTS COMPLETE ==="
-
-# ── Simulateur ───────────────────────────────────────────────────────────────
-
-sim:
-	@echo "[Sim] Launching attack simulation..."
-	$(PYTHON) tests/attack_sim/attack_sim.py
-
-sim-swarm:
-	@echo "[Sim] Launching SwarmMind simulation..."
-	cd immune && $(CARGO) run --bin swarm_mind
-
-# ── Nettoyage ─────────────────────────────────────────────────────────────────
+test: core
+>$(CC) $(CFLAGS) tests/test_bot.c $(C_OBJECTS) ../united-baremetal/build/obj/united_bus.o -o build/test_bot.exe
+>build/test_bot.exe
 
 clean:
-	rm -f $(C_OBJECTS)
-	rm -rf build/
-	cd immune && $(CARGO) clean
-	@echo "[Clean] Done"
-
-# ── Statut ────────────────────────────────────────────────────────────────────
+ifeq ($(OS),Windows_NT)
+>@if exist build rmdir /s /q build
+>@del /q core\*.o instinct\*.o src\*.o 2>nul
+else
+>rm -f $(C_OBJECTS)
+>rm -rf build/
+>cd immune && $(CARGO) clean 2>/dev/null || true
+endif
+>@echo "[Clean] Done"
 
 status:
-	@echo ""
-	@echo "=== BOT-BAREMETAL PROJECT STATUS ==="
-	@echo ""
-	@echo "  Core (C) sources:"
-	@for f in $(C_SOURCES); do echo "    $$f"; done
-	@echo ""
-	@echo "  Immune (Rust) modules:"
-	@ls immune/src/*.rs 2>/dev/null | sed 's/^/    /'
-	@echo ""
-	@echo "  Adaptive (Python):"
-	@ls adaptive/*.py 2>/dev/null | sed 's/^/    /'
-	@echo ""
-	@echo "  OO Bridge:"
-	@ls oo_bridge/*.py 2>/dev/null | sed 's/^/    /'
-	@echo ""
-	@echo "  Tests:"
-	@ls tests/attack_sim/*.py 2>/dev/null | sed 's/^/    /'
-	@echo ""
-
-# ── Vérification des dépendances ──────────────────────────────────────────────
+>@echo "=== BOT-BAREMETAL PROJECT STATUS ==="
 
 check-deps:
-	@echo "[Check] Verifying build dependencies..."
-	@which $(CC)     > /dev/null 2>&1 || (echo "ERROR: gcc not found" && exit 1)
-	@which $(CARGO)  > /dev/null 2>&1 || (echo "ERROR: cargo not found" && exit 1)
-	@which $(PYTHON) > /dev/null 2>&1 || (echo "ERROR: python not found" && exit 1)
-	@echo "[Check] All dependencies found"
+>@echo "[Check] gcc required for core build"

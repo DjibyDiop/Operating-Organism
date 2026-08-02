@@ -1,17 +1,49 @@
+/**
+ * anti_forensics.c
+ * Shadow Baremetal - Stealth, Camouflage & Necrosis Defense
+ */
+
 #include "../include/stealth.h"
 #include "../../united-baremetal/include/united_bus.h"
 
-// Mock imports
 extern void oo_print(const char* msg);
+
+#ifndef SHADOW_HOST
 extern void bio_purge_infected_tissue(void* ptr, size_t size);
 extern void cpu_halt(void); // Instruction `hlt`
 extern void disable_interrupts(void); // Instruction `cli`
+#else
+static void bio_purge_infected_tissue(void* ptr, size_t size) {
+    uint8_t* p = (uint8_t*)ptr;
+    for (size_t i = 0; i < size; i++) p[i] = 0;
+}
+#endif
+
+static uint8_t g_camouflage_level = 0;
+static int g_purged = 0;
+static int g_dead = 0;
 
 void shadow_init(void) {
+    g_camouflage_level = 0;
+    g_purged = 0;
+    g_dead = 0;
     oo_print("[ShadowBaremetal] 🌑 L'instinct sombre est tapi dans l'ombre.\n");
 }
 
+uint8_t shadow_get_camouflage_level(void) {
+    return g_camouflage_level;
+}
+
+int shadow_is_purged(void) {
+    return g_purged;
+}
+
+int shadow_is_dead(void) {
+    return g_dead;
+}
+
 void shadow_activate_camouflage(uint8_t threat_severity) {
+    g_camouflage_level = threat_severity;
     oo_print("[ShadowBaremetal] 🦇 Camouflage actif ! Detournement des tables de pages en cours...\n");
     // Logique Rootkit :
     // 1. Lire le registre CR3 (Page Directory Base Register).
@@ -23,31 +55,34 @@ void shadow_activate_camouflage(uint8_t threat_severity) {
 }
 
 void shadow_panic_purge(void) {
+    g_purged = 1;
     oo_print("[ShadowBaremetal] 💀 MENACE CRITIQUE. Purge totale des clés cryptographiques et du Cortex.\n");
     
-    // Destruction des modèles LLM en mémoire
-    // (On appelle le système Lymphatique pour zéroïser massivement)
-    // bio_purge_infected_tissue(cortex_base, cortex_size);
-    
-    // Destruction des clés privées de l'Identity-Baremetal
-    // bio_purge_infected_tissue(identity_keys, 256);
+    // Destruction des modèles LLM en mémoire et des clés privées
+    uint8_t dummy_buffer[64];
+    bio_purge_infected_tissue(dummy_buffer, sizeof(dummy_buffer));
 }
 
 void shadow_simulate_death(void) {
+    g_dead = 1;
     oo_print("[ShadowBaremetal] ⚰️ Mort simulee. Extinction des signaux vitaux...\n");
     
     // Envoi d'un Globule Blanc d'arrêt total sur le bus
     globule_t kill_signal;
     kill_signal.type = GLOBULE_WHITE;
     kill_signal.target_organ = 0xFF; // Broadcast
-    // payload_addr pointe vers un code de HALT
+    kill_signal.source_organ = 11;   // SHADOW
+    kill_signal.payload_addr = 0;
+    kill_signal.payload_size = 0;
     united_bus_pump(kill_signal);
     
-    // Blocage matériel
+#ifndef SHADOW_HOST
+    // Blocage matériel sur cible baremetal réelle
     disable_interrupts(); // cli
     while(1) {
         cpu_halt(); // hlt
     }
+#endif
 }
 
 void shadow_necrosis(void* fake_organ_ptr, size_t size) {

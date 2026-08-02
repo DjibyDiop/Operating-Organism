@@ -7,6 +7,10 @@
 #include <string.h>
 #include "../include/hedged_malloc.h"
 
+void oo_print(const char* msg) {
+    printf("%s", msg);
+}
+
 void test_basic_allocation() {
     printf("[TEST] Basic allocation with 4 replicas...\n");
     
@@ -115,9 +119,12 @@ void test_multiple_allocations() {
     hedged_free(ptr3);
 }
 
+static uint8_t g_ram_pool[1024 * 1024 * 16]; // 16MB mock physical memory
+
 int main() {
     printf("=== Hedged Malloc Unit Tests ===\n\n");
-    
+    bio_mem_init((uint64_t)g_ram_pool, sizeof(g_ram_pool));
+
     test_basic_allocation();
     printf("\n");
     

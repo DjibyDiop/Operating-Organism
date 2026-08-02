@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operating Organism · OO-Shell</title>
+  <meta name="description" content="OO-Shell — Interface de commande bare-metal pour l'Operating Organism. REPL souverain inspiré de Gemini.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & Design Tokens ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:            #0f1117;
+      --sidebar-bg:    #171923;
+      --surface:       #1e2333;
+      --surface-hover: #252d42;
+      --glass:         rgba(30,35,51,0.85);
+      --border:        rgba(255,255,255,0.07);
+      --border-focus:  rgba(99,179,237,0.45);
+      --text:          #e2e8f0;
+      --text-muted:    #718096;
+      --text-dim:      #4a5568;
+      --cyan:          #63b3ed;
+      --green:         #68d391;
+      --purple:        #b794f4;
+      --orange:        #f6ad55;
+      --red:           #fc8181;
+      --gold:          #f6e05e;
+      --accent:        #4f8ef7;
+      --accent-glow:   rgba(79,142,247,0.25);
+      --font:          'Inter', sans-serif;
+      --mono:          'JetBrains Mono', monospace;
+      --radius:        12px;
+      --radius-sm:     8px;
+      --sidebar-w:     260px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── Sidebar ───────────────────────────────────────────────────────────── */
+    #sidebar {
+      width: var(--sidebar-w);
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      padding: 20px 16px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .oo-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .oo-logo-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4f8ef7, #b794f4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      box-shadow: 0 0 16px rgba(79,142,247,0.4);
+    }
+
+    .oo-logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .oo-logo-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.3px;
+    }
+
+    .oo-logo-sub {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+      letter-spacing: 1px;
+    }
+
+    /* New chat button */
+    #btn-new-chat {
+      margin: 12px;
+      padding: 10px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.18s;
+      width: calc(100% - 24px);
+    }
+    #btn-new-chat:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-focus);
+    }
+    #btn-new-chat .ico { font-size: 16px; }
+
+    /* History list */
+    .sidebar-section-label {
+      padding: 8px 16px 4px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+
+    #history-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px 8px;
+    }
+
+    .history-item {
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: all 0.15s;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .history-item:hover { background: var(--surface); color: var(--text); }
+    .history-item.active { background: var(--surface); color: var(--text); }
+
+    /* Sidebar bottom: organism vitals */
+    .sidebar-vitals {
+      padding: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .vitals-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 8px;
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      margin-bottom: 6px;
+      font-size: 11px;
+    }
+    .vitals-label { color: var(--text-muted); font-family: var(--mono); font-size: 10px; }
+    .vitals-val   { font-family: var(--mono); font-weight: 600; }
+    .vitals-val.ok   { color: var(--green); }
+    .vitals-val.warn { color: var(--orange); }
+    .vitals-val.err  { color: var(--red); }
+
+    /* ── Main area ─────────────────────────────────────────────────────────── */
+    #main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Top bar */
+    #topbar {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(15,17,23,0.85);
+      backdrop-filter: blur(12px);
+      flex-shrink: 0;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .model-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .model-pill:hover { border-color: var(--border-focus); }
+    .model-pill .dot  {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse-beat 1.8s infinite;
+    }
+    @keyframes pulse-beat {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar-btn {
+      padding: 5px 12px;
+      border-radius: 6px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-family: var(--mono);
+      cursor: pointer;
+      transition: all 0.15s;
+      letter-spacing: 0.5px;
+    }
+    .topbar-btn:hover { background: var(--surface); color: var(--text); border-color: var(--border-focus); }
+    .topbar-btn.active { background: rgba(79,142,247,0.12); border-color: var(--accent); color: var(--cyan); }
+
+    /* ── Chat area ─────────────────────────────────────────────────────────── */
+    #chat-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 0;
+      scroll-behavior: smooth;
+    }
+
+    /* Centering wrapper */
+    .chat-width {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Welcome screen */
+    #welcome {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      gap: 24px;
+      text-align: center;
+    }
+
+    .welcome-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1a2744, #2d1f54);
+      border: 2px solid rgba(79,142,247,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      box-shadow: 0 0 32px rgba(79,142,247,0.2), 0 8px 24px rgba(0,0,0,0.4);
+      animation: avatar-float 4s ease-in-out infinite;
+    }
+    @keyframes avatar-float {
+      0%,100% { transform: translateY(0); box-shadow: 0 0 32px rgba(79,142,247,0.2), 0 8px 24px rgba(0,0,0,0.4); }
+      50%      { transform: translateY(-6px); box-shadow: 0 0 48px rgba(79,142,247,0.35), 0 20px 32px rgba(0,0,0,0.3); }
+    }
+
+    .welcome-title {
+      font-size: 26px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #e2e8f0, #a0aec0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .welcome-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 480px;
+      line-height: 1.7;
+    }
+
+    .welcome-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      max-width: 560px;
+    }
+
+    .chip {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 12px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: var(--mono);
+    }
+    .chip:hover {
+      border-color: var(--accent);
+      color: var(--cyan);
+      background: rgba(79,142,247,0.08);
+    }
+
+    /* ── Messages ──────────────────────────────────────────────────────────── */
+    .msg-wrapper {
+      padding: 8px 0;
+      animation: fade-slide 0.22s ease-out;
+    }
+    @keyframes fade-slide {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .msg.user { flex-direction: row-reverse; }
+
+    .msg-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .msg.user .msg-avatar {
+      background: linear-gradient(135deg, #4f8ef7, #b794f4);
+      color: white;
+      font-size: 12px;
+    }
+
+    .msg.oo .msg-avatar {
+      background: linear-gradient(135deg, #1a2744, #2d1f54);
+      border: 1px solid rgba(79,142,247,0.3);
+      font-size: 16px;
+    }
+
+    .msg-body { flex: 1; max-width: 600px; }
+
+    .msg.user .msg-body { align-items: flex-end; display: flex; flex-direction: column; }
+
+    .msg-bubble {
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 13.5px;
+      line-height: 1.65;
+      max-width: 100%;
+    }
+
+    .msg.user .msg-bubble {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-bottom-right-radius: 4px;
+      color: var(--text);
+    }
+
+    .msg.oo .msg-bubble {
+      background: transparent;
+      color: var(--text);
+    }
+
+    /* Code blocks in messages */
+    .msg-bubble pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      margin-top: 8px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--cyan);
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .msg-time {
+      font-size: 10px;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-family: var(--mono);
+    }
+
+    .msg.user .msg-time { text-align: right; }
+
+    /* Streaming cursor */
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 14px;
+      background: var(--accent);
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 0.9s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Thinking indicator */
+    .thinking-dots {
+      display: flex;
+      gap: 4px;
+      padding: 14px 2px;
+    }
+    .thinking-dots span {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--text-muted);
+      animation: dot-bounce 1.2s ease-in-out infinite;
+    }
+    .thinking-dots span:nth-child(2) { animation-delay: 0.15s; }
+    .thinking-dots span:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes dot-bounce {
+      0%,60%,100% { transform: translateY(0); opacity: 0.4; }
+      30%          { transform: translateY(-6px); opacity: 1; }
+    }
+
+    /* ── Input area ────────────────────────────────────────────────────────── */
+    #input-area {
+      padding: 16px 20px 20px;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .input-container {
+      max-width: 720px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .input-box {
+      display: flex;
+      align-items: flex-end;
+      gap: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-box:focus-within {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(99,179,237,0.08);
+    }
+
+    #msg-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.5;
+      resize: none;
+      max-height: 160px;
+      min-height: 24px;
+      overflow-y: auto;
+    }
+    #msg-input::placeholder { color: var(--text-dim); }
+
+    #send-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--accent);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.15s;
+      margin-left: 8px;
+    }
+    #send-btn:hover  { background: #3a7bd5; transform: scale(1.05); }
+    #send-btn:active { transform: scale(0.95); }
+    #send-btn:disabled { background: var(--text-dim); cursor: not-allowed; transform: none; }
+
+    #send-btn svg { width: 16px; height: 16px; fill: white; }
+
+    .input-tools {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 0 4px;
+      flex-wrap: wrap;
+    }
+
+    .tool-chip {
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: var(--mono);
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tool-chip:hover { border-color: var(--border-focus); color: var(--cyan); }
+
+    .input-footer {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 10px;
+      color: var(--text-dim);
+      font-family: var(--mono);
+    }
+
+    /* ── Right panel: Organism HUD ─────────────────────────────────────────── */
+    #hud-panel {
+      width: 260px;
+      background: var(--sidebar-bg);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .hud-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      font-family: var(--mono);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .hud-header .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 9px;
+      color: var(--green);
+    }
+    .live-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      animation: pulse-beat 1.6s infinite;
+    }
+
+    .hud-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+    }
+
+    /* Neural canvas */
+    #neural-canvas {
+      width: 100%;
+      height: 160px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      margin-bottom: 12px;
+      background: #0a0d14;
+    }
+
+    .hud-section { margin-bottom: 16px; }
+
+    .hud-section-title {
+      font-size: 9px;
+      font-family: var(--mono);
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+    }
+
+    .hud-metric {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .hud-metric-label { font-size: 11px; color: var(--text-muted); }
+    .hud-metric-val   { font-size: 12px; font-family: var(--mono); font-weight: 600; color: var(--cyan); }
+
+    .mini-bar {
+      height: 3px;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .mini-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.6s ease;
+    }
+
+    /* Hermes log */
+    .hermes-entry {
+      padding: 5px 8px;
+      border-radius: 5px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .hermes-entry .ch { color: var(--purple); }
+    .hermes-entry .fr { color: var(--orange); }
+
+    /* ── Scrollbar ─────────────────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* ── Responsive ─────────────────────────────────────────────────────────── */
+    @media (max-width: 1100px) { #hud-panel { display: none; } }
+    @media (max-width: 700px)  { #sidebar   { display: none; } }
+  </style>
+</head>
+<body>
+
+<!-- ── Sidebar ──────────────────────────────────────────────────────────────── -->
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <a class="oo-logo" href="#">
+      <div class="oo-logo-icon">🧬</div>
+      <div class="oo-logo-text">
+        <span class="oo-logo-name">Operating Organism</span>
+        <span class="oo-logo-sub">OO-SHELL v0.8</span>
+      </div>
+    </a>
+  </div>
+
+  <button id="btn-new-chat" onclick="newSession()">
+    <span class="ico">✏️</span>
+    Nouvelle session
+  </button>
+
+  <div class="sidebar-section-label">Historique</div>
+  <div id="history-list"></div>
+
+  <div class="sidebar-vitals">
+    <div class="vitals-row">
+      <span class="vitals-label">MODE</span>
+      <span class="vitals-val ok" id="sv-mode">NORMAL</span>
+    </div>
+    <div class="vitals-row">
+      <span class="vitals-label">VITALITY</span>
+      <span class="vitals-val ok" id="sv-vit">1.000</span>
+    </div>
+    <div class="vitals-row">
+      <span class="vitals-label">TICK</span>
+      <span class="vitals-val" id="sv-tick" style="color:var(--text-muted)">0</span>
+    </div>
+    <div class="vitals-row">
+      <span class="vitals-label">D+ WARDEN</span>
+      <span class="vitals-val ok" id="sv-warden">NOMINAL</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Main ─────────────────────────────────────────────────────────────────── -->
+<main id="main">
+
+  <!-- Top bar -->
+  <div id="topbar">
+    <div class="topbar-left">
+      <div class="model-pill" onclick="cyclePressure()">
+        <span class="dot" id="model-dot"></span>
+        <span id="model-label">OO-Cortex · Sovereign REPL</span>
+        <span>▾</span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="topbar-btn" id="btn-dplus" onclick="toggleDplus()">D+ WARDEN</button>
+      <button class="topbar-btn" onclick="openHudHelp()">HUD</button>
+      <button class="topbar-btn" onclick="sendPreset('/oo_status')">STATUS</button>
+    </div>
+  </div>
+
+  <!-- Chat messages -->
+  <div id="chat-area">
+    <div class="chat-width">
+      <!-- Welcome -->
+      <div id="welcome">
+        <div class="welcome-avatar">🧠</div>
+        <h1 class="welcome-title">Bonjour, Djiby</h1>
+        <p class="welcome-sub">Bienvenue dans l'OO-Shell — interface de commande souveraine de l'<strong>Operating Organism</strong>. Tapez une commande REPL ou posez une question à l'organisme.</p>
+        <div class="welcome-chips">
+          <div class="chip" onclick="sendPreset('/status')">📊 /status</div>
+          <div class="chip" onclick="sendPreset('/wifi')">📡 /wifi</div>
+          <div class="chip" onclick="sendPreset('/genesis ADAPTATION thermoregulator')">🧬 /genesis</div>
+          <div class="chip" onclick="sendPreset('/oo_mode')">🔒 /oo_mode</div>
+          <div class="chip" onclick="sendPreset('/mind_snapshot')">🧠 /mind_snapshot</div>
+          <div class="chip" onclick="sendPreset('/hermes_log')">⚡ /hermes_log</div>
+          <div class="chip" onclick="sendPreset('/help')">❓ /help</div>
+        </div>
+      </div>
+      <!-- Messages injected here -->
+    </div>
+  </div>
+
+  <!-- Input area -->
+  <div id="input-area">
+    <div class="input-container">
+      <div class="input-box">
+        <textarea id="msg-input"
+          placeholder="Entrez une commande REPL ou une question (ex: /status, /genesis …)"
+          rows="1"
+          onkeydown="handleKey(event)"
+          oninput="autoResize(this)"
+        ></textarea>
+        <button id="send-btn" onclick="sendMessage()" title="Envoyer (Entrée)">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="input-tools">
+        <div class="tool-chip" onclick="sendPreset('/genesis')">🧬 Genesis</div>
+        <div class="tool-chip" onclick="sendPreset('/hermes_pulse')">💓 Pulse</div>
+        <div class="tool-chip" onclick="sendPreset('/dplus_status')">🛡️ D+</div>
+        <div class="tool-chip" onclick="sendPreset('/oo_colony')">🌐 Colony</div>
+        <div class="tool-chip" onclick="sendPreset('/oo_persist')">💾 Persist</div>
+      </div>
+
+      <div class="input-footer">
+        OO-Shell · Bare-Metal UEFI · Hermes Bus Active · D+ Warden Nominal
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ── Right HUD panel ────────────────────────────────────────────────────── -->
+<aside id="hud-panel">
+  <div class="hud-header">
+    Neural HUD
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      LIVE
+    </div>
+  </div>
+  <div class="hud-body">
+
+    <!-- Neural canvas -->
+    <canvas id="neural-canvas"></canvas>
+
+    <!-- Organism vitals -->
+    <div class="hud-section">
+      <div class="hud-section-title">Organism Vitals</div>
+
+      <div class="hud-metric">
+        <span class="hud-metric-label">Avg Vitality</span>
+        <span class="hud-metric-val" id="hm-vit">1.000</span>
+      </div>
+      <div class="mini-bar">
+        <div class="mini-bar-fill" id="hm-vit-bar" style="width:100%;background:linear-gradient(90deg,#4f8ef7,#68d391)"></div>
+      </div>
+
+      <div class="hud-metric">
+        <span class="hud-metric-label">Neural Pulse</span>
+        <span class="hud-metric-val" id="hm-pulse">0.300</span>
+      </div>
+      <div class="mini-bar">
+        <div class="mini-bar-fill" id="hm-pulse-bar" style="width:30%;background:linear-gradient(90deg,#b794f4,#4f8ef7)"></div>
+      </div>
+
+      <div class="hud-metric">
+        <span class="hud-metric-label">Pressure</span>
+        <span class="hud-metric-val ok" id="hm-pressure">NONE</span>
+      </div>
+      <div class="hud-metric">
+        <span class="hud-metric-label">D+ Warden</span>
+        <span class="hud-metric-val ok" id="hm-warden">NOMINAL</span>
+      </div>
+      <div class="hud-metric">
+        <span class="hud-metric-label">Colony Peers</span>
+        <span class="hud-metric-val" id="hm-peers" style="color:var(--text-muted)">0</span>
+      </div>
+    </div>
+
+    <!-- Hermes bus -->
+    <div class="hud-section">
+      <div class="hud-section-title">Hermes Bus (last events)</div>
+      <div id="hermes-log-hud"></div>
+    </div>
+
+    <!-- Living windows -->
+    <div class="hud-section">
+      <div class="hud-section-title">Living Windows (<span id="hm-wins">0</span>)</div>
+      <div id="hm-win-list"></div>
+    </div>
+  </div>
+</aside>
+
+<script src="colony_bridge.js"></script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════════
+   OPERATING ORGANISM · OO-Shell Runtime
+   Chat interface style (à la Gemini/ChatGPT) — bare-metal REPL simulation
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+
+// ── State ─────────────────────────────────────────────────────────────────────
+const state = {
+  tick: 0,
+  sessions: [],
+  currentSession: null,
+  windows: [],
+  hermes: [],
+  dplusActive: true,
+  warden: 'NOMINAL',
+  pressure: 'NONE',
+  colonyOnline: false,
+  peers: 0,
+  thinking: false,
+};
+
+class OoWindow {
+  constructor(id, name, resp = 0.3) {
+    this.id = id; this.name = name;
+    this.vitality = 0.95 + Math.random() * 0.05;
+    this.respRate = resp;
+    this.x = Math.random(); this.y = Math.random();
+    this.phase = Math.random() * Math.PI * 2;
+    this.vx = (Math.random() - 0.5) * 0.002;
+    this.vy = (Math.random() - 0.5) * 0.002;
+  }
+  tick(delta) {
+    this.phase += 0.04;
+    this.x = Math.max(0.05, Math.min(0.95, this.x + this.vx));
+    this.y = Math.max(0.05, Math.min(0.95, this.y + this.vy));
+    if (this.x <= 0.05 || this.x >= 0.95) this.vx *= -1;
+    if (this.y <= 0.05 || this.y >= 0.95) this.vy *= -1;
+    this.vitality = Math.min(1.0, this.vitality - this.respRate * 0.0006 + 0.0003);
+  }
+}
+
+const BOOT_WINDOWS = [
+  { name:'CORTEX',    resp:0.25 }, { name:'HERMES',    resp:0.2  },
+  { name:'D-WARDEN',  resp:0.3  }, { name:'CHRONICLE', resp:0.2  },
+  { name:'REFLEX',    resp:0.35 }, { name:'MEMORY',    resp:0.3  },
+];
+
+// ── Boot ──────────────────────────────────────────────────────────────────────
+function boot() {
+  state.windows = BOOT_WINDOWS.map((b,i) => new OoWindow(i, b.name, b.resp));
+  state.currentSession = createSession();
+  renderHistory();
+
+  // simulate colony connection
+  setTimeout(() => {
+    state.colonyOnline = Math.random() > 0.3;
+    state.peers = Math.floor(Math.random() * 4);
+    appendSystemMsg(`[COLONY] ${state.colonyOnline ? 'CONNECTED · '+state.peers+' peers available' : 'TIMEOUT · running isolated mode'}`);
+  }, 1800);
+
+  appendSystemMsg('[UEFI] GOP framebuffer initialized · 0x40000000 · 800×600×32bpp');
+  appendSystemMsg('[HERMES] Bus active · 21 channels registered');
+  appendSystemMsg('[OO-SHELL] Sovereign REPL ready — type /help for commands');
+}
+
+// ── Sessions ──────────────────────────────────────────────────────────────────
+function createSession(label) {
+  const id = Date.now();
+  const session = { id, label: label || 'Nouvelle session', messages: [] };
+  state.sessions.unshift(session);
+  renderHistory();
+  return session;
+}
+
+function newSession() {
+  state.currentSession = createSession();
+  const chatWidth = document.querySelector('.chat-width');
+  // Clear and restore welcome
+  chatWidth.innerHTML = `
+    <div id="welcome">
+      <div class="welcome-avatar">🧠</div>
+      <h1 class="welcome-title">Nouvelle session OO-Shell</h1>
+      <p class="welcome-sub">Interface de commande souveraine de l'Operating Organism.</p>
+      <div class="welcome-chips">
+        <div class="chip" onclick="sendPreset('/status')">📊 /status</div>
+        <div class="chip" onclick="sendPreset('/genesis ADAPTATION thermoregulator')">🧬 /genesis</div>
+        <div class="chip" onclick="sendPreset('/help')">❓ /help</div>
+      </div>
+    </div>`;
+  renderHistory();
+}
+
+function renderHistory() {
+  const el = document.getElementById('history-list');
+  el.innerHTML = '';
+  for (const s of state.sessions) {
+    const d = document.createElement('div');
+    d.className = 'history-item' + (s === state.currentSession ? ' active' : '');
+    d.textContent = s.label;
+    d.onclick = () => { state.currentSession = s; renderHistory(); };
+    el.appendChild(d);
+  }
+}
+
+// ── Chat rendering ────────────────────────────────────────────────────────────
+function ts() {
+  return new Date().toTimeString().slice(0, 8);
+}
+
+function hideWelcome() {
+  const w = document.getElementById('welcome');
+  if (w) w.remove();
+}
+
+function appendUserMsg(text) {
+  hideWelcome();
+  const chatWidth = document.querySelector('.chat-width');
+
+  if (state.currentSession.messages.length === 0) {
+    state.currentSession.label = text.slice(0, 36) + (text.length > 36 ? '…' : '');
+    renderHistory();
+  }
+  state.currentSession.messages.push({ role: 'user', text, ts: ts() });
+
+  const div = document.createElement('div');
+  div.className = 'msg-wrapper';
+  div.innerHTML = `
+    <div class="msg user">
+      <div class="msg-avatar">DJ</div>
+      <div class="msg-body">
+        <div class="msg-bubble">${escHtml(text)}</div>
+        <div class="msg-time">${ts()}</div>
+      </div>
+    </div>`;
+  chatWidth.appendChild(div);
+  scrollBottom();
+}
+
+function appendOoMsg(text, isCmd = false) {
+  hideWelcome();
+  const chatWidth = document.querySelector('.chat-width');
+
+  const div = document.createElement('div');
+  div.className = 'msg-wrapper';
+  const contentHtml = formatOoOutput(text, isCmd);
+  div.innerHTML = `
+    <div class="msg oo">
+      <div class="msg-avatar">🧠</div>
+      <div class="msg-body">
+        <div class="msg-bubble">${contentHtml}</div>
+        <div class="msg-time">OO-Cortex · ${ts()}</div>
+      </div>
+    </div>`;
+  chatWidth.appendChild(div);
+  scrollBottom();
+  return div;
+}
+
+function appendSystemMsg(text) {
+  const chatWidth = document.querySelector('.chat-width');
+  const div = document.createElement('div');
+  div.className = 'msg-wrapper';
+  div.innerHTML = `
+    <div class="msg oo">
+      <div class="msg-avatar">⚙️</div>
+      <div class="msg-body">
+        <div class="msg-bubble" style="color:var(--text-dim);font-family:var(--mono);font-size:11px">${escHtml(text)}</div>
+      </div>
+    </div>`;
+  chatWidth.appendChild(div);
+  scrollBottom();
+}
+
+function showThinking() {
+  hideWelcome();
+  const chatWidth = document.querySelector('.chat-width');
+  const div = document.createElement('div');
+  div.id = 'thinking-indicator';
+  div.className = 'msg-wrapper';
+  div.innerHTML = `
+    <div class="msg oo">
+      <div class="msg-avatar">🧠</div>
+      <div class="msg-body">
+        <div class="thinking-dots"><span></span><span></span><span></span></div>
+      </div>
+    </div>`;
+  chatWidth.appendChild(div);
+  scrollBottom();
+  return div;
+}
+
+function removeThinking() {
+  const el = document.getElementById('thinking-indicator');
+  if (el) el.remove();
+}
+
+function formatOoOutput(text, isCmd) {
+  if (!isCmd) return escHtml(text).replace(/\n/g, '<br>');
+  // Format as a terminal output block
+  const lines = text.split('\n');
+  const formatted = lines.map(l => {
+    if (l.startsWith('[') && l.includes(']')) {
+      const bracket = l.match(/^\[([^\]]+)\]/);
+      if (bracket) {
+        const tag = bracket[1];
+        let color = 'var(--cyan)';
+        if (['ERROR', 'CRITICAL', 'FAIL'].some(k => tag.includes(k))) color = 'var(--red)';
+        else if (['WARN', 'WATCH', 'ALERT'].some(k => tag.includes(k))) color = 'var(--orange)';
+        else if (['OK', 'CONNECTED', 'NOMINAL'].some(k => tag.includes(k))) color = 'var(--green)';
+        else if (['GENESIS', 'BIRTH', 'SPAWN'].some(k => tag.includes(k))) color = 'var(--gold)';
+        return `<span style="color:${color}">[${tag}]</span>${escHtml(l.slice(bracket[0].length))}`;
+      }
+    }
+    if (l.startsWith('=== ')) return `<span style="color:var(--gold);font-weight:600">${escHtml(l)}</span>`;
+    if (l.startsWith('  ')) return `<span style="color:var(--text-muted)">${escHtml(l)}</span>`;
+    return escHtml(l);
+  }).join('<br>');
+  return `<pre style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;font-family:var(--mono);font-size:11.5px;overflow-x:auto;white-space:pre-wrap;word-break:break-all">${formatted}</pre>`;
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function scrollBottom() {
+  const el = document.getElementById('chat-area');
+  el.scrollTop = el.scrollHeight;
+}
+
+// ── REPL simulation ───────────────────────────────────────────────────────────
+const COMMANDS = {
+  '/help': () => `[HELP] OO-Shell Sovereign REPL v0.8
+Available commands:
+  /status              — Full organism status
+  /wifi                — Wi-Fi hardware cell & networks
+  /genesis <cat> <n>   — Generate a new organ (D+ governed)
+  /oo_mode             — Show homeostasis mode (NORMAL/DEGRADED/SAFE/RECOVERY)
+  /mind_snapshot       — Cortex cognitive state snapshot
+  /hermes_log          — Last 10 Hermes bus events
+  /dplus_status        — D+ Warden membrane status
+  /oo_persist          — OO persistence (OOSTATE.BIN, OOJOUR.LOG)
+  /oo_colony           — Colony mesh status
+  /spawn               — Spawn new Living Window`,
+
+  '/status': () => {
+    const avg = avgVitality();
+    return `[OO] System Status Report — tick=${state.tick}
+  mode        = NORMAL
+  vitality    = ${avg.toFixed(4)}
+  pressure    = ${state.pressure}
+  d_warden    = ${state.warden}
+  hermes      = ${state.hermes.length} events
+  windows     = ${state.windows.length} active
+  colony      = ${state.colonyOnline ? 'CONNECTED ('+state.peers+' peers)' : 'ISOLATED'}
+  continuity  = aligned
+  build_id    = OO-FLESH-v0.8-sovereign`;
+  },
+
+  '/wifi': () => `[WIFI] RTL8188EU · USB Hardware Cell
+  mac_addr    = 00:e0:4c:68:a2:f3
+  status      = ACTIVE (Passive Scan)
+  mode        = INFRASTRUCTURE
+  channel     = 6
+  signal      = -67 dBm
+
+[WIFI] Networks detected (${2 + Math.floor(Math.random()*3)}):
+  OO-Mesh-Node-01     [WPA2] -58dBm  ch:6
+  DiagNet-Private     [WPA3] -71dBm  ch:11
+  Aether-Bridge-01    [WPA2] -80dBm  ch:1
+
+[WIFI] Hardware Language JSON:
+  {"cell":"wifi","status":"active","health":0.94,"metabolic_rate":0.12}`,
+
+  '/oo_mode': () => `[OO_MODE] Homeostasis FSM State
+  current  = NORMAL
+  previous = NORMAL
+  boot_count = 1
+  invariants_ok = true
+  warden_gate   = PASS (D+ threshold: 0.65)`,
+
+  '/mind_snapshot': () => `[MIND] Cognitive Snapshot — ${ts()}
+  core_active  = true
+  attach_ready = false
+  soma_init    = true
+  domains      = CHAT, CODE, POLICY, SYSTEM
+  temperature  = 0.720 (balanced)
+  top_p        = 0.900
+  halt_policy  = enabled (threshold=0.65)
+  reflexes     = math✓  logic✓  memory✓`,
+
+  '/hermes_log': () => {
+    const entries = state.hermes.slice(-8).map(e =>
+      `  ch:0x${e.ch.toString(16).toUpperCase().padStart(4,'0')}  from:${e.from.padEnd(12)}  ${e.summary}`
+    ).join('\n');
+    return `[HERMES] Bus Log (last ${Math.min(state.hermes.length,8)} events)\n${entries || '  (no events yet)'}`;
+  },
+
+  '/dplus_status': () => `[D+] Warden Membrane Status
+  active       = ${state.dplusActive}
+  mode         = ${state.dplusActive ? 'ENFORCING' : 'SUSPENDED'}
+  policy       = djibion_strict
+  threshold    = 0.65
+  last_action  = none
+  violations   = 0`,
+
+  '/oo_persist': () => `[PERSIST] OO Storage Status
+  OOSTATE.BIN   present=true  boot_count=1  mode=NORMAL
+  OORECOV.BIN   present=true  boot_count=1  mode=NORMAL
+  OOJOUR.LOG    present=true  bytes=2048
+  OOCONSULT.LOG present=true  bytes=512
+  OOHANDOFF.TXT present=false
+  continuity    = aligned`,
+
+  '/oo_colony': () => `[COLONY] Mesh Status
+  server        = colony-server:8080
+  connected     = ${state.colonyOnline}
+  peers         = ${state.peers}
+  protocol      = Hermes-UDP/v2
+  swarm_eye     = http://127.0.0.1:8080/index.html`,
+
+  '/spawn': () => {
+    const names = ['Morphion','Evolvion','Sentinel','Aether','Synapse','Cortex-Ext'];
+    const n = names[Math.floor(Math.random()*names.length)] + '-' + (100+state.windows.length);
+    const w = new OoWindow(state.windows.length, n, 0.25 + Math.random()*0.3);
+    state.windows.push(w);
+    state.hermes.push({ ch: 0x1010, from:'GENESIS', summary:`spawn:${n}` });
+    return `[GENESIS] BIRTH → ${n}\n  id=${w.id}  vitality=1.000  resp_rate=${w.respRate.toFixed(3)}\n  Status: Living Window added to neural substrate`;
+  },
+};
+
+// Genesis command parser
+function parseGenesis(cmd) {
+  const parts = cmd.trim().split(/\s+/);
+  if (parts.length < 3) {
+    return `[GENESIS] Usage: /genesis <CATEGORY> <name>\n  Categories: ADAPTATION, SENSING, MEMORY, IDENTITY, SOCIAL, META\n  Example: /genesis ADAPTATION thermoregulator`;
+  }
+  const cat  = parts[1].toUpperCase();
+  const name = parts[2].toLowerCase();
+  const validCats = ['ADAPTATION','SENSING','MEMORY','IDENTITY','SOCIAL','META'];
+  if (!validCats.includes(cat)) {
+    return `[GENESIS] Unknown category: ${cat}\n  Valid: ${validCats.join(', ')}`;
+  }
+  const id = 0x200 + Math.floor(Math.random() * 0xFF);
+  state.hermes.push({ ch: 0x0010, from:'GENESIS', summary:`trigger:${name}` });
+  return `[GENESIS] Organ Generation Triggered
+  category    = ${cat}
+  name        = ${name}
+  organ_id    = 0x${id.toString(16).toUpperCase()}
+  
+=== OO_GENESIS_TRIGGER_START ===
+category=${cat}
+name=${name}
+organ_id=0x${id.toString(16).toUpperCase()}
+=== OO_GENESIS_TRIGGER_END ===
+
+[GENESIS] Emitting to serial UART...
+[GENESIS] Run on host:
+  python tools/oo_genesis.py \\
+    --dna tools/oo-genesis/${name}.json \\
+    --root . --auto-install`;
+}
+
+async function executeCommand(cmd) {
+  const trimmed = cmd.trim();
+  if (!trimmed) return;
+
+  appendUserMsg(trimmed);
+
+  const thinkEl = showThinking();
+  state.thinking = true;
+
+  // simulate latency
+  const delay = 400 + Math.random() * 600;
+  await sleep(delay);
+
+  removeThinking();
+  state.thinking = false;
+
+  let response = null;
+  let isCmd = true;
+
+  // Match command
+  if (trimmed.startsWith('/genesis')) {
+    response = parseGenesis(trimmed);
+  } else {
+    const key = Object.keys(COMMANDS).find(k => trimmed === k || trimmed.startsWith(k+' '));
+    if (key) {
+      response = COMMANDS[key]();
+    } else if (trimmed.startsWith('/')) {
+      response = `[SHELL] Unknown command: ${trimmed}\nType /help for available commands.`;
+    } else {
+      // Natural language — simulate OO response
+      isCmd = false;
+      response = simulateNLP(trimmed);
+    }
+  }
+
+  // Hermes event for any command
+  if (trimmed.startsWith('/') && !trimmed.startsWith('/help')) {
+    state.hermes.push({ ch: 0x0100, from:'SHELL', summary: trimmed.slice(0,24) });
+  }
+
+  appendOoMsg(response, isCmd);
+}
+
+function simulateNLP(text) {
+  const lower = text.toLowerCase();
+  if (lower.includes('santé') || lower.includes('vitality') || lower.includes('état')) {
+    const avg = avgVitality();
+    return `L'organisme est en bonne santé. Vitalité moyenne : ${avg.toFixed(3)}. Mode homéostase : NORMAL. Warden D+ : NOMINAL.\n\nPour un rapport complet, utilisez /status.`;
+  }
+  if (lower.includes('help') || lower.includes('aide')) {
+    return 'Je suis l\'OO-Shell — interface souveraine de l\'Operating Organism. Utilisez /help pour voir toutes les commandes disponibles.';
+  }
+  if (lower.includes('bonjour') || lower.includes('hello') || lower.includes('salut')) {
+    return 'Bonjour Djiby. L\'organisme est opérationnel. Tous les systèmes vitaux sont en mode NORMAL. Que voulez-vous explorer ?';
+  }
+  return `[OO-Cortex] Processing query: "${text.slice(0,50)}"\n\nActuellement en mode bare-metal isolé — le modèle LLM n'est pas chargé dans cette simulation. Utilisez les commandes REPL (ex: /status, /genesis) pour interagir directement avec l'organisme.`;
+}
+
+// ── Input handling ─────────────────────────────────────────────────────────────
+function sendMessage() {
+  const input = document.getElementById('msg-input');
+  const text = input.value.trim();
+  if (!text || state.thinking) return;
+  input.value = '';
+  input.style.height = 'auto';
+  executeCommand(text);
+}
+
+function sendPreset(cmd) {
+  const input = document.getElementById('msg-input');
+  input.value = cmd;
+  autoResize(input);
+  sendMessage();
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 160) + 'px';
+}
+
+function openHudHelp() {
+  appendOoMsg('[HUD] Neural canvas shows Living Windows as bioluminescent nodes.\nRight panel: real-time organism vitals, Hermes bus events, and active Living Windows.', true);
+}
+
+// ── D+ toggle ─────────────────────────────────────────────────────────────────
+function toggleDplus() {
+  state.dplusActive = !state.dplusActive;
+  const btn = document.getElementById('btn-dplus');
+  btn.classList.toggle('active', state.dplusActive);
+  const status = state.dplusActive ? 'ENFORCING' : 'SUSPENDED';
+  state.hermes.push({ ch:0x0200, from:'D+', summary:`warden:${status}` });
+  appendSystemMsg(`[D+] Warden membrane ${status}`);
+}
+
+function cyclePressure() {
+  const modes = ['NORMAL','DEGRADED','SAFE'];
+  const labels = { NORMAL:'NORMAL', DEGRADED:'DEGRADED ⚠️', SAFE:'SAFE 🔒' };
+  const idx = modes.indexOf(state.pressure === 'NONE' ? 'NORMAL' : state.pressure);
+  const next = modes[(idx + 1) % modes.length];
+  state.pressure = next;
+  const dot = document.getElementById('model-dot');
+  const lbl = document.getElementById('model-label');
+  const colors = { NORMAL:'var(--green)', DEGRADED:'var(--orange)', SAFE:'var(--red)' };
+  dot.style.background = colors[next];
+  dot.style.boxShadow = `0 0 8px ${colors[next]}`;
+  lbl.textContent = `OO-Cortex · Mode ${labels[next]}`;
+  appendSystemMsg(`[OO_MODE] Transition → ${next}`);
+}
+
+// ── Neural canvas ─────────────────────────────────────────────────────────────
+const nc = document.getElementById('neural-canvas');
+const ncCtx = nc.getContext('2d');
+
+function resizeNc() {
+  nc.width = nc.parentElement.clientWidth - 24;
+  nc.height = 160;
+}
+
+function renderNeural() {
+  const W = nc.width, H = nc.height;
+  if (!W || !H) return;
+
+  ncCtx.fillStyle = '#0a0d14';
+  ncCtx.fillRect(0, 0, W, H);
+
+  const t = Date.now() / 1000;
+
+  // connections
+  for (let i = 0; i < state.windows.length; i++) {
+    for (let j = i+1; j < state.windows.length; j++) {
+      const a = state.windows[i], b = state.windows[j];
+      const ax = a.x * W, ay = a.y * H;
+      const bx = b.x * W, by = b.y * H;
+      const alpha = Math.min(a.vitality, b.vitality) * 0.2 * (0.5 + 0.5 * Math.sin(t * 0.7 + i + j));
+      ncCtx.strokeStyle = `rgba(79,142,247,${alpha})`;
+      ncCtx.lineWidth = 0.5;
+      ncCtx.beginPath(); ncCtx.moveTo(ax, ay); ncCtx.lineTo(bx, by); ncCtx.stroke();
+    }
+  }
+
+  // nodes
+  for (const w of state.windows) {
+    const x = w.x * W, y = w.y * H;
+    const glow = w.vitality * (0.7 + 0.3 * Math.sin(w.phase));
+    const r = 5 + 4 * glow;
+    const g = Math.round(80 + 175 * glow);
+    const b2 = Math.round(150 + 105 * glow);
+    const col = `rgb(79,${g},${b2})`;
+
+    const grad = ncCtx.createRadialGradient(x, y, r*0.2, x, y, r*2.5);
+    grad.addColorStop(0, `rgba(79,142,247,${0.5*glow})`);
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    ncCtx.beginPath(); ncCtx.arc(x, y, r*2.5, 0, Math.PI*2);
+    ncCtx.fillStyle = grad; ncCtx.fill();
+
+    ncCtx.beginPath(); ncCtx.arc(x, y, r, 0, Math.PI*2);
+    ncCtx.fillStyle = col;
+    ncCtx.shadowColor = col; ncCtx.shadowBlur = 10;
+    ncCtx.fill(); ncCtx.shadowBlur = 0;
+  }
+}
+
+// ── Main loop ─────────────────────────────────────────────────────────────────
+function mainLoop() {
+  state.tick++;
+
+  // pulse windows
+  for (const w of state.windows) w.tick(1);
+
+  // pressure
+  const avg = avgVitality();
+  if (avg < 0.35)      { state.pressure = 'CRITICAL'; state.warden = 'ALERT'; }
+  else if (avg < 0.60) { state.pressure = 'HIGH';     state.warden = 'WATCH'; }
+  else if (avg < 0.80) { state.pressure = 'LOW';      state.warden = 'NOMINAL'; }
+  else                 { state.pressure = 'NONE';      state.warden = 'NOMINAL'; }
+
+  renderNeural();
+  updateSidebarVitals();
+  updateHud();
+}
+
+function avgVitality() {
+  if (!state.windows.length) return 1;
+  return state.windows.reduce((s,w) => s + w.vitality, 0) / state.windows.length;
+}
+
+function updateSidebarVitals() {
+  const avg = avgVitality();
+  const sv = document.getElementById('sv-vit');
+  sv.textContent = avg.toFixed(3);
+  sv.className = 'vitals-val ' + (avg > 0.7 ? 'ok' : avg > 0.4 ? 'warn' : 'err');
+  document.getElementById('sv-tick').textContent = state.tick;
+  document.getElementById('sv-warden').textContent = state.warden;
+  document.getElementById('sv-warden').className = 'vitals-val ' + (state.warden === 'NOMINAL' ? 'ok' : 'err');
+}
+
+function updateHud() {
+  const avg = avgVitality();
+
+  const vEl = document.getElementById('hm-vit');
+  vEl.textContent = avg.toFixed(3);
+  vEl.style.color = avg > 0.7 ? 'var(--green)' : avg > 0.4 ? 'var(--orange)' : 'var(--red)';
+  document.getElementById('hm-vit-bar').style.width = (avg*100) + '%';
+
+  const pulse = 0.25 + 0.15 * Math.sin(Date.now() / 1200);
+  document.getElementById('hm-pulse').textContent = pulse.toFixed(3);
+  document.getElementById('hm-pulse-bar').style.width = (pulse*100*3) + '%';
+
+  document.getElementById('hm-pressure').textContent = state.pressure;
+  document.getElementById('hm-pressure').style.color =
+    state.pressure === 'NONE' ? 'var(--green)' : state.pressure === 'LOW' ? 'var(--orange)' : 'var(--red)';
+
+  document.getElementById('hm-warden').textContent = state.warden;
+  document.getElementById('hm-warden').style.color = state.warden === 'NOMINAL' ? 'var(--green)' : 'var(--red)';
+
+  document.getElementById('hm-peers').textContent = state.peers;
+
+  // Hermes
+  const hlog = document.getElementById('hermes-log-hud');
+  hlog.innerHTML = '';
+  const msgs = state.hermes.slice(-5).reverse();
+  for (const m of msgs) {
+    const e = document.createElement('div');
+    e.className = 'hermes-entry';
+    e.innerHTML = `<span class="ch">ch:${m.ch.toString(16).toUpperCase()}</span> <span class="fr">${m.from}</span> ${m.summary}`;
+    hlog.appendChild(e);
+  }
+
+  // Windows
+  document.getElementById('hm-wins').textContent = state.windows.length;
+  const wl = document.getElementById('hm-win-list');
+  wl.innerHTML = '';
+  for (const w of state.windows) {
+    const d = document.createElement('div');
+    d.className = 'vitals-row';
+    d.style.marginBottom = '4px';
+    const pct = (w.vitality * 100).toFixed(0);
+    const col = w.vitality > 0.7 ? 'var(--green)' : w.vitality > 0.4 ? 'var(--orange)' : 'var(--red)';
+    d.innerHTML = `<span class="vitals-label">${w.name}</span><span class="vitals-val" style="color:${col}">${pct}%</span>`;
+    wl.appendChild(d);
+  }
+}
+
+// ── Utils ─────────────────────────────────────────────────────────────────────
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  resizeNc();
+  boot();
+  setInterval(mainLoop, 100);
+  // Connect to real colony-server (fallback to simulation if offline)
+  if (typeof colonyBootstrap === 'function') colonyBootstrap();
+});
+
+window.addEventListener('resize', resizeNc);
+</script>
+</body>
+</html>

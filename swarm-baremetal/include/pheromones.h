@@ -14,4 +14,9 @@ void swarm_emit_pheromone(uint8_t type, const void* data, size_t size);
 /// Réception de phéromones externes
 void swarm_on_pheromone_received(const uint8_t* sender_dna, const void* data, size_t size);
 
+/// Getters d'activité pour l'essaim
+unsigned int swarm_get_emitted_count(void);
+unsigned int swarm_get_received_count(void);
+unsigned int swarm_get_accepted_count(void);
+
 #endif // OO_PHEROMONES_H

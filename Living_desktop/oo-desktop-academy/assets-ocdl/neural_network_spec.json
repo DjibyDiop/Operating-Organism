@@ -1,0 +1,19 @@
+{
+    "version": "1.1.0",
+    "theme": "Neural Network",
+    "biological_properties": {
+        "respiration_rate": 0.8,
+        "neural_connectivity": true
+    },
+    "layout_config": {
+        "engine": "AdaptiveGrid",
+        "fluidity": 0.4
+    },
+    "cells": [
+        {
+            "id": "root_node",
+            "type": "NeuralMembrane",
+            "flex": 1
+        }
+    ]
+}

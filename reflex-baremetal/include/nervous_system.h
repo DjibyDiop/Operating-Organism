@@ -32,6 +32,7 @@ typedef struct {
 
 void           reflex_watchdog_kick(void);
 void           reflex_thermal_check(uint32_t temp_celsius);
+void           reflex_trigger(uint8_t interrupt_vector);
 reflex_status_t reflex_get_status(void);
 
 #endif // OO_NERVOUS_SYSTEM_H

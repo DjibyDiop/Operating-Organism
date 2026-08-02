@@ -1,0 +1,14 @@
+[
+    {
+        "id": "CORE-ALPHA",
+        "vitality": 0.997,
+        "respiration": 0.2,
+        "glow": "[BRIGHT] [ 75 125 255]"
+    },
+    {
+        "id": "CORE-BETA",
+        "vitality": 0.9955,
+        "respiration": 0.3,
+        "glow": "[BRIGHT] [ 75 125 255]"
+    }
+]

@@ -14,8 +14,7 @@ name = "swarm_mind"
 path = "src/swarm_mind_main.rs"
 
 [dependencies]
-# Zéro dépendances externes pour la phase 1.
-# Le Bot doit survivre sans rien.
+sha2 = "0.10"
 
 [profile.release]
 opt-level = 3

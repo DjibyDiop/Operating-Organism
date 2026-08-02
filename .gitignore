@@ -132,10 +132,19 @@ oo-diop/
 oo-intelligence/
 document/
 colony-server/public/
+internal&external-project/
+oo-d+/
+*.wasm
+New Text Document.txt
+test_thermoregulator
+test_wasm.c
+check_deps.py
+count_lines.py
 **/gemini_key.txt
 **/*_key.txt
 **/*.pem
 **/*.key
 **/.env
 **/.env.*
+
 

@@ -1,0 +1,11 @@
+{
+    "nodes": 1000,
+    "classic": {
+        "total_memory_mb": 146.484375,
+        "effective_fps": 60
+    },
+    "organic": {
+        "total_memory_mb": 205.078125,
+        "effective_fps": 66.0
+    }
+}
