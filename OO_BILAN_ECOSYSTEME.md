@@ -91,5 +91,19 @@ Pour maintenir l'excellence technique et le principe **"Survival First"**, la su
 
 ---
 
+## V. Bilan d'Avancement : Cycle 5 (Couche 0 — Intégration Bare-Metal, Noyau & Crypto) [COMPLÉTÉ ✅]
+
+Au cours du **Cycle 5**, l'écosystème a complété sa boucle verticale intégrale **(6 couches : Couche 0 à Couche 5)** :
+1. **Couche 0 (`baremetal-bridge/`)** :
+   - **Sécurisation Cryptographique** : Émission et vérification de certificats de symbiose (`SymbiosisCertificate`) par signature FNV-1a et 256 bits, bloquant au niveau du bootloader tout code non certifié par le `Warden`.
+   - **Ordonnanceur Noyau Bare-Metal** : Module `KernelCellScheduler` et `KernelOrganTask` transformant les cellules D+ compilées en tâches système ordonnancées (`spawn_certified_task` -> `step_task`).
+   - **Couplage Homéostatique Matériel** : Le pont `HomeostaticHormoneBridge` relie la télémétrie matérielle physique (température CPU, charge immunitaire, entropie) directement à la circulation hormonale D+ (`Hormone::Cortisol`, `Adrenaline`, `Melatonin`, `Dopamine`), déclenchant les réflexes de thermorégulation.
+2. **Exemples & Vérification** :
+   - Ajout de `examples/07_baremetal_kernel_task.plus` et du binaire CLI `baremetal_heartbeat` illustrant en direct la thermorégulation d'un organe noyau certifié.
+   - Intégration du test `test_cycle5_baremetal_bridge_integration` dans la suite `dplus-tests`, portant à **7** le nombre de tests d'intégration verticale réussis.
+
+---
+
 *Ce bilan respecte scrupuleusement l'organisation, la propreté du dépôt principal et les contrats de propriété définis dans `CONTRIBUTING.md`.*
+
 
