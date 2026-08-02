@@ -104,16 +104,18 @@ Au cours du **Cycle 5**, l'écosystème a complété sa boucle verticale intégr
 
 ---
 
-## VI. Bilan d'Avancement : Transition vers l'Âge 2 (Bootstrapping D+) & l'Âge 3 (Runtime en D+) [EN COURS 🚀]
+## VI. Bilan d'Avancement : Transition vers l'Âge 2 (Bootstrapping), l'Âge 3 (Runtime D+) & l'Âge 4 (Noyau D+) [ACCOMPLI 🚀]
 
-Conformément à la feuille de route d'évolution des 5 Âges (`age.md`), après avoir achevé la boucle d'intégration verticale (Âge 1 — Le parasite / intégration en 6 couches), nous avons initié l'autonomie du langage :
-1. **Bibliothèque Standard D+ (`lib/std/*.plus`) — Début de l'Âge 3** :
-   - Réécriture des organes fondamentaux en véritable code D+ : `Blood` (`blood.plus`), `HormoneSystem` (`hormone.plus`), `Memory` (`memory.plus`) et `Scheduler` (`scheduler.plus`).
-2. **Bootstrapping du Compilateur D+ (`lib/boot/*.plus`) — Début de l'Âge 2** :
-   - Création des premiers organes d'analyse syntaxique en D+ : `Lexer` (`dpc_lexer.plus`) et `AstBuilder` (`dpc_ast.plus`).
-3. **Chargeur Universel (`StandardLibraryLoader`)** :
-   - Intégration dans le compilateur `dpc` d'un chargeur vérifiant l'intégrité de la bibliothèque standard.
-   - Ajout du test `test_age2_age3_standard_library_and_bootstrap_loader` validant la compilation propre des 6 organes standards en D+, portant notre suite à **8 tests d'intégration** réussis.
+Conformément à la feuille de route d'évolution des 5 Âges (`age.md`), après avoir achevé la boucle d'intégration verticale (Âge 1 — Le parasite / intégration en 6 couches), nous avons initié l'autonomie du langage et du système en créant **15 organes canoniques D+** :
+1. **Bibliothèque Standard D+ (`lib/std/*.plus`) — Âge 3** :
+   - Réécriture des organes fondamentaux en véritable code D+ : `Blood` (`blood.plus`), `HormoneSystem` (`hormone.plus`), `Memory` (`memory.plus`), `Scheduler` (`scheduler.plus`), `Heart` (`heart.plus`), `ImmuneSystem` (`immune.plus`), `GenomeSystem` (`genome.plus`) et `NeuralNetwork` (`network.plus`).
+2. **Noyau D+ (`lib/std/kernel/*.plus`) — Âge 4** :
+   - Modélisation des primitives matérielles en organes D+ : `InterruptController` (`interrupt.plus`, arc réflexe IRQ) et `MemoryManagementUnit` (`mmu.plus`, table des pages).
+3. **Bootstrapping du Compilateur & Boucle Cognitive (`lib/boot/*.plus`) — Âge 2 & Âge 5** :
+   - Création de la chaîne d'analyse et de compilation en D+ : `Lexer` (`dpc_lexer.plus`), `AstBuilder` (`dpc_ast.plus`), `Parser` (`dpc_parser.plus`), `BytecodeGenerator` (`dpc_codegen.plus`) et `OpiCognitiveLoop` (`dpc_opi_loop.plus`).
+4. **Chargeur Universel (`StandardLibraryLoader`) & Validation** :
+   - Intégration dans le compilateur `dpc` d'un chargeur vérifiant l'intégrité de la bibliothèque standard, du noyau et du bootstrap.
+   - Le test `test_age2_age3_standard_library_and_bootstrap_loader` valide la compilation propre des **15 organes canoniques en D+**, garantissant l'avancement progressif sans régression.
 
 ---
 
