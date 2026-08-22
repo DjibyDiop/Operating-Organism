@@ -12,7 +12,8 @@ C_SOURCES = \
     core/territory_map.c \
     instinct/threat_state.c \
     instinct/instinct_layer.c \
-    src/bot_baremetal_entry.c
+    src/bot_baremetal_entry.c \
+    oo_bridge/hermes_udp.c
 
 OBJ_DIR = build/obj
 C_OBJECTS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(C_SOURCES))
@@ -32,8 +33,9 @@ ifeq ($(OS),Windows_NT)
 >@if not exist build\obj\core mkdir build\obj\core
 >@if not exist build\obj\instinct mkdir build\obj\instinct
 >@if not exist build\obj\src mkdir build\obj\src
+>@if not exist build\obj\oo_bridge mkdir build\obj\oo_bridge
 else
->mkdir -p build/obj/core build/obj/instinct build/obj/src
+>mkdir -p build/obj/core build/obj/instinct build/obj/src build/obj/oo_bridge
 endif
 
 $(C_LIB): $(C_OBJECTS)
@@ -48,13 +50,25 @@ $(OBJ_DIR)/instinct/%.o: instinct/%.c | dirs
 
 $(OBJ_DIR)/src/%.o: src/%.c | dirs
 >$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/oo_bridge/%.o: oo_bridge/%.c | dirs
+>$(CC) $(CFLAGS) -c $< -o $@
 immune:
 >@echo "[Immune] Building SwarmMind + Watchers (Rust)..."
 >cd immune && $(CARGO) build --release
 >@echo "[Immune] Build complete"
 
-test: core
->$(CC) $(CFLAGS) tests/test_bot.c $(C_OBJECTS) ../united-baremetal/build/obj/united_bus.o -o build/test_bot.exe
+nbia:
+>@echo "[NBIA] Building D+ Reflex Engine (Rust)..."
+>cd ../OO-NBIA && $(CARGO) build --release
+>@echo "[NBIA] Build complete"
+
+bot: core nbia
+>$(CC) $(CFLAGS) $(C_OBJECTS) ../united-baremetal/build/obj/united_bus.o ../OO-NBIA/target/release/nbia.lib -lws2_32 -o build/bot.exe
+>@echo "[Bot] Baremetal Bot built: build/bot.exe"
+
+test: core nbia
+>$(CC) $(CFLAGS) tests/test_bot.c $(C_OBJECTS) ../united-baremetal/build/obj/united_bus.o ../OO-NBIA/target/release/nbia.lib -lws2_32 -o build/test_bot.exe
 >build/test_bot.exe
 
 clean:

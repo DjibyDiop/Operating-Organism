@@ -42,7 +42,7 @@ ORGANS := \
     internal-outils
 
 # Subsystems that are built separately
-CORTEX      := llm-baremetal
+CORTEX      := OPI-baremetal
 OPI_DIR     := OPI
 PLANES_DIR  := control-planes
 DRIVERS_DIR := drivers
@@ -74,7 +74,7 @@ test-all:
 	@$(MAKE) -C network-baremetal test CC=gcc
 	@$(MAKE) -C vital-baremetal test CC=gcc
 	@$(MAKE) -C kernel-baremetal test CC=gcc
-	@$(MAKE) -C llm-baremetal test CC=gcc
+	@$(MAKE) -C OPI-baremetal test CC=gcc
 	@$(MAKE) -C OPI test CC=gcc
 	@$(MAKE) -C sense-baremetal test CC=gcc
 	@$(MAKE) -C reflex-baremetal test CC=gcc

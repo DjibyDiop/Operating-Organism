@@ -23,7 +23,8 @@ typedef enum {
     ORGAN_TYPE_CORTEX = 0,   // LLM, Diop
     ORGAN_TYPE_IMMUNE = 1,   // Bot-Baremetal, Watchers
     ORGAN_TYPE_SENSORY = 2,  // Sense-Baremetal, Drivers
-    ORGAN_TYPE_VITAL = 3     // Kernel lui-même
+    ORGAN_TYPE_VITAL = 3,    // Kernel lui-même
+    ORGAN_TYPE_DBC = 4       // D+ Biological Runtime (dvm)
 } oo_organ_type_t;
 
 /// Structure d'un composant biologique (Process Control Block)

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include "../llm-baremetal/oo-modules/symbion-engine/core/symbion.h"
+#include "../OPI-baremetal/oo-modules/symbion-engine/core/symbion.h"
 
 /**
  * XHCI Driver — Modern USB 3.0 Host Controller

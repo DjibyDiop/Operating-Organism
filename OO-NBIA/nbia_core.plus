@@ -1,0 +1,54 @@
+@@ORGANISM_AWARENESS
+NAME "NBIA_LATENT_LAYER"
+MODE "OBSERVATION_ONLY"
+SOVEREIGNTY "METABOLIC_MEMORY"
+
+# 1. Variables du Real State (Ce que NBIA observe de OO)
+@@OBSERVE
+TRACK OPI.inference_status
+TRACK HERMES.mesh_traffic
+TRACK MEMORY.fragmentation_index
+TRACK WARDEN.denial_rate
+TRACK SYSTEM.uptime
+
+# 2. Pulsation et Intégration
+@@PULSE 1000ms
+# À chaque battement (1 seconde), NBIA intègre les observations
+# et met à jour son SHADOW_STATE interne.
+INTEGRATE_STATE
+
+# 3. Événements Négatifs (Ce qui ne s'est pas produit)
+@@EXPECTATION "HEARTBEAT_RHYTHM"
+# NBIA s'attend à un pouls régulier d'OPI sur le réseau Hermes
+EXPECT OPI.heartbeat EVERY 500ms
+ON ABSENCE(OPI.heartbeat):
+    MARK "OPI_ISOLATION_DRIFT"
+
+# 4. Règles Temporelles et Émergence
+@@EMERGENCE "ENTROPY_DRIFT"
+# NBIA observe une tendance à l'entropie
+REMEMBER 60s
+CONDITION:
+    ASSERT TENDENCY(MEMORY.fragmentation_index) == INCREASING
+    ASSERT TENDENCY(HERMES.mesh_traffic) == ERRATIC
+    ASSERT ABSENCE(OPI.heartbeat) > 3s
+DETECT:
+    ΔOO = MEASURE_DRIFT()
+    IF ΔOO > 0.7:
+        MARK "ORGANISM_INSTABILITY"
+
+@@EMERGENCE "SPLIT_BRAIN_LATENCY"
+# Règle temporelle : l'isolement continu mène à un changement de phase
+CONDITION:
+    ASSERT MARKED("OPI_ISOLATION_DRIFT") FOR 10s
+DETECT:
+    EMIT SIGNAL ORGANISM.SPLIT_BRAIN_WARNING
+
+@@EMERGENCE "COGNITIVE_STALL"
+# OPI semble actif mais ne produit plus de résultats d'inférence
+CONDITION:
+    ASSERT TENDENCY(OPI.inference_status) == STALLED FOR 30s
+    ASSERT TENDENCY(HERMES.mesh_traffic) == NORMAL
+DETECT:
+    MARK "SILENT_CORTEX"
+    EMIT SIGNAL ORGANISM.COGNITIVE_ANOMALY

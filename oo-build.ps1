@@ -186,7 +186,7 @@ if (-not $Organ) {
     Log ""
     Log "-- Phase 2: Cortex (llm-baremetal) ------------------" "Yellow"
     $llm_path = Join-Path $ROOT "llm-baremetal"
-    $efi = Join-Path $llm_path "llama2.efi"
+    $efi = Join-Path (Join-Path $llm_path "llama_engines") "llama2.efi"
     if (Test-Path $efi) {
         $sz = (Get-Item $efi).Length / 1KB
         Pass "llm-baremetal cortex artifact ($([math]::Round($sz,1)) KB)"

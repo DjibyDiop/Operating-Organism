@@ -1,0 +1,17 @@
+[package]
+name = "oo-nbia"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "nbia"
+crate-type = ["staticlib"]
+
+[dependencies]
+osg-memory-warden = { path = "../OPI-baremetal/oo-dplus" }
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"

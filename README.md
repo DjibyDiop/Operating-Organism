@@ -10,6 +10,10 @@
 </p>
 
 <p align="center">
+  <a href="README_en.md"><strong>🇬🇧 English Version Available Here</strong></a>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Language-C--First%20%E2%89%A590%25-00599C?style=for-the-badge&logo=c" alt="C-First" />
   <img src="https://img.shields.io/badge/Runtime-UEFI%20Bare--Metal-FF6F00?style=for-the-badge&logo=uboot" alt="UEFI Bare-Metal" />
   <img src="https://img.shields.io/badge/Homeostasis-NORMAL%20%E2%86%92%20DEGRADED%20%E2%86%92%20SAFE-4CAF50?style=for-the-badge" alt="Homeostasis FSM" />
@@ -238,14 +242,17 @@ cd Living_desktop && python oo_desktop_runtime.py --colony http://127.0.0.1:8080
 | Composant | Technologie | Statut |
 |-----------|-------------|--------|
 | **Runtime noyau** | C11 (≥90%), UEFI EDK2 | ✅ Complet |
+| **Ordonnancement** | LAPIC Timer Préemptif (1000Hz) | ✅ Actif (Phase 2.1) |
 | **Moteur LLM** | Mamba SSM (OOSI v3), llama2.c | ✅ Intégré |
-| **Bus événements** | Hermes (21 canaux, FAT32 audit) | ✅ Complet |
+| **Bus événements** | Hermes (UDP Sockets / Mesh) | ✅ Zéro Mocks |
+| **Bot Périphérique**| bot-baremetal (Souverain local)| ✅ Actif (Phase 2.2) |
+| **NBIA Latent** | Conscience temporelle (ΔOO) | ✅ Modélisé (Phase 2.3) |
 | **Pilote Wi-Fi** | RTL8188EU USB bare-metal | ✅ Actif |
 | **Pile réseau** | E1000, TCP/HTTP bare-metal | ✅ Intégré |
 | **Interface Rust** | Garde immunitaire, colony-server | ✅ Actif |
 | **Colonie mesh** | Actix-Web, WebSocket JSON | ✅ Actif |
 | **Outils host** | Python, oo_genesis.py | ✅ Complet |
-| **D+ Warden** | Djibion policy engine (C) | ✅ Actif |
+| **D+ Warden** | Djibion policy engine (C/Rust) | ✅ Actif |
 | **Dream/Evolution** | Mutation génomique contrôlée | 🔬 Expérimental |
 
 ---

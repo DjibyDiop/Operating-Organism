@@ -1,6 +1,14 @@
 #include "../include/oo_scheduler.h"
 #include "../../united-baremetal/include/united_bus.h"
+#include "living_runtime.h"
+#include "../include/compiled_organs.h"
+#include "thanatosion.h"
+#include "opi_cortex.h"
 #include <stddef.h>
+
+// Région partagée persistante (aether_shm.bin) — mappée par le bootloader
+extern uint8_t  aether_shm_region[]; // 1 MB persistent shared memory
+extern uint32_t aether_shm_size;
 
 #define MAX_ORGANS 16
 
@@ -23,6 +31,28 @@ void oo_scheduler_init(void) {
         organ_pool[i].task_id = 0; // 0 means unused
     }
     oo_print("[Kernel] Tronc Cerebral (Brainstem) initialized. State: RELAXED\n");
+    
+    // Auto-Hébergement Âge 7 : Chargement du compilateur symbiotique dans la DVM
+    living_runtime_init();
+    living_runtime_load_dbc(dpc_lexer_dbc, dpc_lexer_dbc_len);
+    living_runtime_load_dbc(dpc_parser_dbc, dpc_parser_dbc_len);
+    living_runtime_load_dbc(dpc_codegen_dbc, dpc_codegen_dbc_len);
+    oo_print("[Kernel] Symbiotic Compiler (Age 7) loaded in DVM successfully.\n");
+
+    // THANATOSION — Restauration de la Mémoire Transgénérationnelle
+    uint32_t restored_state = (uint32_t)OO_STATE_RELAXED;
+    int generation = thanatosion_load(aether_shm_region, aether_shm_size, &restored_state);
+    if (generation > 0) {
+        current_state = (oo_homeostasis_state_t)restored_state;
+        oo_print("[Thanatosion] Memoire transgenerationnelle restauree. Generation: ");
+        // generation is boot_count, we just log it
+        oo_print(" OK\n");
+    } else {
+        oo_print("[Thanatosion] Premiere naissance — aucun souvenir precedent.\n");
+    }
+
+    // MIRRORION: Auto-diagnostic initial
+    opi_cortex_diagnose_organism();
 }
 
 void oo_scheduler_register_organ(oo_organ_type_t type, void (*entry_point)(void)) {
@@ -71,12 +101,14 @@ void oo_scheduler_set_state(oo_homeostasis_state_t new_state) {
                 // Adrenaline rush: All power to the immune system. Cortex is suppressed.
                 if (curr->type == ORGAN_TYPE_CORTEX) curr->current_cpu_share = 5; // Minimal thought
                 if (curr->type == ORGAN_TYPE_IMMUNE) curr->current_cpu_share = 90;
+                opi_cortex_diagnose_organism(); // Demander un diagnostic stratégique
                 break;
                 
             case OO_STATE_SURVIVAL:
                 // Coma state: Shut down cortex to save power/regenerate.
                 if (curr->type == ORGAN_TYPE_CORTEX) curr->is_sleeping = 1;
                 if (curr->type == ORGAN_TYPE_IMMUNE) curr->current_cpu_share = 95;
+                opi_cortex_diagnose_organism(); // Ultime appel à l'aide du Cortex
                 break;
         }
         curr = curr->next;
@@ -124,7 +156,7 @@ void oo_scheduler_heartbeat(void) {
             }
         }
     }
-    // Rythme Circadien : Alternance Jour/Nuit automatique
+    // Rythme Circadien : Alternance Jour/Nuit automatique + Sauvegarde Thanatosion
     circadian_clock++;
     if (circadian_clock % CYCLE_DURATION == 0) {
         if (current_state == OO_STATE_RELAXED) {
@@ -136,6 +168,9 @@ void oo_scheduler_heartbeat(void) {
             body_hormones.melatonin = 200; // Endormissement
             body_hormones.adrenaline = 0;
         }
+        // Sauvegarde de la mémoire biologique à chaque cycle circadien
+        thanatosion_save(aether_shm_region, aether_shm_size, (uint32_t)current_state);
+        oo_print("[Thanatosion] Memoire biologique sauvegardee (cycle circadien).\n");
     }
 
     // Modulation Hormonale des priorités
@@ -150,12 +185,21 @@ void oo_scheduler_heartbeat(void) {
         temp = temp->next;
     }
 
+    // Mock Hardware Telemetry (Thermal Panic detection)
+    if (circadian_clock % 50000 == 0 && circadian_clock != 0) {
+        oo_print("[Kernel] Hardware Telemetry: THERMAL PANIC (85 C) detected!\n");
+        living_runtime_inject_sib(0x04, 85); // 0x04 = SIB_THERMAL_PANIC
+    }
+
     // Battement de cœur : Exécution coopérative (Cyclic Executive)
     // Le noyau réel exécute les organes alloués en temps CPU.
     oo_organ_task_t* curr = head_organ;
     while (curr != NULL) {
         if (!curr->is_sleeping && curr->current_cpu_share > 0) {
-            if (curr->entry_point) {
+            if (curr->type == ORGAN_TYPE_DBC) {
+                // Execute DVM Bytecode instead of static C entry point
+                living_runtime_step();
+            } else if (curr->entry_point) {
                 // Exécution réelle de la tranche de temps de l'organe
                 // (Modèle coopératif : l'organe doit rendre la main de lui-même)
                 curr->entry_point();

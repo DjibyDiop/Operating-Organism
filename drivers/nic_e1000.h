@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include "../llm-baremetal/oo-modules/symbion-engine/core/symbion.h"
+#include "../OPI-baremetal/oo-modules/symbion-engine/core/symbion.h"
 
 /**
  * NIC E1000 Driver — High Speed Bare-Metal Network

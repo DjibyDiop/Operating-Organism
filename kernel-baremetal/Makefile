@@ -1,16 +1,28 @@
 CC ?= gcc
-CFLAGS ?= -std=c11 -Wall -Wextra -Iinclude
+CFLAGS ?= -std=c11 -Wall -Wextra -Iinclude -I../oo-d+/Core -I../llm-baremetal/oo-crypto/core
 .RECIPEPREFIX := >
 
 SRC := $(wildcard src/*.c)
+# Include crypto library for the Warden
+SRC += ../llm-baremetal/oo-crypto/core/oo_crypto.c
+
 OBJ_DIR := build/obj
-OBJ := $(patsubst src/%.c,$(OBJ_DIR)/%.o,$(SRC))
+# Fix obj mapping for files not in src/ (flattening objects)
+OBJ := $(patsubst src/%.c,$(OBJ_DIR)/%.o,$(filter src/%,$(SRC)))
+OBJ += $(OBJ_DIR)/oo_crypto.o
+OBJ += $(OBJ_DIR)/thanatosion.o
 
 .PHONY: all build test clean
 
 all build: $(OBJ)
 
 $(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
+>$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/oo_crypto.o: ../llm-baremetal/oo-crypto/core/oo_crypto.c | $(OBJ_DIR)
+>$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/thanatosion.o: ../oo-d+/Core/thanatosion.c | $(OBJ_DIR)
 >$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR):

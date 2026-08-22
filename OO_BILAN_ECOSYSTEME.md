@@ -4,13 +4,29 @@
 
 ---
 
-## I. Vue d'Ensemble & Changement de Paradigme (Le Mode Vertical)
+## I. Vue d'Ensemble & Changement de Paradigme (Les 4 Piliers Fondamentaux)
 
-L'architecture d'**Operating Organism** est passée d'une construction horizontale d'outils isolés à un **écosystème symbiotique cohérent**, structuré comme l'évolution biologique :
+L'architecture d'**Operating Organism (OO)** s'articule désormais autour de **4 Piliers Fondamentaux indissociables** :
 
 ```
-Univers  ──►  OPI (Cerveau)  ──►  OO (Organisme)  ──►  D+ (ADN/Langage)  ──►  DPlus (Civilisation)  ──►  Applications
+╔═══════════════════════════════════════════════════════════════════════════════════════════════╗
+║                            LES 4 PILIERS FONDAMENTAUX D'OO                                    ║
+║                                                                                               ║
+║   ┌─────────────┐       ┌─────────────┐       ┌─────────────────┐       ┌─────────────────┐   ║
+║   │   1. D+     │ ◄───► │   2. OPI    │ ◄───► │ 3. CONSTITUTION │ ◄───► │4. LLM-BAREMETAL │   ║
+║   │ (Génome &   │       │  (Cerveau   │       │ (Lois & Droits  │       │(Substrat Corps  │   ║
+║   │ Langage)    │       │ Cognitif)   │       │ Biologiques)    │       │ 64-bit UEFI)    │   ║
+║   └─────────────┘       └─────────────┘       └─────────────────┘       └─────────────────┘   ║
+╚═══════════════════════════════════════════════════════════════════════════════════════════════╝
 ```
+
+### Description des 4 Piliers :
+1. **Pilier 1 : D+** (`oo-d+/`) — Le Génome biologique, la chaîne de compilation `dpc` et la machine virtuelle `dvm` exécutant le bytecode ré-incarnable.
+2. **Pilier 2 : OPI** (`OPI/`) — Le Cerveau cognitif doté de la mémoire synaptique long-terme (LTM), du graphe de concepts et du superviseur immunitaire.
+3. **Pilier 3 : Constitution** (`oo-constitution/`) — Les Lois Fondamentales, la déclaration des droits biologiques, le tribunal constitutionnel et la régulation homéostatique.
+4. **Pilier 4 : LLM-Baremetal** (`llm-baremetal/`) — Le Substrat physique matériel 64-bit UEFI (`llama2.efi`), le moteur d'inférence embarqué, l'ordonnanceur bas-niveau et la batterie des 12 moteurs cellulaires.
+
+---
 
 ### Synthèse des Cycles Verticaux Réalisés (D+ / OPI / Civilisation)
 1. **Cycle 1 (Fondations & ADN)** :
