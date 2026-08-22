@@ -18,16 +18,16 @@ The OO organism operates on 7 interconnected layers:
 │ Layer 5: Meta (control-planes, homeostasis FSM)             │
 │   └─ Coordination, state aggregation, health checks         │
 ├─────────────────────────────────────────────────────────────┤
-│ Layer 4: Evolution (oo-dplus, evolution-baremetal)          │
+│ Layer 4: Evolution (oo-constitution, evolution-baremetal)          │
 │   └─ Agent adaptation, genetic algorithms, fitness eval     │
 ├─────────────────────────────────────────────────────────────┤
 │ Layer 3: Simulation (oo-sim, oo-lab, oo-model)              │
 │   └─ Testing, validation, offline learning                  │
 ├─────────────────────────────────────────────────────────────┤
-│ Layer 2: Execution (oo-host, oo-dplus runtime)              │
+│ Layer 2: Execution (oo-host, oo-constitution runtime)              │
 │   └─ Orchestration, dispatch, FFI boundaries                │
 ├─────────────────────────────────────────────────────────────┤
-│ Layer 1: Cognitive Core (llm-baremetal)                     │
+│ Layer 1: Cognitive Core (OPI-baremetal)                     │
 │   └─ Language models, reasoning, decision-making            │
 ├─────────────────────────────────────────────────────────────┤
 │ Layer 0: VITAL CHAIN (must never fail)                      │
@@ -78,7 +78,7 @@ Phase 6 (Cognitive - Integrated):
 
 Phase 7 (Collective):
   swarm-baremetal       ← identity-baremetal, network-baremetal
-  llm-baremetal         ← swarm-baremetal, shadow-baremetal
+  OPI-baremetal         ← swarm-baremetal, shadow-baremetal
 ```
 
 ### FFI Boundaries
@@ -88,7 +88,7 @@ Phase 7 (Collective):
 | C ↔ C | All organs | `#include` + globule protocol | ✅ Native |
 | Rust ↔ C | native_desktop ↔ yama_core | `extern "C"` + unsafe wrapper | ✅ Safe |
 | Python ↔ C | bot-baremetal tools | ctypes bridge | ✅ Indirect |
-| CLI ↔ Organism | oo-host, oo-dplus | Command dispatch + JSON | ✅ Validated |
+| CLI ↔ Organism | oo-host, oo-constitution | Command dispatch + JSON | ✅ Validated |
 
 ---
 
@@ -158,7 +158,7 @@ if (globule_receive(ORGAN_B, &msg)) {
 ### Direct #include Dependencies
 
 ```
-llm-baremetal
+OPI-baremetal
   ├─ #include "oo_swarm.h"         (swarm-baremetal)
   └─ #include "oo_shadow.h"        (shadow-baremetal)
       ├─ #include "oo_evolution.h" (evolution-baremetal)

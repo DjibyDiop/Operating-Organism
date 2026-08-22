@@ -15,11 +15,11 @@ Scope:
 
 Modules:
 
-- Core: `kernel-baremetal`, `united-baremetal`, `memory-baremetal`, `reflex-baremetal`, `vital-baremetal`, `identity-baremetal`, `network-baremetal`, `vocal-baremetal`, `llm-baremetal`.
+- Core: `kernel-baremetal`, `united-baremetal`, `memory-baremetal`, `reflex-baremetal`, `vital-baremetal`, `identity-baremetal`, `network-baremetal`, `vocal-baremetal`, `OPI-baremetal`.
 - Optional: `sense-baremetal`, `proprioception-baremetal`, `regen-baremetal`, `shadow-baremetal`.
 - Experimental: `dream-baremetal`, `evolution-baremetal`, `swarm-baremetal`, `bot-baremetal` until merged into a clear `IntegrityGuard` contract or removed.
 - Support/optional: `oo-host`, `oo-system`, `oo-sim`, `oo-model`, `control-planes`, `yamaoo`.
-- Support/experimental: `oo-lab`, `oo-dplus`.
+- Support/experimental: `oo-lab`, `oo-constitution`.
 - Archive/reference: `llm.c`, `llama2.c`, duplicate worktrees, historical forks unless explicitly promoted.
 
 Acceptance criteria:
@@ -35,7 +35,7 @@ Goal: prove the smallest survival-first organism.
 
 Minimal Viable OO must:
 
-1. Boot UEFI into `llm-baremetal` or the runtime shell.
+1. Boot UEFI into `OPI-baremetal` or the runtime shell.
 2. Initialize core organs deterministically.
 3. Circulate typed events through `united-baremetal`.
 4. Enforce `NORMAL`, `DEGRADED`, `SAFE`, and `RECOVERY` through `vital-baremetal`.
@@ -66,8 +66,8 @@ Goal: make the project reproducible enough to maintain for 20+ years.
 Scope:
 
 - Root `Makefile` produces organ objects and `liboo-all.a`.
-- `llm-baremetal/Makefile` consumes the unified archive.
-- Image creation is documented through `llm-baremetal/tools/scripts/make-boot-img.sh`.
+- `OPI-baremetal/Makefile` consumes the unified archive.
+- Image creation is documented through `OPI-baremetal/tools/scripts/make-boot-img.sh`.
 - A future release orchestrator may wrap image creation, but it must not hide the source dependency graph.
 - Release artifacts include checksums and provenance.
 
@@ -76,7 +76,7 @@ Target commands:
 ```powershell
 pwsh ./oo-build.ps1 -SkipQemu
 pwsh ./tools/scripts/smoke_baremetal.ps1 -FailOnMissing -FailOnStrictMissing
-wsl -e bash ./llm-baremetal/tools/scripts/make-boot-img.sh
+wsl -e bash ./OPI-baremetal/tools/scripts/make-boot-img.sh
 ```
 
 Acceptance criteria:

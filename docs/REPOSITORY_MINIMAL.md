@@ -110,7 +110,7 @@ Operating-Organism/
 │   │   └── threat_detection.c
 │   └── Makefile
 │
-├── llm-baremetal/
+├── OPI-baremetal/
 │   ├── include/
 │   │   └── oo_llm.h
 │   ├── src/
@@ -216,7 +216,7 @@ cleanup_archive_*/               (transitional, can be gitignored)
 | File | Purpose | Condition |
 |------|---------|-----------|
 | `oo-sim/`, `oo-lab/`, `oo-model/` | Simulation lanes | Only if actively maintained |
-| `oo-dplus/` | Evolution plane | Only if phase 3+ |
+| `oo-constitution/` | Evolution plane | Only if phase 3+ |
 | `oo-system/` | System integration | Only if demonstrated value |
 | `bounty-helix/` | AI tools | Move to `tools/` or remove |
 
@@ -231,7 +231,7 @@ cleanup_archive_*/               (transitional, can be gitignored)
 | Old HTML/CSS files | DELETE | Obsolete web UI |
 | `.junie/plans/` | MOVE to `docs/ROADMAP_DETAIL.md` or ARCHIVE | Consolidate docs |
 | `Operating-Organism/` (git submodule) | DELETE | Dead fork |
-| `llm-baremetal-github`, `llm-baremetal-public` | DELETE | Duplicate repos |
+| `OPI-baremetal-github`, `OPI-baremetal-public` | DELETE | Duplicate repos |
 
 ---
 
@@ -313,7 +313,7 @@ mkdir -p archive/2026-06/dead-code/
 mv yamaoo/frontend/* archive/2026-06/dead-code/
 mv yamaoo/app/* archive/2026-06/dead-code/
 mv yamaoo/backend/* archive/2026-06/dead-code/
-rm -rf faceApp/ llm-baremetal-github/ Operating-Organism/
+rm -rf faceApp/ OPI-baremetal-github/ Operating-Organism/
 
 git add -A
 git commit -m "chore: archive obsolete code (frontend, app, backend)"

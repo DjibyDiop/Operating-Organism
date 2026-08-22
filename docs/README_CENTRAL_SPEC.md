@@ -59,9 +59,9 @@ Required table columns:
 
 Mandatory components to list:
 
-- `llm-baremetal`
+- `OPI-baremetal`
 - `oo-host`
-- `oo-dplus`
+- `oo-constitution`
 - `oo-sim`
 - `oo-lab`
 - `oo-model`
@@ -69,7 +69,7 @@ Mandatory components to list:
 
 Optional section:
 
-- external/forked references (`llm.c`, `llama2.c`, `llm-baremetal-github`) as "reference zones".
+- external/forked references (`llm.c`, `llama2.c`, `OPI-baremetal-github`) as "reference zones".
 
 ## 5) Survival/Homeostasis First
 
@@ -110,7 +110,7 @@ Commands must point to existing scripts only (no new required tooling).
 Reference anchors:
 
 - `oo-system/README.md`
-- `llm-baremetal/README.md`
+- `OPI-baremetal/README.md`
 
 ## 8) Operator Run Path
 
@@ -134,8 +134,8 @@ Required:
 
 Reference anchors:
 
-- `llm-baremetal/docs/SECURITY.md`
-- policy notes in `llm-baremetal/README.md`
+- `OPI-baremetal/docs/SECURITY.md`
+- policy notes in `OPI-baremetal/README.md`
 
 ## 10) Documentation Index
 
@@ -159,7 +159,7 @@ Reference anchors:
 
 - `oo-system/ROADMAP.md`
 - `oo-model/ROADMAP.md`
-- `oo-dplus/ROADMAP.md`
+- `oo-constitution/ROADMAP.md`
 
 ## 12) Contribution Boundaries
 

@@ -170,7 +170,7 @@ Target operator commands:
 ```powershell
 pwsh ./oo-build.ps1 -SkipQemu
 pwsh ./tools/scripts/smoke_baremetal.ps1 -FailOnMissing -FailOnStrictMissing
-wsl -e bash ./llm-baremetal/tools/scripts/make-boot-img.sh
+wsl -e bash ./OPI-baremetal/tools/scripts/make-boot-img.sh
 ```
 
 The image helper is the current release/image command. It must be wrapped or extended before Phase 2 is complete so release artifacts always include checksums and provenance.
@@ -182,9 +182,9 @@ root Makefile
   -> organ Makefiles
   -> organ build/*.o
   -> liboo-all.a
-  -> llm-baremetal/Makefile
+  -> OPI-baremetal/Makefile
   -> llama2.efi / KERNEL.EFI
-  -> llm-baremetal/tools/scripts/make-boot-img.sh
+  -> OPI-baremetal/tools/scripts/make-boot-img.sh
   -> boot image + checksums
 ```
 

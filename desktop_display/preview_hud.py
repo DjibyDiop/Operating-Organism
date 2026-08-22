@@ -1109,16 +1109,16 @@ class SomaHUD:
         sw=self.sw(); st=self.state; hs=pygame.Surface((sw,42),pygame.SRCALPHA); hs.fill((*GLASS_BG,130)); surf.blit(hs,(0,0)); pygame.draw.line(surf,CYAN_DIM,(0,41),(sw,41),1); self.tc(surf,sw//2,8,"STREAM OF CONSCIOUSNESS",CYAN,20); self.tc(surf,sw//2,30,"- INFERENCE ACTIVE",CYAN_DIM,9); self.t(surf,16,8,"v0.3-alpha",CYAN_DIM,9); self.t(surf,16,20,"SOMA-CORE",CYAN_DIM,9); tc=f"TICK:{self.tick:06d}"; self.t(surf,sw-self.f9.size(tc)[0]-14,8,tc,CYAN_DIM,9); self.t(surf,sw-80,20,"60Hz",CYAN_DIM,9)
 
     def _render_watermarks(self, surf):
-        """Gros filigranes: LLM-BAREMETAL en haut gauche, OO en bas droite."""
+        """Gros filigranes: OPI-baremetal en haut gauche, OO en bas droite."""
         sw, sh = surf.get_size()
 
-        # ── LLM-BAREMETAL (haut gauche, semi-transparent) ─────────────────────
+        # ── OPI-baremetal (haut gauche, semi-transparent) ─────────────────────
         try:
             wf_big = pygame.font.SysFont("Courier New", 52, bold=True)
         except Exception:
             wf_big = self.f28
 
-        text_llm = "LLM-BAREMETAL"
+        text_llm = "OPI-baremetal"
         r_llm = wf_big.render(text_llm, True, CYAN)
         ws_llm = pygame.Surface(r_llm.get_size(), pygame.SRCALPHA)
         ws_llm.blit(r_llm, (0, 0))
@@ -1372,7 +1372,7 @@ class SomaHUD:
                 self.render_header(surf)
                 self.render_glitch(surf)
                 self.render_scanlines(surf)
-                # ── Gros filigranes OO + LLM-BAREMETAL ───────────────────────
+                # ── Gros filigranes OO + OPI-baremetal ───────────────────────
                 self._render_watermarks(surf)
 
             

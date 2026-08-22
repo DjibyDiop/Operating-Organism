@@ -1,7 +1,7 @@
 #include "../include/bio_mem.h"
 #include "../../united-baremetal/include/united_bus.h"
 
-extern void oo_print(const char *msg); /* Fourni par vital-baremetal/llm-baremetal */
+extern void oo_print(const char *msg); /* Fourni par vital-baremetal/OPI-baremetal */
 
 // Variables d'état de l'allocateur
 static uint64_t mem_base = 0;

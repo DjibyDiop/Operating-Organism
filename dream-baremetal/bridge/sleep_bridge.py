@@ -4,7 +4,7 @@ from pathlib import Path
 import sys
 
 # Ajout du path pour importer DIOP (Cortex)
-sys.path.append(str(Path(__file__).parent.parent.parent / "llm-baremetal"))
+sys.path.append(str(Path(__file__).parent.parent.parent / "OPI-baremetal"))
 from diop.evolution.sleep_learning.engine import SleepLearningEngine
 
 class DreamDaemonBridge:

@@ -1,54 +1,46 @@
-@@ORGANISM_AWARENESS
-NAME "NBIA_LATENT_LAYER"
-MODE "OBSERVATION_ONLY"
-SOVEREIGNTY "METABOLIC_MEMORY"
+organ nbia {
 
-# 1. Variables du Real State (Ce que NBIA observe de OO)
-@@OBSERVE
-TRACK OPI.inference_status
-TRACK HERMES.mesh_traffic
-TRACK MEMORY.fragmentation_index
-TRACK WARDEN.denial_rate
-TRACK SYSTEM.uptime
+    // 1. Déclaration de l'état interne
+    state shadow : State
+    state real   : State
+    state drift  : Float = 0.0
 
-# 2. Pulsation et Intégration
-@@PULSE 1000ms
-# À chaque battement (1 seconde), NBIA intègre les observations
-# et met à jour son SHADOW_STATE interne.
-INTEGRATE_STATE
+    // 2. Canaux de perception (Lecture seule depuis la télémetrie de l'organisme)
+    perceive OPI.heartbeat
+    perceive OPI.inference_status
+    perceive Hermes.mesh_traffic
+    perceive Memory.fragmentation_index
 
-# 3. Événements Négatifs (Ce qui ne s'est pas produit)
-@@EXPECTATION "HEARTBEAT_RHYTHM"
-# NBIA s'attend à un pouls régulier d'OPI sur le réseau Hermes
-EXPECT OPI.heartbeat EVERY 500ms
-ON ABSENCE(OPI.heartbeat):
-    MARK "OPI_ISOLATION_DRIFT"
+    // 3. Mémoire temporelle
+    remember 60s {
+        history(Memory.fragmentation_index)
+        history(Hermes.mesh_traffic)
+    }
 
-# 4. Règles Temporelles et Émergence
-@@EMERGENCE "ENTROPY_DRIFT"
-# NBIA observe une tendance à l'entropie
-REMEMBER 60s
-CONDITION:
-    ASSERT TENDENCY(MEMORY.fragmentation_index) == INCREASING
-    ASSERT TENDENCY(HERMES.mesh_traffic) == ERRATIC
-    ASSERT ABSENCE(OPI.heartbeat) > 3s
-DETECT:
-    ΔOO = MEASURE_DRIFT()
-    IF ΔOO > 0.7:
-        MARK "ORGANISM_INSTABILITY"
+    // 4. Métabolisme (Intégration régulière)
+    every 1s {
+        shadow.integrate(real)
+        drift = distance(shadow, real)
 
-@@EMERGENCE "SPLIT_BRAIN_LATENCY"
-# Règle temporelle : l'isolement continu mène à un changement de phase
-CONDITION:
-    ASSERT MARKED("OPI_ISOLATION_DRIFT") FOR 10s
-DETECT:
-    EMIT SIGNAL ORGANISM.SPLIT_BRAIN_WARNING
+        if drift > 0.7 {
+            emit OrganismDrift(drift)
+        }
+    }
 
-@@EMERGENCE "COGNITIVE_STALL"
-# OPI semble actif mais ne produit plus de résultats d'inférence
-CONDITION:
-    ASSERT TENDENCY(OPI.inference_status) == STALLED FOR 30s
-    ASSERT TENDENCY(HERMES.mesh_traffic) == NORMAL
-DETECT:
-    MARK "SILENT_CORTEX"
-    EMIT SIGNAL ORGANISM.COGNITIVE_ANOMALY
+    // 5. Phénomènes Négatifs (Absence)
+    when absence(OPI.heartbeat) for 3s {
+        emit OrganismWarning("OPI_ISOLATION")
+    }
+
+    // 6. Émergence (Corrélations temporelles complexes)
+    derive instability {
+        from Memory.fragmentation_index, Hermes.mesh_traffic, OPI.inference_status
+        
+        if tendency(Memory.fragmentation_index) == INCREASING 
+           and tendency(Hermes.mesh_traffic) == ERRATIC 
+           and tendency(OPI.inference_status) == STALLED {
+            
+            emit OrganismEmergency("COGNITIVE_AND_MEMORY_STALL")
+        }
+    }
+}

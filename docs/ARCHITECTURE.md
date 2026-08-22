@@ -8,7 +8,7 @@ OO is a survival-first operating organism. It is not a desktop OS, not a cloud p
 
 The system is built around:
 
-- A sovereign bare-metal runtime: `llm-baremetal` plus the minimal vital organs.
+- A sovereign bare-metal runtime: `OPI-baremetal` plus the minimal vital organs.
 - A host-side twin: `oo-host`, yamaoo, lab tooling, simulation, replay, and administration.
 - Persistent memory and auditability: journals, state snapshots, invariants, and reproducible artifacts.
 - Governed autonomy: explicit policy gates, bounded control planes, reversible actions, and documented ownership.
@@ -25,7 +25,7 @@ graph TD
     REF[reflex-baremetal] --> VITAL[vital-baremetal]
     ID[identity-baremetal] --> BUS
     NET[network-baremetal or vocal-baremetal] --> BUS
-    CTX[llm-baremetal cortex] --> BUS
+    CTX[OPI-baremetal cortex] --> BUS
     BUS --> VITAL
     VITAL --> TEL[telemetry path]
   end
@@ -47,7 +47,7 @@ graph TD
 
 Core runtime repositories or directories:
 
-- `llm-baremetal`: UEFI runtime and cortex lane.
+- `OPI-baremetal`: UEFI runtime and cortex lane.
 - `kernel-baremetal`: execution and scheduler boundary.
 - `united-baremetal`: typed event circulation.
 - `memory-baremetal`: working and persistent memory continuity.
@@ -62,7 +62,7 @@ Support lanes:
 - `yamaoo`: optional interface for visualization, replay, and administration.
 - `oo-sim`, `oo-lab`: simulation, experiments, failure injection.
 - `oo-model`: offline model governance, data, and validation.
-- `oo-dplus`: language and policy experimentation, not a survival dependency until proven.
+- `oo-constitution`: language and policy experimentation, not a survival dependency until proven.
 - `oo-system`: integration contracts and cross-lane specifications.
 
 Repository tiers:
@@ -78,7 +78,7 @@ Repository tiers:
 
 | Path | Tier | Reason |
 |---|---|---|
-| `llm-baremetal` | `core` | Sovereign runtime and cortex lane; must degrade without breaking vitals |
+| `OPI-baremetal` | `core` | Sovereign runtime and cortex lane; must degrade without breaking vitals |
 | `kernel-baremetal` | `core` | Execution and scheduling boundary |
 | `united-baremetal` | `core` | Typed event circulation |
 | `memory-baremetal` | `core` | Journal and state continuity |
@@ -101,7 +101,7 @@ Repository tiers:
 | `oo-sim` | `optional` | Simulation and fault injection lane |
 | `oo-lab` | `experimental` | Prototype and incubation lane |
 | `oo-model` | `optional` | Offline model governance and export tooling |
-| `oo-dplus` | `experimental` | Language/policy experiment until promoted by reproducible gates |
+| `oo-constitution` | `experimental` | Language/policy experiment until promoted by reproducible gates |
 | `control-planes` | `optional` | Control-plane contracts and indexes, not a boot dependency |
 | `llm.c`, `llama2.c` | `archive` | Upstream/reference zones unless explicitly vendored by contract |
 
@@ -117,7 +117,7 @@ pwsh ./tools/scripts/smoke_baremetal.ps1 -FailOnMissing -FailOnStrictMissing
 Release/image creation currently uses the existing image helper from WSL:
 
 ```powershell
-wsl -e bash ./llm-baremetal/tools/scripts/make-boot-img.sh
+wsl -e bash ./OPI-baremetal/tools/scripts/make-boot-img.sh
 ```
 
 Target doctrine:
@@ -125,19 +125,19 @@ Target doctrine:
 - Build: one command validates the core build path.
 - Test: one command validates the structural and runtime smoke path.
 - Release: one command produces the boot image plus provenance/checksum artifacts.
-- Current release helper: `llm-baremetal/tools/scripts/make-boot-img.sh`.
+- Current release helper: `OPI-baremetal/tools/scripts/make-boot-img.sh`.
 - Missing hardening: a checksum/provenance wrapper around image creation.
 
 Target graph:
 
 ```text
-organ sources -> organ objects -> liboo-all.a -> llm-baremetal cortex -> EFI/image -> smoke/release artifact
+organ sources -> organ objects -> liboo-all.a -> OPI-baremetal cortex -> EFI/image -> smoke/release artifact
 ```
 
 Rules:
 
 - The root `Makefile` owns the freestanding organ archive contract.
-- `llm-baremetal/Makefile` consumes `liboo-all.a` rather than hidden worktrees.
+- `OPI-baremetal/Makefile` consumes `liboo-all.a` rather than hidden worktrees.
 - `oo-build.ps1` is the operator validation front door on Windows.
 - A future release orchestrator may wrap image creation, but must not hide required source dependencies.
 - Release artifacts must include checksums and enough provenance to reproduce the image.
@@ -165,7 +165,7 @@ Every surviving organ must expose:
 | `identity-baremetal` | `core` | Identity owner | hardware/hash inputs | identity/DNA hash | self identity is stable | deny high-risk actions |
 | `network-baremetal` | `core` | Telemetry owner | packets/events | telemetry frames | telemetry must not block survival | fallback to `vocal-baremetal`/UART |
 | `vocal-baremetal` | `core` | Operator communication owner | vital status | UART/report output | diagnostic path remains simple | reduced text telemetry |
-| `llm-baremetal` | `core` | Cortex owner | context, memory, events | thoughts/plans | cortex may degrade without killing vital chain | offline cortex, survival continues |
+| `OPI-baremetal` | `core` | Cortex owner | context, memory, events | thoughts/plans | cortex may degrade without killing vital chain | offline cortex, survival continues |
 | `sense-baremetal` | `optional` | Ingest owner | external inputs | normalized observations | bad input cannot touch vital path | disable input route |
 | `proprioception-baremetal` | `optional` | Body-awareness owner | stack/heap posture | posture alerts | posture checks stay bounded | warning, then degraded mode |
 | `regen-baremetal` | `optional` | Repair owner | snapshots, faults | repair actions | repair must be reversible | disable repair, keep snapshot |

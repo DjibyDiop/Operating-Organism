@@ -58,7 +58,7 @@ Manifest expects 4 separate headers + 5 implementations.
 
 **Decision:** Confirm if consolidation was intentional; update manifest accordingly.
 
-### 6. llm-baremetal: Complex Subsystem, Not Simple Module
+### 6. OPI-baremetal: Complex Subsystem, Not Simple Module
 Manifest shows `oo_llm.h` / `oo_llm.c`.  
 **Reality:** Entire OS-G subsystem with:
 - 20+ source files
@@ -88,7 +88,7 @@ Manifest shows `oo_llm.h` / `oo_llm.c`.
 | shadow-baremetal | ❌ Name mismatch | `anti_forensics.c` | COMPLETE |
 | identity-baremetal | ❌ Name mismatch | `self_recognition.c` | COMPLETE |
 | swarm-baremetal | ❌ Name mismatch | `collective.c` | COMPLETE |
-| llm-baremetal | ❌ Facade mismatch | OS-G subsystem | SUBSYSTEM |
+| OPI-baremetal | ❌ Facade mismatch | OS-G subsystem | SUBSYSTEM |
 
 ## Next Actions
 
@@ -107,5 +107,5 @@ Manifest shows `oo_llm.h` / `oo_llm.c`.
 **Phase 3C (Documentation):**
 1. [ ] Add note to ARCHITECTURE.md: "Manifest lists biological filenames"
 2. [ ] Document why organs expanded beyond manifest baseline
-3. [ ] Clarify llm-baremetal as OS-G subsystem (not just cortex module)
+3. [ ] Clarify OPI-baremetal as OS-G subsystem (not just cortex module)
 

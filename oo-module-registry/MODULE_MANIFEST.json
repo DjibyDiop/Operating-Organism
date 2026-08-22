@@ -406,7 +406,7 @@
     },
     {
       "id": 15,
-      "name": "llm-baremetal",
+      "name": "OPI-baremetal",
       "type": "cognitive",
       "role": "Core language model, reasoning, decision-making (OS-G subsystem)",
       "status": "complete",
@@ -426,8 +426,8 @@
         "llm_forward",
         "llm_tokenize"
       ],
-      "buildDir": "llm-baremetal/build",
-      "includes": "llm-baremetal/include",
+      "buildDir": "OPI-baremetal/build",
+      "includes": "OPI-baremetal/include",
       "notes": "OS-G (Operating System Genesis) - contains boot integration, inference, logging, sentinel systems. Far exceeds 90% C baseline due to complexity."
     },
     {
@@ -450,15 +450,15 @@
         "thermoregulator_mod_tick",
         "thermoregulator_mod_handle"
       ],
-      "buildDir": "llm-baremetal/oo-modules/thermoregulator-engine",
-      "includes": "llm-baremetal/oo-modules/thermoregulator-engine/core"
+      "buildDir": "OPI-baremetal/oo-modules/thermoregulator-engine",
+      "includes": "OPI-baremetal/oo-modules/thermoregulator-engine/core"
     }
   ],
   "layerStack": [
     {
       "layer": "Cognitive Core",
       "organs": [
-        "llm-baremetal"
+        "OPI-baremetal"
       ],
       "description": "High-level reasoning, language models, planning"
     },
@@ -466,7 +466,7 @@
       "layer": "Execution",
       "organs": [
         "oo-host",
-        "oo-dplus",
+        "oo-constitution",
         "oo-system"
       ],
       "description": "Runtime orchestration, dispatch, FFI boundaries"
@@ -482,7 +482,7 @@
     {
       "layer": "Evolution",
       "organs": [
-        "oo-dplus",
+        "oo-constitution",
         "evolution-baremetal"
       ],
       "description": "Agent adaptation, genetic algorithms"

@@ -2,7 +2,7 @@
 
 ## Rôle Biologique
 Le `kernel-baremetal` est le **Tronc Cérébral** de l'Operating Organism. 
-Là où `llm-baremetal` est le Cortex (qui "pense") et `bot-baremetal` est le Système Immunitaire (qui "protège"), le Kernel est responsable de l'**homéostasie**.
+Là où `OPI-baremetal` est le Cortex (qui "pense") et `bot-baremetal` est le Système Immunitaire (qui "protège"), le Kernel est responsable de l'**homéostasie**.
 
 Il gère les fonctions vitales inconscientes :
 - **Rythme cardiaque** : Le Timer système et l'ordonnancement (Scheduler).

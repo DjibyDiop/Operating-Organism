@@ -58,9 +58,9 @@ an intelligent organism that can sit under or next to existing systems, and that
 
 At the time of writing, the repo already contains several important building blocks.
 
-### 3.1 Bare metal sovereign: `llm-baremetal`
+### 3.1 Bare metal sovereign: `OPI-baremetal`
 
-The `llm-baremetal` directory contains the UEFI firmware side, focused around a large C translation unit:
+The `OPI-baremetal` directory contains the UEFI firmware side, focused around a large C translation unit:
 
 - `llama2_efi_final.c`:
   - UEFI entry point (`efi_main`).

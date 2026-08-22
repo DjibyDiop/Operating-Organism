@@ -57,9 +57,9 @@ This file formalizes the three simultaneous control modes for OO:
 
 ## Existing Anchors
 
-- `llm-baremetal` for sovereign local loops.
+- `OPI-baremetal` for sovereign local loops.
 - `oo-sim` and `oo-lab` for local behavior experimentation.
-- `oo-dplus` for policy gates used by autonomous actions.
+- `oo-constitution` for policy gates used by autonomous actions.
 
 ## 3) Hybrid Reflex/Safety Plane
 
@@ -85,8 +85,8 @@ This file formalizes the three simultaneous control modes for OO:
 
 ## Existing Anchors
 
-- `llm-baremetal` for close-to-metal reflex paths.
-- `oo-dplus` for hard policy enforcement and safety constraints.
+- `OPI-baremetal` for close-to-metal reflex paths.
+- `oo-constitution` for hard policy enforcement and safety constraints.
 
 ## 4) Plane Priority Rules
 
@@ -113,7 +113,7 @@ Under unstable conditions:
 When planes disagree:
 
 - Rule 1: Survival invariants win.
-- Rule 2: Hard policy (`oo-dplus`) wins over optimization.
+- Rule 2: Hard policy (`oo-constitution`) wins over optimization.
 - Rule 3: Strategic goal wins only if invariants remain green.
 - Rule 4: If uncertainty is high, choose reversible action.
 

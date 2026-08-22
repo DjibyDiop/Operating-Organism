@@ -8,7 +8,7 @@ name = "nbia"
 crate-type = ["staticlib"]
 
 [dependencies]
-osg-memory-warden = { path = "../OPI-baremetal/oo-dplus" }
+osg-memory-warden = { path = "../OPI-baremetal/oo-constitution" }
 
 [profile.dev]
 panic = "abort"

@@ -24,4 +24,4 @@ Puisque nous sommes actuellement en UEFI mais que le but est de s'en affranchir,
 
 ## Intégration au Soma
 
-Ces drivers sont conçus pour remplacer progressivement les appels `uefi_call_wrapper(BS->...)` dans `llm-baremetal`. 
+Ces drivers sont conçus pour remplacer progressivement les appels `uefi_call_wrapper(BS->...)` dans `OPI-baremetal`. 
