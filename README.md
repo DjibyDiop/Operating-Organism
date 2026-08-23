@@ -85,14 +85,14 @@ OO est structuré comme un réseau nerveux et cellulaire où chaque composant es
 
 | # | Couche | Analogie Biologique | Rôle Technique | Module |
 |---|--------|---------------------|----------------|--------|
-| **1** | **Cortex** | Cerveau & raisonnement | LLM bare-metal + REPL souverain (Mamba SSM) | `llm-baremetal` |
+| **1** | **Cortex** | Cerveau & raisonnement | LLM bare-metal + REPL souverain (Mamba SSM) | `OPI-baremetal` |
 | **2** | **Kernel** | Régulation neuronale | Ordonnancement, interruptions, politique | `kernel-baremetal` |
 | **3** | **Hermes Bus** | Système circulatoire | Transport d'événements typés (21 canaux) | `united-baremetal` |
 | **4** | **Memory** | Hippocampe & cortex | Mémoire de travail, persistance FAT32 | `memory-baremetal` |
 | **5** | **Reflexes** | Moelle épinière | Homéostasie FSM, D+ Warden, sécurité | `reflex-baremetal` |
 | **6** | **Senses** | Organes sensoriels | Réseau E1000, Wi-Fi RTL8188EU, inputs | `network-baremetal` / `sense-baremetal` |
 | **7** | **Identity** | ADN & épigenèse | Djibion policy, signatures, continuité | `identity-baremetal` |
-| **8** | **Evolution** | Mutation adaptative | OO-Genesis, D+ compilation, auto-extension | `evolution-baremetal` / `oo-dplus` |
+| **8** | **Evolution** | Mutation adaptative | OO-Genesis, D+ compilation, auto-extension | `evolution-baremetal` / `oo-constitution` |
 
 ---
 
@@ -200,7 +200,7 @@ pwsh ./tools/scripts/smoke_baremetal.ps1 -FailOnMissing -FailOnStrictMissing
 pwsh ./oo-build.ps1 -SkipQemu
 
 # 3. Créer l'image boot
-wsl -e bash ./llm-baremetal/tools/scripts/make-boot-img.sh
+wsl -e bash ./OPI-baremetal/tools/scripts/make-boot-img.sh
 ```
 
 ### OO-Shell (Démonstrateur Web)
@@ -282,7 +282,7 @@ Règle #4  Souverain
 
 ```
 baremetal/
-├── llm-baremetal/          # Cortex LLM + REPL bare-metal
+├── OPI-baremetal/          # Cortex LLM + REPL bare-metal
 │   ├── engine/llama2/      # soma_repl.c — REPL souverain principal
 │   ├── oo-modules/         # Organes générés via OO-Genesis
 │   ├── oo-bus/hermes/      # Bus événements 21 canaux
@@ -354,3 +354,4 @@ baremetal/
   <img src="https://img.shields.io/badge/Powered%20by-Bare--Metal%20Sovereignty-FF6F00?style=flat-square" alt="Bare-metal" />
   <img src="https://img.shields.io/badge/Mascot-Vitra%20🧬-9C27B0?style=flat-square" alt="Vitra" />
 </p>
+# oo-desktop
