@@ -1,11 +1,20 @@
 # Build & Run (prototype)
 
+
 Rust example (requires Rust toolchain):
 
 ```powershell
 cd oo-desktop\oo-vision-core
 cargo build --examples
 cargo run --example host
+```
+
+To build the optional GPU-backed backend (requires system GPU drivers and may take longer):
+
+```powershell
+cd oo-desktop\oo-vision-core
+cargo build --features wgpu --examples
+cargo run --features wgpu --example host
 ```
 
 Notes

@@ -1,4 +1,5 @@
 [package]
+
 name = "oo_vision_core"
 version = "0.1.0"
 edition = "2021"
@@ -8,4 +9,16 @@ description = "OO Vision Core - minimal renderer trait and stubs for oo-desktop"
 name = "oo_vision_core"
 path = "src/lib.rs"
 
+[features]
+# Enable a GPU-backed backend using `wgpu` and `pollster`.
+wgpu = ["wgpu", "pollster"]
+
 [dependencies]
+
+[dependencies.wgpu]
+version = "0.15"
+optional = true
+
+[dependencies.pollster]
+version = "0.2"
+optional = true
