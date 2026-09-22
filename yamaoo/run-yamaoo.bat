@@ -22,15 +22,15 @@ echo  [ORGANISME OPÉRATIONNEL] — Éveil en cours...
 echo  ────────────────────────────────────────────────────────
 echo.
 
-:: ─── Phase 0 : DIOP Cognitive Gateway (llm-baremetal) ──────────────────────
+:: ─── Phase 0 : DIOP Cognitive Gateway (OPI-baremetal) ──────────────────────
 echo  [0/4] Démarrage du DIOP Gateway (Gateway Cognitif Souverain)...
-set DIOP_DIR=%~dp0..\llm-baremetal
+set DIOP_DIR=%~dp0..\OPI-baremetal
 if exist "%DIOP_DIR%" (
     cd /d "%DIOP_DIR%"
     start "DIOP-GATEWAY" cmd /k "python -m diop gateway serve --adapter mock"
     echo       ✓ DIOP Gateway en cours d'éveil sur :11434
 ) else (
-    echo       ⚠  llm-baremetal non trouvé. DIOP Gateway indisponible.
+    echo       ⚠  OPI-baremetal non trouvé. DIOP Gateway indisponible.
 )
 timeout /t 2 /nobreak > nul
 

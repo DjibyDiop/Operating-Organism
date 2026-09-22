@@ -17,7 +17,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 $REPO_ROOT  = Split-Path $PSScriptRoot -Parent
-$EFI_SOURCE = Join-Path $REPO_ROOT "llm-baremetal\llama2.efi"
+$EFI_SOURCE = Join-Path $REPO_ROOT "OPI-baremetal\llama2.efi"
 
 if (-not (Test-Path $EFI_SOURCE)) {
     Write-Host "[ERROR] llama2.efi not found. Run 'make' first." -ForegroundColor Red; exit 1

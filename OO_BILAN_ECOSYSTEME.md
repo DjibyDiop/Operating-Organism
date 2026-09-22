@@ -13,7 +13,7 @@ L'architecture d'**Operating Organism (OO)** s'articule désormais autour de **4
 ║                            LES 4 PILIERS FONDAMENTAUX D'OO                                    ║
 ║                                                                                               ║
 ║   ┌─────────────┐       ┌─────────────┐       ┌─────────────────┐       ┌─────────────────┐   ║
-║   │   1. D+     │ ◄───► │   2. OPI    │ ◄───► │ 3. CONSTITUTION │ ◄───► │4. LLM-BAREMETAL │   ║
+║   │   1. D+     │ ◄───► │   2. OPI    │ ◄───► │ 3. CONSTITUTION │ ◄───► │4. OPI-baremetal │   ║
 ║   │ (Génome &   │       │  (Cerveau   │       │ (Lois & Droits  │       │(Substrat Corps  │   ║
 ║   │ Langage)    │       │ Cognitif)   │       │ Biologiques)    │       │ 64-bit UEFI)    │   ║
 ║   └─────────────┘       └─────────────┘       └─────────────────┘       └─────────────────┘   ║
@@ -24,7 +24,7 @@ L'architecture d'**Operating Organism (OO)** s'articule désormais autour de **4
 1. **Pilier 1 : D+** (`oo-d+/`) — Le Génome biologique, la chaîne de compilation `dpc` et la machine virtuelle `dvm` exécutant le bytecode ré-incarnable.
 2. **Pilier 2 : OPI** (`OPI/`) — Le Cerveau cognitif doté de la mémoire synaptique long-terme (LTM), du graphe de concepts et du superviseur immunitaire.
 3. **Pilier 3 : Constitution** (`oo-constitution/`) — Les Lois Fondamentales, la déclaration des droits biologiques, le tribunal constitutionnel et la régulation homéostatique.
-4. **Pilier 4 : LLM-Baremetal** (`llm-baremetal/`) — Le Substrat physique matériel 64-bit UEFI (`llama2.efi`), le moteur d'inférence embarqué, l'ordonnanceur bas-niveau et la batterie des 12 moteurs cellulaires.
+4. **Pilier 4 : OPI-baremetal** (`OPI-baremetal/`) — Le Substrat physique matériel 64-bit UEFI (`llama2.efi`), le moteur d'inférence embarqué, l'ordonnanceur bas-niveau et la batterie des 12 moteurs cellulaires.
 
 ---
 
@@ -49,7 +49,7 @@ L'architecture d'**Operating Organism (OO)** s'articule désormais autour de **4
 |---|---|---|---|
 | `oo-d+/` | **Langage Vivant (Layer 3 & 4)** : Compilateur `dpc`, VM `dvm`, bibliothèque standard `std-bio`, et garde immunitaire `civilisation`. | **Opérationnel (100%)** : Suite de 5 tests E2E passée avec succès. Pushé sur le dépôt distant `oo-d-`. | Intégrer la compilation native/JIT vers cible Bare-Metal (`x86_64` / `aarch64`) et enrichir la bibliothèque endocrine (`Melatonin`, `Insulin`). |
 | `OPI/` | **Cerveau Cognitif (Layer 1)** : Mémoire Sémantique Long-Terme (LTM), Graphe de Concepts, génération d'archétypes et moteurs d'intentions. | **Opérationnel (Stable)** : Connecté en boucle bidirectionnelle avec `dpc`. | Renforcer la persistance du graphe synaptique sur disque journalisé et optimiser les requêtes LTM en temps réel. |
-| `oo-dplus/` | **Spécifications Legacy DPlus** : Dépôt historique / submodule de référence pour l'architecture DPlus. | **Référence Stable** : Modèle initial conservé comme documentation canonique. | Maintenir en lecture seule comme référence historique et contrat de compatibilité. |
+| `oo-constitution/` | **Spécifications Legacy DPlus** : Dépôt historique / submodule de référence pour l'architecture DPlus. | **Référence Stable** : Modèle initial conservé comme documentation canonique. | Maintenir en lecture seule comme référence historique et contrat de compatibilité. |
 | `oo-creatrix/`, `oo-intent/`, `oo-intelligence/` | **Écosystème d'Intention & Génération** : Modules d'expression de la volonté de l'organisme et de créativité computationnelle. | **Structure Présente** : Squelette architectural prêt pour le couplage. | Brancher `oo-intent` directement sur la boucle cognitive d'OPI (Cycle 4). |
 
 ---
@@ -66,7 +66,7 @@ L'architecture d'**Operating Organism (OO)** s'articule désormais autour de **4
 | `reflex-baremetal/` | **Survival Owner** : Latence réflexe ultra-courte, préemption immédiate en cas de danger critique. | **Fonctionnel** : Circuit court prioritaire testé. | Configurer un réflexe automatique d'inhibition en cas de Tempête de Cytokines détectée. |
 | `identity-baremetal/` | **Identity Owner** : Identité cryptographique stable, ancres de confiance, hachage. | **Stable** : Structures de validation d'intégrité prêtes. | Signer cryptographiquement chaque organe admis par le `Warden` de la Civilisation DPlus. |
 | `network-baremetal/` & `vocal-baremetal/` | **Telemetry Owner** : Communication non-bloquante, fallback réseau (ex: WiFi fallback). | **Fonctionnel** : Fallback WiFi intégré récemment (`708588fd`). | Exposer un port d'écoute télémétrique pour le jumeau hôte (`oo-host`). |
-| `llm-baremetal/` | **Cortex Owner** : Moteur d'inférence LLM bare-metal, dégradation gracieuse, politique de garde. | **Stable** : Scripts de build (`make-boot-img.sh`) et exécution embarquée actifs. | Connecter l'inférence locale au générateur d'archétypes d'OPI. |
+| `OPI-baremetal/` | **Cortex Owner** : Moteur d'inférence LLM bare-metal, dégradation gracieuse, politique de garde. | **Stable** : Scripts de build (`make-boot-img.sh`) et exécution embarquée actifs. | Connecter l'inférence locale au générateur d'archétypes d'OPI. |
 
 ---
 

@@ -115,3 +115,35 @@ void proprioception_check_posture(void) {
 int proprioception_is_balanced(void) {
     return g_posture_balanced;
 }
+
+void proprioception_get_state(proprioception_state_t* state) {
+    if (!state) return;
+
+    /* 1) Read Stack Pointer */
+    uint64_t sp = 0;
+#if defined(__x86_64__) || defined(_M_X64)
+    __asm__ volatile ("mov %%rsp, %0" : "=r"(sp));
+#else
+    sp = heap_base; // Fallback
+#endif
+    state->stack_position = sp;
+
+    /* 2) Read Memory Bounds */
+    state->heap_base = heap_base;
+    state->heap_limit = heap_limit;
+
+    /* 3) Read TSC */
+    uint64_t tsc = 0;
+#if defined(__x86_64__) || defined(_M_X64)
+    uint32_t lo, hi;
+    __asm__ volatile ("rdtsc" : "=a"(lo), "=d"(hi));
+    tsc = ((uint64_t)hi << 32) | lo;
+#endif
+    state->tsc_elapsed = tsc;
+
+    /* 4) Check Integrity */
+    state->integrity_ok = 1;
+    if (stack_canary_addr && *stack_canary_addr != stack_canary_value) {
+        state->integrity_ok = 0;
+    }
+}

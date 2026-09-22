@@ -1,0 +1,12 @@
+#ifndef THREAT_LEVELS_H
+#define THREAT_LEVELS_H
+
+typedef enum {
+    THREAT_LEVEL_NOMINAL     = 0,
+    THREAT_LEVEL_ELEVATED    = 1,
+    THREAT_LEVEL_CRITICAL    = 2,
+    THREAT_LEVEL_SPLIT_BRAIN = 3,
+    THREAT_LEVEL_LOCKDOWN    = 4
+} ThreatLevel;
+
+#endif // THREAT_LEVELS_H

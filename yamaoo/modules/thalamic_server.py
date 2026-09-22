@@ -58,7 +58,7 @@ def load_thalamic_bloom(model_path: str):
         # Essayer d'importer le module Mamba si disponible dans le projet OO
         try:
             sys.path.insert(0, os.path.join(os.path.dirname(__file__),
-                '..', 'llm-baremetal', 'engine', 'ssm'))
+                '..', 'OPI-baremetal', 'engine', 'ssm'))
             from thalamic_bloom import ThalamiBloomModel
             model = ThalamiBloomModel.from_pretrained(model_path)
             model.eval()
@@ -194,7 +194,7 @@ def main():
                         help='Port du serveur (défaut: 8082)')
     parser.add_argument('--model', type=str,
                         default=os.path.join(os.path.dirname(__file__),
-                            '..', 'llm-baremetal', 'thalamic-bloom',
+                            '..', 'OPI-baremetal', 'thalamic-bloom',
                             'thalamic_bloom_150m_oo.pth'),
                         help='Chemin vers le .pth Thalamic Bloom')
     args = parser.parse_args()

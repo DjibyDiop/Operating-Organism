@@ -35,6 +35,10 @@ endif
 test: build
 >$(CC) $(CFLAGS) -Iinclude -I../united-baremetal/include tests/test_kernel.c $(OBJ) ../united-baremetal/build/obj/united_bus.o -o build/test_kernel.exe
 >build/test_kernel.exe
+>$(CC) $(CFLAGS) -Iinclude tests/test_smp.c src/oo_smp.c -o build/test_smp.exe
+>build/test_smp.exe
+>$(CC) $(CFLAGS) -Iinclude tests/test_recovery.c src/oo_recovery.c src/oo_scheduler.c src/oo_maintenance.c src/oo_smp.c ../oo-d+/Core/thanatosion.c -I../united-baremetal/include ../united-baremetal/build/obj/united_bus.o -o build/test_recovery.exe
+>build/test_recovery.exe
 
 clean:
 ifeq ($(OS),Windows_NT)

@@ -23,7 +23,7 @@ Every subsystem must have an owner role. A person or team may fill multiple role
 | `vital-baremetal` | Homeostasis owner | mode transitions, invariants, recovery |
 | `identity-baremetal` | Identity owner | stable identity, hashes, trust anchors |
 | `network-baremetal` / `vocal-baremetal` | Telemetry owner | non-blocking communication, fallback paths |
-| `llm-baremetal` | Cortex owner | graceful degradation, policy gates |
+| `OPI-baremetal` | Cortex owner | graceful degradation, policy gates |
 | `oo-host` / `yamaoo` | Host twin owner | optional observability, replay, administration |
 | `oo-sim` / `oo-lab` | Lab owner | fault injection, reproducible experiments |
 | `oo-model` | Model governance owner | provenance, validation, offline reproducibility |
@@ -45,7 +45,7 @@ pwsh ./tools/scripts/smoke_baremetal.ps1 -FailOnMissing -FailOnStrictMissing
 For release/image changes:
 
 ```powershell
-wsl -e bash ./llm-baremetal/tools/scripts/make-boot-img.sh
+wsl -e bash ./OPI-baremetal/tools/scripts/make-boot-img.sh
 ```
 
 For host/yamaoo changes:

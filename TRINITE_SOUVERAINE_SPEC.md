@@ -9,7 +9,7 @@ L'architecture souveraine repose sur une **trinité indissociable** où chaque d
 
 ```mermaid
 graph TD
-    subgraph CORPS ["1. LE CORPS — OO (llm-baremetal)"]
+    subgraph CORPS ["1. LE CORPS — OO (OPI-baremetal)"]
         UEFI["UEFI Bare-Metal Kernel"]
         MEM["Zones Mémoire (Zone-W/K/A/C/S)"]
         MAMBA["Mamba SSM Inference Engine"]
@@ -42,7 +42,7 @@ graph TD
 
 ## 2. Rôle des Trois Piliers
 
-### A. `OO` / `llm-baremetal` (Le Corps — Exécution Bare-Metal & Inférence)
+### A. `OO` / `OPI-baremetal` (Le Corps — Exécution Bare-Metal & Inférence)
 - **Rôle principal** : Système d'exploitation et moteur d'inférence autonome fonctionnant sans OS conventionnel (boot direct UEFI).
 - **Moteur neuronal** : Inférence **Mamba SSM** avec empreinte mémoire O(1) en longueur de séquence, optimisée par `DjibLAS` (AVX2/AVX512/SSE2).
 - **Physiologie** : 19 organes coordonnés (Djibion, Evolvion, Conscience, Immunion, Thanatosion, etc.) avec contrôle éthique permanent via le portail **D+**.
@@ -100,7 +100,7 @@ sequenceDiagram
 | :--- | :---: | :---: | :--- |
 | **`libuex`** | **100% Validé** | **6 / 6 Piliers** (`test_uex.exe`) | Intégration d'un pont IPC partagé (`shm_open`) pour multi-binaires. |
 | **`OPI`** | **100% Validé** | **21 / 21 Tests** + Symbiose | Connexion du *Semantic Bus* d'OPI à l'Event Bus de `libuex`. |
-| **`OO` / `llm-baremetal`** | **100% Validé** | **13/13 Mamba** + **9/10 Phase W** (61 concepts) | Déploiement d'une démo d'orchestration tripartite hôte/baremetal. |
+| **`OO` / `OPI-baremetal`** | **100% Validé** | **13/13 Mamba** + **9/10 Phase W** (61 concepts) | Déploiement d'une démo d'orchestration tripartite hôte/baremetal. |
 
 ---
 

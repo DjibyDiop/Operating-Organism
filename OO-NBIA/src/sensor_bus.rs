@@ -25,3 +25,52 @@ pub trait SensorBus {
     /// Scan all connected sensors for their current states.
     fn scan_all(&self) -> [Option<FactualReading>; 8];
 }
+
+/// Static embedded sensor bus holding physical telemetry without dynamic allocation.
+#[derive(Debug, Clone, Copy)]
+pub struct StaticSensorBus {
+    readings: [Option<FactualReading>; 8],
+}
+
+impl Default for StaticSensorBus {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl StaticSensorBus {
+    pub const fn new() -> Self {
+        Self {
+            readings: [None; 8],
+        }
+    }
+
+    pub fn update(&mut self, sensor: SensorType, value: f32, timestamp: u64, verified: bool) {
+        let idx = match sensor {
+            SensorType::Temperature => 0,
+            SensorType::PresenceRadar => 1,
+            SensorType::BiometricStress => 2,
+        };
+        self.readings[idx] = Some(FactualReading {
+            sensor,
+            value,
+            timestamp,
+            verified,
+        });
+    }
+}
+
+impl SensorBus for StaticSensorBus {
+    fn read_sensor(&self, sensor_type: SensorType) -> Option<FactualReading> {
+        let idx = match sensor_type {
+            SensorType::Temperature => 0,
+            SensorType::PresenceRadar => 1,
+            SensorType::BiometricStress => 2,
+        };
+        self.readings[idx]
+    }
+
+    fn scan_all(&self) -> [Option<FactualReading>; 8] {
+        self.readings
+    }
+}

@@ -3,7 +3,7 @@ param (
     [string]$DriveLetter
 )
 
-$targetPath = "C:\Users\djibi\OneDrive\Bureau\baremetal\llm-baremetal\llama2.efi"
+$targetPath = "C:\Users\djibi\OneDrive\Bureau\baremetal\OPI-baremetal\llama2.efi"
 
 if (-Not (Test-Path "$($DriveLetter):\")) {
     Write-Host "Erreur: Le lecteur $($DriveLetter):\ n'existe pas." -ForegroundColor Red

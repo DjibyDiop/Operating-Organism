@@ -18,7 +18,7 @@ graph TB
     end
 
     subgraph SYSTEME_COGNITIF ["2. SYSTÈMES COGNITIFS & ADAPTATIFS"]
-        LLM["llm-baremetal<br/>(Cortex Mamba SSM / Thalamic Bloom)"]
+        LLM["OPI-baremetal<br/>(Cortex Mamba SSM / Thalamic Bloom)"]
         OPI["OPI (Organic Philosophical Intelligence)<br/>(13 Districts Cognitifs)"]
         DREAM["dream-baremetal<br/>(Sommeil & Consolidation WAL)"]
         EVOLUTION["evolution-baremetal & regen-baremetal<br/>(Reproduction & Mutation Génomique)"]
@@ -26,7 +26,7 @@ graph TB
     end
 
     subgraph SYSTEME_IMMUNITAIRE ["3. SÉCURITÉ, IDENTITÉ & POLITIQUE D+"]
-        DPLUS["oo-dplus<br/>(Portail de Politique Souveraine D+)"]
+        DPLUS["oo-constitution<br/>(Portail de Politique Souveraine D+)"]
         IDENTITY["identity-baremetal<br/>(Empreinte Matérielle & TPM / DNA Hash)"]
         BOT["bot-baremetal & shadow-baremetal<br/>(Système Immunitaire / Anti-Forensic)"]
     end
@@ -62,12 +62,12 @@ graph TB
 | **`united-baremetal`** | **Système Cardiovasculaire & Sang** | Bus IPC Ring et transport de globules (`RED`=données, `WHITE`=immunité, `YELLOW`=énergie). | Validé |
 | **`network-baremetal`** | **Système Respiratoire** | Régulation de la pression de calcul et respiration réseau (`ThroughputBreathingEngine`). | Validé |
 | **`memory-baremetal`** | **Mémoire Core & Système Rénal** | Gestionnaire mémoire `bio_alloc`, ramasse-miettes (GC) et élagage des déchets. | Validé |
-| **`llm-baremetal`** | **Cortex Cérébral** | Moteur d'inférence **Mamba SSM** bare-metal à mémoire $O(1)$, optimisé par `DjibLAS`. | Validé (13/13 + Phase W) |
+| **`OPI-baremetal`** | **Cortex Cérébral** | Moteur d'inférence **Mamba SSM** bare-metal à mémoire $O(1)$, optimisé par `DjibLAS`. | Validé (13/13 + Phase W) |
 | **`OPI`** | **Cerveau Cognitif & Philosophique** | 13 districts cognitifs, routage d'intention, *Cognitive Virtual Machine* (`CVM`). | Validé (21/21 tests) |
 | **`dream-baremetal`** | **Système de Sommeil & Récupération** | Consolidation des souvenirs en tâche de fond (Idle-Time Learning), compactage WAL. | Validé |
 | **`evolution-baremetal`** | **Système Reproducteur & Génomique** | Auto-évolution régulée, mutation génomique `SomaDNA` soumise aux règles D+. | Validé |
 | **`vital-baremetal`** | **Système Endocrinien** | Signalisation de modes par hormones, seuils adaptatifs de charge. | Validé |
-| **`oo-dplus`** | **Système Hépatique & Filtrage Éthique** | Portail souverain **D+** appliquant les 5 Lois Organiques aux requêtes computationnelles. | Validé |
+| **`oo-constitution`** | **Système Hépatique & Filtrage Éthique** | Portail souverain **D+** appliquant les 5 Lois Organiques aux requêtes computationnelles. | Validé |
 | **`identity-baremetal`** | **ADN & Auto-Reconnaissance** | Empreinte cryptographique FNV-1a / SHA-256 du génome (`OO_DNA.bin`) et TPM. | Validé |
 | **`bot-baremetal` & `shadow-baremetal`** | **Système Immunitaire & Peau** | Détection d'anomalies, quarantaine automatique, défense anti-forensique. | Validé |
 | **`sense-baremetal` & `proprioception-baremetal`** | **Organes Sensoriels & Proprioception** | Ingestion multi-modale, surveillance de l'intégrité de pile/tas (*stack/heap posture*). | Validé |

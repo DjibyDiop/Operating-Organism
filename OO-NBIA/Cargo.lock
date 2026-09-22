@@ -5,10 +5,3 @@ version = 3
 [[package]]
 name = "oo-nbia"
 version = "0.1.0"
-dependencies = [
- "osg-memory-warden",
-]
-
-[[package]]
-name = "osg-memory-warden"
-version = "0.1.0"

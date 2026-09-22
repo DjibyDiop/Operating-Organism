@@ -70,8 +70,8 @@ function Do-Status {
     }
 
     LOG ""
-    LOG "── Cortex (llm-baremetal) ─────────────────────────────" Yellow
-    $efi = "$ROOT\llm-baremetal\llama2.efi"
+    LOG "── Cortex (OPI-baremetal) ─────────────────────────────" Yellow
+    $efi = "$ROOT\OPI-baremetal\llama2.efi"
     if (Test-Path $efi) {
         $sz = [math]::Round((Get-Item $efi).Length / 1KB, 1)
         OK "llama2.efi [$sz KB]"
@@ -106,7 +106,7 @@ function Do-Status {
 
     LOG ""
     LOG "── Weak Stubs ─────────────────────────────────────────" Yellow
-    $stubs = "$ROOT\llm-baremetal\core\llmk_stubs.c"
+    $stubs = "$ROOT\OPI-baremetal\core\llmk_stubs.c"
     if (Test-Path $stubs) {
         $weakCount = (Get-Content $stubs | Select-String "__attribute__\(\(weak\)\)").Count
         OK "llmk_stubs.c: $weakCount weak functions (ready for organ override)"

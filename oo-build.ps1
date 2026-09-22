@@ -3,7 +3,7 @@
     oo-build.ps1 - Operating Organism unified build pipeline
 
 .DESCRIPTION
-    1. Build all critical organs (united, sense, reflex, kernel, llm-baremetal)
+    1. Build all critical organs (united, sense, reflex, kernel, OPI-baremetal)
     2. Assemble EFI image
     3. Launch QEMU smoke test
     4. Verify homeostasis invariants
@@ -181,29 +181,29 @@ if ($Organ) {
     foreach ($t in $host_tools) { Build-Organ $t }
 }
 
-# ═══ PHASE 2: Cortex (llm-baremetal) ════════════════════
+# ═══ PHASE 2: Cortex (OPI-baremetal) ════════════════════
 if (-not $Organ) {
     Log ""
-    Log "-- Phase 2: Cortex (llm-baremetal) ------------------" "Yellow"
-    $llm_path = Join-Path $ROOT "llm-baremetal"
+    Log "-- Phase 2: Cortex (OPI-baremetal) ------------------" "Yellow"
+    $llm_path = Join-Path $ROOT "OPI-baremetal"
     $efi = Join-Path (Join-Path $llm_path "llama_engines") "llama2.efi"
     if (Test-Path $efi) {
         $sz = (Get-Item $efi).Length / 1KB
-        Pass "llm-baremetal cortex artifact ($([math]::Round($sz,1)) KB)"
+        Pass "OPI-baremetal cortex artifact ($([math]::Round($sz,1)) KB)"
         Log "  !  Full gnu-efi cortex rebuild skipped on Windows (use existing llama2.efi)" "Yellow"
     } elseif (Test-Path (Join-Path $llm_path "Makefile")) {
         $has_wsl = Get-Command "wsl" -ErrorAction SilentlyContinue
         if ($has_wsl) {
             Push-Location $llm_path
             $result = wsl bash -c "make test 2>&1" | Select-Object -Last 5 | Out-String
-            if ($LASTEXITCODE -eq 0) { Pass "llm-baremetal (cortex)" }
-            else                      { Fail "llm-baremetal (cortex)" $result }
+            if ($LASTEXITCODE -eq 0) { Pass "OPI-baremetal (cortex)" }
+            else                      { Fail "OPI-baremetal (cortex)" $result }
             Pop-Location
         } else {
-            Fail "llm-baremetal llama2.efi missing (needs WSL+gnu-efi to rebuild)"
+            Fail "OPI-baremetal llama2.efi missing (needs WSL+gnu-efi to rebuild)"
         }
     } else {
-        Log "  !  llm-baremetal Makefile not found - skipping full build" "Yellow"
+        Log "  !  OPI-baremetal Makefile not found - skipping full build" "Yellow"
     }
 }
 
@@ -211,7 +211,7 @@ if (-not $Organ) {
 if (-not $Organ) {
     Log ""
     Log "-- Phase 3: EFI Image + Archive ----------------------" "Yellow"
-    $efi = Join-Path $ROOT "llm-baremetal\llama2.efi"
+    $efi = Join-Path $ROOT "OPI-baremetal\llama2.efi"
     $efi2 = Join-Path $ROOT "llama2.efi"
     if (Test-Path $efi) {
         $sz = (Get-Item $efi).Length / 1KB
@@ -223,12 +223,12 @@ if (-not $Organ) {
         Fail "llama2.efi not found"
     }
 
-    $boot = Join-Path $ROOT "llm-baremetal\llm-baremetal-boot.img"
+    $boot = Join-Path $ROOT "OPI-baremetal\OPI-baremetal-boot.img"
     if (Test-Path $boot) {
         $sz = (Get-Item $boot).Length / 1MB
-        Pass "llm-baremetal-boot.img ($([math]::Round($sz,0)) MB)"
+        Pass "OPI-baremetal-boot.img ($([math]::Round($sz,0)) MB)"
     } else {
-        Fail "llm-baremetal-boot.img missing"
+        Fail "OPI-baremetal-boot.img missing"
     }
 
     $sim = Join-Path $ROOT "oo-sim\build\bin\oo-sim.exe"
@@ -290,7 +290,7 @@ if (Test-Path "$ROOT\reflex-baremetal\include\nervous_system.h") { Pass "INV-2: 
 else { Fail "INV-2: reflex engine armed" }
 
 # Invariant 3: D+ policy gate present (thalamic bridge)
-if (Test-Path "$ROOT\llm-baremetal\thalamic-bloom\oo_thalamic_bridge.h") { Pass "INV-3: D+ policy gate" }
+if (Test-Path "$ROOT\OPI-baremetal\thalamic-bloom\oo_thalamic_bridge.h") { Pass "INV-3: D+ policy gate" }
 else { Fail "INV-3: D+ policy gate" }
 
 # Invariant 4: colony-server config reachable
@@ -303,15 +303,15 @@ if (Test-Path $colony_cfg) {
 }
 
 # Invariant 5: kernel EFI or build target
-if ((Test-Path "$ROOT\llama2.efi") -or (Test-Path "$ROOT\llm-baremetal\llama2.efi")) {
+if ((Test-Path "$ROOT\llama2.efi") -or (Test-Path "$ROOT\OPI-baremetal\llama2.efi")) {
     Pass "INV-5: bootable EFI present"
 } else {
     Fail "INV-5: no bootable EFI"
 }
 
 # Invariant 6: journaling (soma_journal)
-if (Test-Path "$ROOT\llm-baremetal\thalamic-bloom\soma_journal.c") { Pass "INV-6: journal module" }
-elseif (Get-ChildItem "$ROOT\llm-baremetal" -Recurse -Filter "soma_journal.c" -ErrorAction SilentlyContinue) { Pass "INV-6: journal module" }
+if (Test-Path "$ROOT\OPI-baremetal\thalamic-bloom\soma_journal.c") { Pass "INV-6: journal module" }
+elseif (Get-ChildItem "$ROOT\OPI-baremetal" -Recurse -Filter "soma_journal.c" -ErrorAction SilentlyContinue) { Pass "INV-6: journal module" }
 else { Log "  !  INV-6: journal module not located" "Yellow" }
 
 # ═══ PHASE 5: QEMU Smoke Test ═══════════════════════════
@@ -326,7 +326,7 @@ if ($Smoke -and -not $SkipQemu) {
         $ovmf_code_tmp = "$env:TEMP\oo-smoke-code.fd"
         $ovmf_vars_src = "C:\Program Files\qemu\share\edk2-i386-vars.fd"
         $ovmf_vars_tmp = "$env:TEMP\oo-smoke-vars.fd"
-        $boot_img = "$ROOT\llm-baremetal\llm-baremetal-boot.img"
+        $boot_img = "$ROOT\OPI-baremetal\OPI-baremetal-boot.img"
 
         if (-not (Test-Path $ovmf_code)) { Fail "QEMU: OVMF firmware not found at $ovmf_code"; return }
         

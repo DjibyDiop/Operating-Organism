@@ -36,8 +36,8 @@ $ErrorActionPreference = "Stop"
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 $REPO_ROOT   = Split-Path $PSScriptRoot -Parent
-$EFI_SOURCE  = Join-Path $REPO_ROOT "llm-baremetal\llama2.efi"
-$MODEL_DIR   = Join-Path $REPO_ROOT "llm-baremetal"
+$EFI_SOURCE  = Join-Path $REPO_ROOT "OPI-baremetal\llama2.efi"
+$MODEL_DIR   = Join-Path $REPO_ROOT "OPI-baremetal"
 $USB_FILES   = Join-Path $REPO_ROOT "USB-BOOT-FILES"
 $STARTUP_NSH = Join-Path $USB_FILES "startup.nsh"
 $OO_CFG      = Join-Path $USB_FILES "oo.cfg"
@@ -58,7 +58,7 @@ Write-Host ""
 # ── Verify EFI binary exists ─────────────────────────────────────────────────
 if (-not (Test-Path $EFI_SOURCE)) {
     Write-Host "[ERROR] llama2.efi not found at: $EFI_SOURCE" -ForegroundColor Red
-    Write-Host "        Run 'make' in llm-baremetal first." -ForegroundColor Yellow
+    Write-Host "        Run 'make' in OPI-baremetal first." -ForegroundColor Yellow
     exit 1
 }
 $efi_size = (Get-Item $EFI_SOURCE).Length
@@ -242,7 +242,7 @@ TROUBLESHOOTING
 - No keyboard: PS/2 keyboard recommended; USB HID may need BIOS legacy support
 - Kernel panic: check BIOS memory settings (disable memory remapping if available)
 
-Source: https://github.com/Djiby-diop/llm-baremetal
+Source: https://github.com/Djiby-diop/OPI-baremetal
 "@ | Set-Content "$drive\README_OO.txt" -Encoding UTF8
 
 # ── Summary ───────────────────────────────────────────────────────────────────

@@ -30,7 +30,7 @@ CFLAGS = -ffreestanding -fno-stack-protector -fpic -fshort-wchar -mno-red-zone \
          -I ../united-baremetal/include \
          -I ../kernel-baremetal/include \
          -I ../swarm-baremetal/include \
-         -I ../llm-baremetal/oo-storage/core \
+         -I ../OPI-baremetal/oo-storage/core \
          -DVITAL_BAREMETAL
 
 LDFLAGS = -nostdlib -znocombreloc -T $(EFI_LDS) \

@@ -67,8 +67,8 @@ def auto_install_manifests(root, name, organ_id, category, dna_path):
                         f"{name}_mod_vitality",
                         f"{name}_mod_shutdown"
                     ],
-                    "buildDir": f"llm-baremetal/oo-modules/{name}-engine",
-                    "includes": f"llm-baremetal/oo-modules/{name}-engine/core"
+                    "buildDir": f"OPI-baremetal/oo-modules/{name}-engine",
+                    "includes": f"OPI-baremetal/oo-modules/{name}-engine/core"
                 }
                 organs.append(new_org)
                 data["organs"] = organs
@@ -112,9 +112,9 @@ def main():
     print(f"[Genesis] Generating organ: {name} (ID: {organ_id}, Category: {category})")
 
     # Define paths
-    cortex_root = os.path.join(args.root, "llm-baremetal")
+    cortex_root = os.path.join(args.root, "OPI-baremetal")
     if not os.path.exists(cortex_root):
-        print(f"Error: llm-baremetal directory not found at {cortex_root}. Ensure --root is correct.")
+        print(f"Error: OPI-baremetal directory not found at {cortex_root}. Ensure --root is correct.")
         sys.exit(1)
 
     # Target engine directory: oo-modules/<name>-engine/core/
@@ -289,7 +289,7 @@ def main():
         f.write(cmd_src)
     print(f"  - Generated REPL command source: {cmd_path}")
 
-    # 5. Modify llm-baremetal/Makefile
+    # 5. Modify OPI-baremetal/Makefile
     makefile_path = os.path.join(cortex_root, "Makefile")
     with open(makefile_path, "r", encoding="utf-8") as f:
         make_text = f.read()

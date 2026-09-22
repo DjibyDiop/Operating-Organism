@@ -15,7 +15,7 @@ Dans ce système, l'IPC (Inter-Process Communication) n'existe pas sous forme de
 2. 🔴 **Globules Rouges (Red Cells)** :
    - Émis par le `memory-baremetal` et le `sense-baremetal`.
    - Transportent l'Oxygène (les Données brutes : Tenseurs LLM, I/O réseau, frappes clavier).
-   - Alimentent le Cortex (`llm-baremetal`) en informations pour qu'il puisse générer ses réponses.
+   - Alimentent le Cortex (`OPI-baremetal`) en informations pour qu'il puisse générer ses réponses.
 
 3. ⚡ **Globules Jaunes (Yellow Cells / Plasma)** :
    - Émis par le `kernel-baremetal` (Tronc Cérébral).

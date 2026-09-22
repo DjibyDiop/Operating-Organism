@@ -17,18 +17,18 @@ This repository combines a sovereign bare-metal runtime, a host twin, and govern
 
 ## Architecture at a glance
 
-- Sovereign runtime: `llm-baremetal`
+- Sovereign runtime: `OPI-baremetal`
 - Host twin: `oo-host`
-- Language/compiler track: `oo-dplus`
+- Language/compiler track: `oo-constitution`
 - Simulation/lab layers: `oo-sim`, `oo-lab`, `oo-model`, `oo-system`
 
 Biological view and engineering view are both documented in the architecture files listed below.
 
 ## Repository map
 
-- `llm-baremetal`: UEFI/bare-metal runtime and reliability pipelines
+- `OPI-baremetal`: UEFI/bare-metal runtime and reliability pipelines
 - `oo-host`: host-side CLI and state orchestration
-- `oo-dplus`: D+ language and compiler work
+- `oo-constitution`: D+ language and compiler work
 - `oo-sim`: simulation lane
 - `oo-lab`: experimentation lane
 - `oo-model`: model governance and evolution lane

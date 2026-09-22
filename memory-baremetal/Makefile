@@ -27,13 +27,15 @@ else
 >mkdir -p $@
 endif
 
-test: build $(TEST_BIN)
+test: build $(TEST_BIN) $(OBJ_DIR)/test_persist
+>$(TEST_BIN)
+>$(OBJ_DIR)/test_persist
+
+$(OBJ_DIR)/test_persist: tests/test_persist.c src/bio_persist.c | $(OBJ_DIR)
+>$(CC) $(CFLAGS) $^ -o $@
 
 $(TEST_BIN): $(OBJ_DIR)/test_hedged_malloc.o $(OBJ_DIR)/hedged_malloc.o $(OBJ_DIR)/bio_alloc.o | $(OBJ_DIR)
 >$(CC) $(CFLAGS) $^ ../united-baremetal/build/obj/united_bus.o -o $@
-
-test_run: $(TEST_BIN)
->$(TEST_BIN)
 
 clean:
 ifeq ($(OS),Windows_NT)

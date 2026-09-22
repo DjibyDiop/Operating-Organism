@@ -85,14 +85,14 @@ OO is structured like a cellular and nervous network where each component is an 
 
 | # | Layer | Biological Analogy | Technical Role | Module |
 |---|-------|--------------------|----------------|--------|
-| **1** | **Cortex** | Brain & reasoning | Bare-metal LLM + Sovereign REPL (Mamba SSM) | `llm-baremetal` |
+| **1** | **Cortex** | Brain & reasoning | Bare-metal LLM + Sovereign REPL (Mamba SSM) | `OPI-baremetal` |
 | **2** | **Kernel** | Neural regulation | Preemptive LAPIC scheduling, interrupts, policy | `kernel-baremetal` |
 | **3** | **Hermes Bus** | Circulatory system | Typed UDP Mesh event transport (Zero Mocks) | `united-baremetal` |
 | **4** | **Memory** | Hippocampus & cortex | Working memory, FAT32 persistence | `memory-baremetal` |
 | **5** | **Reflexes** | Spinal cord | Homeostasis FSM, D+ Warden, security | `reflex-baremetal` |
 | **6** | **Senses** | Sensory organs | E1000 network, RTL8188EU Wi-Fi, inputs | `network-baremetal` / `sense-baremetal` |
 | **7** | **Identity** | DNA & epigenesis | Djibion policy, signatures, continuity | `identity-baremetal` |
-| **8** | **Evolution** | Adaptive mutation | OO-Genesis, D+ compilation, self-extension | `evolution-baremetal` / `oo-dplus` |
+| **8** | **Evolution** | Adaptive mutation | OO-Genesis, D+ compilation, self-extension | `evolution-baremetal` / `oo-constitution` |
 
 ---
 

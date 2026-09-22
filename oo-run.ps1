@@ -52,8 +52,8 @@ $OVMF_CODE = "C:\Program Files\qemu\share\edk2-x86_64-code.fd"
 $OVMF_VARS_SRC = "C:\Program Files\qemu\share\edk2-i386-vars.fd"
 $OVMF_CODE_TMP = "$env:TEMP\oo-edk2-code.fd"
 $OVMF_VARS_TMP = "$env:TEMP\oo-edk2-vars.fd"
-$IMG       = "$ROOT\llm-baremetal\llm-baremetal-boot.img"
-$OO_UART   = "$ROOT\llm-baremetal\OO_UART.log"
+$IMG       = "$ROOT\OPI-baremetal\OPI-baremetal-boot.img"
+$OO_UART   = "$ROOT\OPI-baremetal\OO_UART.log"
 $SERIAL_LOG = "$env:TEMP\oo-serial.txt"
 
 # ── Colour helpers ────────────────────────────────────────────────────────────
@@ -127,13 +127,13 @@ if (-not $SkipPreflight) {
 
     Inv 1 "QEMU available"           (Test-Path $QEMU)
     Inv 2 "OVMF firmware available"  (Test-Path $OVMF_CODE)
-    Inv 3 "Boot image present"       (Test-Path $IMG) "(run 'make' in llm-baremetal/ from WSL if missing)"
-    Inv 4 "KERNEL.EFI present"       ((Test-Path "$ROOT\KERNEL.EFI") -or (Test-Path "$ROOT\llm-baremetal\llama2.efi"))
+    Inv 3 "Boot image present"       (Test-Path $IMG) "(run 'make' in OPI-baremetal/ from WSL if missing)"
+    Inv 4 "KERNEL.EFI present"       ((Test-Path "$ROOT\KERNEL.EFI") -or (Test-Path "$ROOT\OPI-baremetal\llama2.efi"))
     Inv 5 "United-bus ring buffer"   (Test-Path "$ROOT\united-baremetal\src\united_bus.c")
     Inv 6 "Reflex engine armed"      (Test-Path "$ROOT\reflex-baremetal\include\nervous_system.h")
-    Inv 7 "D+ policy gate"           (Test-Path "$ROOT\llm-baremetal\thalamic-bloom\oo_thalamic_bridge.h")
+    Inv 7 "D+ policy gate"           (Test-Path "$ROOT\OPI-baremetal\thalamic-bloom\oo_thalamic_bridge.h")
     Inv 8 "Memory allocator"         (Test-Path "$ROOT\memory-baremetal\src\bio_alloc.c")
-    Inv 9 "Cortex EFI entry"         (Test-Path "$ROOT\llm-baremetal\llama2.efi")
+    Inv 9 "Cortex EFI entry"         (Test-Path "$ROOT\OPI-baremetal\llama2.efi")
     Inv 10 "Colony config"           (Test-Path "$ROOT\oo-host\colony_url.txt")
 
     Write-Host ""
@@ -145,7 +145,7 @@ if (-not $SkipPreflight) {
     }
     if (-not (Test-Path $IMG)) {
         Write-Host "`n  [FATAL] Boot image missing: $IMG" -ForegroundColor Red
-        Write-Host "  From WSL: cd llm-baremetal && make" -ForegroundColor Yellow
+        Write-Host "  From WSL: cd OPI-baremetal && make" -ForegroundColor Yellow
         exit 1
     }
 }

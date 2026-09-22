@@ -7,7 +7,7 @@ OVMF=/usr/share/OVMF/OVMF_CODE.fd
 [ -f "$OVMF" ] || OVMF=$(find /usr -name "OVMF_CODE*.fd" 2>/dev/null | head -1)
 [ -f "$OVMF" ] || OVMF=$(find /usr -name "OVMF.fd" 2>/dev/null | head -1)
 
-IMG=/mnt/c/Users/djibi/OneDrive/Bureau/baremetal/llm-baremetal/llm-baremetal-boot.img
+IMG=/mnt/c/Users/djibi/OneDrive/Bureau/baremetal/OPI-baremetal/OPI-baremetal-boot.img
 UART=/tmp/oo_smoke_uart.log
 TIMEOUT=90
 

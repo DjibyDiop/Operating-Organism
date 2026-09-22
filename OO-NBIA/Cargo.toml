@@ -5,10 +5,9 @@ edition = "2021"
 
 [lib]
 name = "nbia"
-crate-type = ["staticlib"]
+crate-type = ["staticlib", "rlib"]
 
 [dependencies]
-osg-memory-warden = { path = "../OPI-baremetal/oo-constitution" }
 
 [profile.dev]
 panic = "abort"

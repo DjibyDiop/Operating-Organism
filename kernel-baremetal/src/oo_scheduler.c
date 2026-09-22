@@ -1,4 +1,5 @@
 #include "../include/oo_scheduler.h"
+#include "../include/oo_smp.h"
 #include "../../united-baremetal/include/united_bus.h"
 #include "living_runtime.h"
 #include "../include/compiled_organs.h"
@@ -196,6 +197,7 @@ void oo_scheduler_heartbeat(void) {
     oo_organ_task_t* curr = head_organ;
     while (curr != NULL) {
         if (!curr->is_sleeping && curr->current_cpu_share > 0) {
+            oo_smp_dispatch_organ_to_core(curr->type);
             if (curr->type == ORGAN_TYPE_DBC) {
                 // Execute DVM Bytecode instead of static C entry point
                 living_runtime_step();

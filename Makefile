@@ -3,14 +3,14 @@
 # =============================================================================
 # "Comme les vaisseaux sanguins qui parcourent tout le corps humain"
 #
-# Builds ALL biological organ modules, the Cortex (llm-baremetal), the OPI
+# Builds ALL biological organ modules, the Cortex (OPI-baremetal), the OPI
 # cognitive kernel, control planes, and drivers.
 #
 # Usage:
 #   make              — build organs + cortex (default)
 #   make oo-complete  — build EVERYTHING: organs + cortex + OPI + control-planes
 #   make organs       — build only the organ .o libs
-#   make cortex       — build llm-baremetal/llama2.efi
+#   make cortex       — build OPI-baremetal/llama2.efi
 #   make opi          — build OPI cognitive kernel (core-check)
 #   make opi-proto    — build OPI prototype executable
 #   make planes       — build control-planes
@@ -83,8 +83,9 @@ test-all:
 	@$(MAKE) -C dream-baremetal test CC=gcc
 	@$(MAKE) -C evolution-baremetal test CC=gcc
 	@$(MAKE) -C regen-baremetal test CC=gcc
-	@$(MAKE) -C shadow-baremetal test CC=gcc
-	@$(MAKE) -C control-planes test CC=gcc
+	@$(MAKE) -C memory-baremetal test CC=gcc
+	@$(MAKE) -C apps/navigateur test CC=gcc
+	@$(MAKE) -C tests/hw_validation test CC=gcc
 	@echo "=== [SUCCESS] L'ensemble des organes, ponts et plans de contrôle sont opérationnels ! ==="
 
 # ── Build all organ modules ──────────────────────────────────────────
@@ -204,7 +205,7 @@ status:
 		fi; \
 	done
 	@echo ""
-	@echo "── Cortex (llm-baremetal) ────────────────────────────────────"
+	@echo "── Cortex (OPI-baremetal) ────────────────────────────────────"
 	@if [ -f $(CORTEX)/llama2.efi ]; then \
 		sz=$$(du -h $(CORTEX)/llama2.efi | cut -f1); \
 		echo "  ✅ llama2.efi [$$sz]"; \
