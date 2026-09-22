@@ -186,11 +186,14 @@ if (-not $Organ) {
     Log ""
     Log "-- Phase 2: Cortex (OPI-baremetal) ------------------" "Yellow"
     $llm_path = Join-Path $ROOT "OPI-baremetal"
-    $efi = Join-Path (Join-Path $llm_path "llama_engines") "llama2.efi"
+    $efi = Join-Path $llm_path "oo_organism.efi"
+    $efi_legacy = Join-Path (Join-Path $llm_path "llama_engines") "llama2.efi"
     if (Test-Path $efi) {
         $sz = (Get-Item $efi).Length / 1KB
         Pass "OPI-baremetal cortex artifact ($([math]::Round($sz,1)) KB)"
-        Log "  !  Full gnu-efi cortex rebuild skipped on Windows (use existing llama2.efi)" "Yellow"
+    } elseif (Test-Path $efi_legacy) {
+        $sz = (Get-Item $efi_legacy).Length / 1KB
+        Pass "OPI-baremetal legacy artifact ($([math]::Round($sz,1)) KB)"
     } elseif (Test-Path (Join-Path $llm_path "Makefile")) {
         $has_wsl = Get-Command "wsl" -ErrorAction SilentlyContinue
         if ($has_wsl) {
@@ -200,7 +203,7 @@ if (-not $Organ) {
             else                      { Fail "OPI-baremetal (cortex)" $result }
             Pop-Location
         } else {
-            Fail "OPI-baremetal llama2.efi missing (needs WSL+gnu-efi to rebuild)"
+            Fail "OPI-baremetal cortex artifact missing"
         }
     } else {
         Log "  !  OPI-baremetal Makefile not found - skipping full build" "Yellow"
@@ -211,24 +214,38 @@ if (-not $Organ) {
 if (-not $Organ) {
     Log ""
     Log "-- Phase 3: EFI Image + Archive ----------------------" "Yellow"
-    $efi = Join-Path $ROOT "OPI-baremetal\llama2.efi"
-    $efi2 = Join-Path $ROOT "llama2.efi"
+    $efi = Join-Path $ROOT "OPI-baremetal\oo_organism.efi"
+    $efi2 = Join-Path $ROOT "OPI-baremetal\llama2.efi"
+    $efi3 = Join-Path $ROOT "llama2.efi"
     if (Test-Path $efi) {
         $sz = (Get-Item $efi).Length / 1KB
-        Pass "llama2.efi ($([math]::Round($sz,1)) KB)"
+        Pass "oo_organism.efi ($([math]::Round($sz,1)) KB)"
     } elseif (Test-Path $efi2) {
         $sz = (Get-Item $efi2).Length / 1KB
+        Pass "llama2.efi ($([math]::Round($sz,1)) KB)"
+    } elseif (Test-Path $efi3) {
+        $sz = (Get-Item $efi3).Length / 1KB
         Pass "llama2.efi (root) ($([math]::Round($sz,1)) KB)"
     } else {
-        Fail "llama2.efi not found"
+        Fail "oo_organism.efi / llama2.efi not found"
     }
 
-    $boot = Join-Path $ROOT "OPI-baremetal\OPI-baremetal-boot.img"
-    if (Test-Path $boot) {
-        $sz = (Get-Item $boot).Length / 1MB
-        Pass "OPI-baremetal-boot.img ($([math]::Round($sz,0)) MB)"
-    } else {
-        Fail "OPI-baremetal-boot.img missing"
+    $boot_candidates = @(
+        (Join-Path $ROOT "OPI-baremetal\oo-llama3-parity-boot.img"),
+        (Join-Path $ROOT "OPI-baremetal\opi-baremetal-boot.img"),
+        (Join-Path $ROOT "OPI-baremetal\OPI-baremetal-boot.img")
+    )
+    $boot_found = $false
+    foreach ($b in $boot_candidates) {
+        if (Test-Path $b) {
+            $sz = (Get-Item $b).Length / 1MB
+            Pass "$([System.IO.Path]::GetFileName($b)) ($([math]::Round($sz,0)) MB)"
+            $boot_found = $true
+            break
+        }
+    }
+    if (-not $boot_found) {
+        Fail "boot.img missing (no UEFI boot image found)"
     }
 
     $sim = Join-Path $ROOT "oo-sim\build\bin\oo-sim.exe"
@@ -303,7 +320,7 @@ if (Test-Path $colony_cfg) {
 }
 
 # Invariant 5: kernel EFI or build target
-if ((Test-Path "$ROOT\llama2.efi") -or (Test-Path "$ROOT\OPI-baremetal\llama2.efi")) {
+if ((Test-Path "$ROOT\OPI-baremetal\oo_organism.efi") -or (Test-Path "$ROOT\oo_organism.efi") -or (Test-Path "$ROOT\llama2.efi") -or (Test-Path "$ROOT\OPI-baremetal\llama2.efi")) {
     Pass "INV-5: bootable EFI present"
 } else {
     Fail "INV-5: no bootable EFI"

@@ -206,11 +206,14 @@ status:
 	done
 	@echo ""
 	@echo "── Cortex (OPI-baremetal) ────────────────────────────────────"
-	@if [ -f $(CORTEX)/llama2.efi ]; then \
+	@if [ -f $(CORTEX)/oo_organism.efi ]; then \
+		sz=$$(du -h $(CORTEX)/oo_organism.efi | cut -f1); \
+		echo "  ✅ oo_organism.efi [$$sz]"; \
+	elif [ -f $(CORTEX)/llama2.efi ]; then \
 		sz=$$(du -h $(CORTEX)/llama2.efi | cut -f1); \
 		echo "  ✅ llama2.efi [$$sz]"; \
 	else \
-		echo "  ❌ llama2.efi [not built]"; \
+		echo "  ❌ oo_organism.efi [not built]"; \
 	fi
 	@echo ""
 	@echo "── OPI Cognitive Kernel ──────────────────────────────────────"
