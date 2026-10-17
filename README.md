@@ -10,10 +10,6 @@
 </p>
 
 <p align="center">
-  <a href="README_fr.md"><strong>🇫🇷 Version Française Disponible Ici</strong></a>
-</p>
-
-<p align="center">
   <img src="https://img.shields.io/badge/Language-C--First%20%E2%89%A590%25-00599C?style=for-the-badge&logo=c" alt="C-First" />
   <img src="https://img.shields.io/badge/Runtime-UEFI%20Bare--Metal-FF6F00?style=for-the-badge&logo=uboot" alt="UEFI Bare-Metal" />
   <img src="https://img.shields.io/badge/Homeostasis-NORMAL%20%E2%86%92%20DEGRADED%20%E2%86%92%20SAFE-4CAF50?style=for-the-badge" alt="Homeostasis FSM" />
@@ -87,7 +83,7 @@ OO is organized like a nervous and cellular biological hierarchy. Each component
 
 | # | Layer | Biological Analogy | Technical Role | Implementation Module |
 |---|-------|--------------------|----------------|-----------------------|
-| **1** | **Cortex** | Brain & cognition | Bare-metal LLM + Sovereign REPL (Mamba SSM / llama) | `OPI-baremetal` |
+| **1** | **Cortex** | Brain & cognition | Bare-metal LLM + Sovereign REPL (Llama 3.2 1B / GQA / OO-KV Fabric) | `OPI-baremetal` |
 | **2** | **Kernel** | Neural regulation | Preemptive LAPIC scheduling, interrupts, policy enforcement | `kernel-baremetal` |
 | **3** | **Hermes Bus** | Circulatory system | Typed UDP Mesh event transport (Zero Mocks policy) | `united-baremetal` |
 | **4** | **Memory** | Hippocampus & storage | Working memory, FAT32 sovereign persistence | `memory-baremetal` |
@@ -238,7 +234,7 @@ cd Living_desktop && python oo_desktop_runtime.py --colony http://127.0.0.1:8080
 |-----------|------------------|-------------------|
 | **Kernel Runtime** | C11 (≥90%), UEFI EDK2 | ✅ Complete |
 | **Scheduling** | Preemptive LAPIC Timer (1000Hz) | ✅ Active (Phase 2.1) |
-| **LLM Engine** | Mamba SSM (OOSI v3), llama2.c | ✅ Integrated |
+| **LLM Engine** | Llama 3.2 1B Instruct (GQA/RoPE & OO-KV Fabric), llama2.c | ✅ Integrated |
 | **Event Bus** | Hermes (Real UDP / Mesh) | ✅ Zero Mocks Policy |
 | **Bot Peripheral** | bot-baremetal (Local Sovereign) | ✅ Active (Phase 2.2) |
 | **NBIA Latent** | Temporal Awareness Engine (ΔOO) | ✅ Modeled (Phase 2.3) |
@@ -317,6 +313,8 @@ baremetal/
 
 | Document | Description |
 |----------|-------------|
+| [SOVEREIGN_ORGANISM_SPEC.md](SOVEREIGN_ORGANISM_SPEC.md) | Holistic specification of the 22 organ systems |
+| [SOVEREIGN_TRINITY_SPEC.md](SOVEREIGN_TRINITY_SPEC.md) | Tripartite architecture: Body (OO), Brain (OPI), Vector (libuex) |
 | [ROADMAP.md](docs/ROADMAP.md) | Comprehensive Phase 0→5 technical execution plan |
 | [ARCHITECTURE.md](docs/ARCHITECTURE.md) | Deep specifications of kernel and organ contracts |
 | [LANGUAGE_POLICY.md](docs/LANGUAGE_POLICY.md) | C-First engineering doctrine and constraints |

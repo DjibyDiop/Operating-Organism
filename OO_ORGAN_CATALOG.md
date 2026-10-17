@@ -14,7 +14,7 @@ It does not change any existing directory structure.
 | Biological System | Biological Role | OO Engineering Role | Primary Engines | Baremetal Module | Higher Modules |
 |---|---|---|---|---|---|
 | Nervous System (CNS/PNS) | Perception, decision, coordination | Global orchestration, signal routing, state transition control | `StrategicBrainEngine`, `SignalBusEngine`, `StateTransitionEngine` | `united-baremetal` (IPC bus) | `oo-system`, `oo-host` |
-| Brain Cortex | Planning, reasoning | Long-horizon planning and interpretation via SSM | `PlannerEngine`, `ReasoningEngine` | `OPI-baremetal` (thalamic-bloom) | `oo-host`, `oo-model` |
+| Brain Cortex | Planning, reasoning | Long-horizon planning and sovereign reasoning via Llama 3.2 1B | `PlannerEngine`, `ReasoningEngine` | `OPI-baremetal` (thalamic-bloom) | `oo-host`, `oo-model` |
 | Brainstem | Vital reflexes | Hard safety path and survival fallback | `ReflexEngine`, `SafeModeEngine` | `reflex-baremetal`, `kernel-baremetal` | `oo-constitution` |
 | Spinal Cord | Fast local reflex loops | Low-latency local correction before global planning | `LocalReflexLoop`, `InterruptActionEngine` | `reflex-baremetal` | `oo-sim` |
 | Sensory Organs | Observe environment/body | Input ingestion and normalization | `PerceptionIngestEngine`, `SensorFusionEngine` | `sense-baremetal`, `proprioception-baremetal` | `oo-sim`, `oo-lab` |
