@@ -48,6 +48,8 @@ copilot-instructions.md
 .agents/
 .cursor/
 .antigravity/
+.github/workflows/
+.github/scripts/
 
 # Visual Studio cache/db files
 .vs/

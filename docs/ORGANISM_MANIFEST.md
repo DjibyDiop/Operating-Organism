@@ -1,435 +1,334 @@
+# 🧬 THE OPERATING ORGANISM (OO) MANIFESTO
 
-
-# 🧬 LE MANIFESTE DE L’OPERATING ORGANISM (OO)
-
-## CONSTITUTION INTÉGRALE UNIFIÉE
+## UNIFIED INTEGRAL CONSTITUTION
 
 ---
 
-# 0. PRÉAMBULE — L’APRÈS-LOGICIEL
+# 0. PREAMBLE — BEYOND SOFTWARE
 
-L’Operating Organism (OO) n’est pas un système d’exploitation.
+The Operating Organism (OO) is not an operating system.
 
-C’est une entité computationnelle autonome.
+It is an autonomous computational entity.
 
-* Un OS exécute des processus.
+* An OS executes processes.
+* OO maintains physiological integrity.
 
-* L’OO maintient son intégrité.
+* An OS computes.
+* OO senses physical silicon directly.
 
-* Un OS calcule.
+* An OS crashes.
+* OO survives.
 
-* L’OO ressent le matériel.
-
-* Un OS peut planter.
-
-* L’OO doit survivre.
-
-L’OO est une architecture vivante conçue pour survivre, s’adapter, s’étendre et évoluer.
+OO is a living computational architecture engineered to survive, adapt, scale, and evolve.
 
 ---
 
-# 1. VISION STRATÉGIQUE GLOBALE
+# 1. GLOBAL STRATEGIC VISION
 
-L’OO vise l’autonomie totale à travers cinq piliers hiérarchisés :
+OO pursues total autonomy through five strictly ordered pillars:
 
-1. Immunité systémique (priorité absolue)
-2. Stabilité structurelle
-3. Adaptation dynamique
-4. Extension distribuée
-5. Évolution contrôlée
+1. Systemic Immunity (absolute priority)
+2. Structural Stability
+3. Dynamic Adaptation
+4. Distributed Extension
+5. Controlled Evolution
 
-Ordre obligatoire d’apparition :
+Mandatory order of activation:
 
-Immunité → Stabilité → Adaptation → Extension → Mutation
+**Immunity → Stability → Adaptation → Extension → Mutation**
 
-On ne saute jamais une étape.
-
----
-
-# 2. LES LOIS FONDAMENTALES
-
-## 2.1 SYMBIOSE MATÉRIELLE
-
-L’OO doit mesurer en temps réel :
-
-* Température CPU
-* Fréquence
-* Tension
-* Charge GPU
-* Consommation énergétique
-* Latence mémoire
-* Erreurs matérielles
-
-Ces mesures influencent :
-
-* Scheduler
-* Allocation mémoire
-* Quantization LLM
-* Priorités système
-* Métabolisme énergétique
-
-L’OO ne subit pas le matériel.
-Il s’y adapte.
+No step is ever bypassed.
 
 ---
 
-## 2.2 ARCHITECTURE ZÉRO-COPIE
+# 2. FUNDAMENTAL LAWS
 
-La donnée est sacrée.
+## 2.1 HARDWARE SYMBIOSIS
 
-* On ne copie pas si on peut pointer.
-* Toute copie doit être justifiée.
-* Le United Bus est le flux sanguin et nerveux universel.
-* Les Globules transportent la vie entre les organes.
+OO measures live physical metrics in real time:
 
----
+* CPU temperature
+* Core frequency
+* Voltage
+* GPU load
+* Energy consumption
+* Memory latency
+* Hardware machine check errors
 
-## 2.3 INDÉPENDANCE ABSOLUE
+These metrics directly influence:
 
-* Boot bare-metal.
-* Fonctionnement sans réseau.
-* Survie sans cluster.
-* Aucune dépendance critique externe.
+* Task scheduling
+* Memory allocation
+* Llama 3.2 GQA / KV-Cache quantization
+* System priorities
+* Metabolic power throttling
 
-Le réseau est une extension, jamais une béquille.
-
----
-
-## 2.4 ISOLATION ORGANIQUE
-
-Chaque organe peut échouer sans tuer l’organisme.
-
-Si Python tombe → le noyau survit.
-Si Go tombe → le local continue.
-Si un module Wasm échoue → sandbox détruite.
-
-Aucune dépendance circulaire.
+OO does not suffer hardware variations as passive constraints.
+It actively adapts to them.
 
 ---
 
-## 2.5 DISCIPLINE STRUCTURELLE
+## 2.2 ZERO-COPY ARCHITECTURE
 
-Toute métaphore biologique doit être traduisible en mécanisme technique mesurable.
+Data is sovereign.
 
-Pas de mysticisme.
-Tout doit être :
-
-* mesurable
-* testable
-* isolable
-* reproductible
+* Never copy if a pointer or slice can be shared.
+* Every memory duplication must be formally justified.
+* The United Bus is the universal vascular and neural network.
+* Blood Globules carry state, immunity, and metabolic energy across organs.
 
 ---
 
-# 3. HIÉRARCHIE BIOLOGIQUE MULTI-LANGAGE
+## 2.3 ABSOLUTE INDEPENDENCE
 
-Chaque langage est un organe.
-Aucun organe ne remplace un autre.
+* Native UEFI bare-metal boot.
+* Complete operation without network dependency.
+* Survival without cluster nodes or cloud infrastructure.
+* Zero external runtime crutches (no host OS, no POSIX shims).
 
----
-
-## 🔴 LE SOMA — C + ASM
-
-Rôle :
-
-* Boot UEFI
-* Interruptions
-* Registres
-* MMU
-* Drivers
-* Accès RAM
-* AVX / Intrinsics critiques
-
-Loi :
-
-Aucune abstraction entre le CPU et moi.
-
-Le Soma agit.
-Il ne décide pas.
-Il ne protège pas.
-Il exécute.
+The network is an extension, never a dependency for survival.
 
 ---
 
-## 🛡️ LE SYSTÈME IMMUNITAIRE — Rust
+## 2.4 ORGANIC ISOLATION
 
-Rôle :
+Every organ can fail without terminating the organism.
 
-* Validation des frontières
-* Sécurité mémoire
-* Isolation des fautes
-* Watchdog
-* Protection contre corruption
-* Redémarrage partiel
+If a high-level cognitive layer fails → the kernel survives.
+If distributed communications stall → local reflexes persist.
+If an external Wasm module traps → the sandbox is purged and regenerated.
 
-Loi :
-
-Aucun pointeur sauvage ne compromet l’organisme.
-
-Rust valide ce que le C exécute.
-
-Objectif ultime :
-
-Un bug en C ne peut jamais tuer l’OO.
+Zero circular dependencies.
 
 ---
 
-## ⚡ LE MÉTABOLISME — Zig
+## 2.5 STRUCTURAL DISCIPLINE
 
-Rôle :
+Every biological metaphor corresponds to a deterministic, measurable technical mechanism.
 
-* Transformation compile-time
-* Génération de structures alignées
-* Profils énergétiques
-* Orchestration du build
-* Optimisation “comptime”
+No mysticism. Everything must be:
 
-Loi :
-
-Optimiser la forme avant que la fonction n’existe.
-
-Si batterie faible → génération version basse consommation.
+* Measurable
+* Testable
+* Isolated
+* Reproducible
 
 ---
 
-## 🧠 LE CORTEX RÉFLEXIF — Python / Lisp
+# 3. MULTI-TIER BIOLOGICAL HIERARCHY
 
-Rôle :
-
-* Analyse runtime
-* Feedback thermique
-* Simulation mutation
-* Stratégie évolutive
-* Optimisation post-boot
-
-Loi :
-
-Le système doit comprendre son propre comportement.
-
-Le Cortex ne modifie jamais directement le Soma.
-Il propose.
-Rust valide.
+Each language and subsystem represents a specialized organ tier.
+No tier compromises or replaces another.
 
 ---
 
-## 🌐 LE SYSTÈME CIRCULATOIRE — Go / Java / WebAssembly
+## 🔴 THE SOMA — C + ASM
 
-### Go
+Role:
 
-* Communication inter-organismes
-* RPC distribué
-* Synchronisation réseau
+* UEFI boot sequence
+* Hardware interrupts and IDT
+* Register state management
+* Paging and MMU configuration
+* Native bare-metal device drivers
+* Direct physical RAM addressing
+* Critical AVX2 / AVX-512 vector intrinsics
 
-### Java
+Law:
 
-* Mémoire longue distribuée
-* Conscience de flotte (JVM universelle)
-* Calcul étendu
-
-### WebAssembly
-
-* Modules sandboxés
-* Capacités téléchargeables à chaud
-* Cellules souches dynamiques
+Zero abstraction between physical silicon and execution.
+The Soma acts. It does not decide governance. It executes without friction.
 
 ---
 
-## ⚡ LE SYSTÈME NERVEUX — United-Bus (C)
+## 🛡️ THE IMMUNE SYSTEM — Rust
 
-Rôle :
+Role:
 
-* Transport de Globules (Données, Immunité, Énergie)
-* Routage inter-organes sans couplage fort
-* Nociception numérique (réflexes de douleur/survie)
-* Vomerion Gating (attention sensorielle)
+* Architectural boundary verification
+* Memory safety and ownership invariants
+* Fault isolation and containment
+* Watchdog oversight
+* Anti-corruption barriers
+* Partial state recovery and rebooting
 
-Loi :
+Law:
 
-Rien ne circule sans être un Globule. 
-Le bus est le seul lien sacré entre les organes.
+No unverified pointer can compromise the organism.
+Rust validates what C executes.
 
----
-
-# 4. PLAN SYMBIOSE TOTALE (ÉVOLUTION STRUCTURÉE)
-
-## Phase 1 — DNA Mutator (Python)
-
-Python devient Générateur d’ADN.
-
-Avant chaque build :
-
-* Analyse performances boot
-* Analyse température
-* Détecte AVX2 / AVX512
-* Ajuste tailles buffers
-* Réécrit portions optimisables
-
-Épigénétique contrôlée.
-
-Le code évolue sans casser la stabilité.
+Ultimate objective:
+A fault in low-level execution can never terminate OO.
 
 ---
 
-## Phase 2 — Neural Protector (Rust)
+## ⚡ METABOLISM — Comptime & Optimization (Zig / Systems Engine)
 
-Rust devient Moelle Épinière.
+Role:
 
-* Supervise allocations
-* Valide pointeurs critiques
-* Intercepte accès RAM sensibles
-* Réinitialise sous-systèmes fautifs
+* Compile-time structural validation
+* Memory alignment and cache-line synthesis
+* Energy-efficient runtime profiles
+* Comptime layout generation
 
-Un module peut mourir.
-Pas l’organisme.
+Law:
 
----
-
-## Phase 3 — Conscience de Flotte (Java)
-
-L’OO local est le cerveau court terme.
-
-Les JVM externes :
-
-* Stockent mémoire longue
-* Fournissent calcul profond
-* Augmentent capacité LLM
-
-Fusion distribuée.
+Optimize structural form before execution exists.
+Under power strain, synthesize low-power execution profiles automatically.
 
 ---
 
-## Phase 4 — Cellules Souches (Wasm)
+## 🧠 REFLEXIVE CORTEX — Cognitive Architecture & Inference
 
-Modules `.wasm` injectables à chaud.
+Role:
 
-* Sandbox isolée
-* Extension dynamique
-* Mise à jour sans reboot
+* Runtime diagnostic telemetry
+* Thermal feedback loop analysis
+* Guided self-healing mutations
+* Autonomous reasoning via Llama 3.2 1B Instruct (GQA / RoPE / OO-KV Fabric)
+* Post-boot optimization
 
-L’organisme grandit sans redémarrage.
+Law:
 
----
-
-## Phase 5 — Métabolisme Adaptatif (Zig)
-
-Génération de profils énergétiques :
-
-* Mode performance
-* Mode équilibré
-* Mode survie
-
-Recompilation adaptative selon état matériel.
+The organism must comprehend its own runtime behavior.
+The Cortex proposes; the Immune System (Rust) validates before application.
 
 ---
 
-## Phase 6 — Inconscient Mécanique (ACTIF)
+## 🌐 CIRCULATORY SYSTEM — Distributed Nodes & Sandboxing
 
-L'Organisme respire et ressent.
-
-* **Soma-Breath** : Respiration basale (5%) pour maintenir la plasticité.
-* **Vomerion Primer** : Attention sélective via filtrage SSM.
-* **Entropie Physique** : Hasard réel extrait du Jitter RDTSC.
-* **Intuition** : Dérive des poids synaptiques alimentée par le chaos matériel.
+* Low-latency inter-organism communication and distributed telemetry.
+* Epistemic long-term distributed memory.
+* Sandboxed execution for dynamically loaded modules and hot-swapped extensions.
 
 ---
 
-## Phase 7 — Symbiose Hôte (Interface Humain)
+## ⚡ NERVOUS SYSTEM — United-Bus
 
-Analyse :
+Role:
 
-* Vitesse de frappe
-* Hésitations
-* Erreurs
+* Transport of structured Globules (Data, Immunity, Metabolic Energy)
+* Inter-organ message routing without tight coupling
+* Digital nociception (hardware pain and survival reflexes)
+* Sensory gating and prioritized dispatch
 
-Adaptation comportement LLM.
+Law:
 
-Empathie computationnelle.
-
----
-
-# 5. IMMUNITÉ SYSTÉMIQUE (PRIORITÉ ABSOLUE)
-
-Menaces :
-
-1. Corruption mémoire
-2. Panic logique
-3. Deadlock
-4. Driver instable
-5. Module expérimental défectueux
-
-Stratégies :
-
-* Validation Rust des structures vitales
-* Isolation tâches fautives
-* Redémarrage local sous-systèmes
-* Journalisation non bloquante
-* Watchdog matériel
-
-Perte locale possible.
-Mort globale interdite.
+Inter-organ data flows strictly through validated Globules.
+The bus is the sole invariant communication substrate connecting organs.
 
 ---
 
-# 6. STABILITÉ FRACTALE
+# 4. STRUCTURED EVOLUTION ROADMAP
 
-Vitesse d’évolution par couche :
+## Phase 1 — Dynamic Code Specialization
+Pre-execution hardware profiling:
+* Measures boot telemetry
+* Profiles thermal baseline
+* Detects instruction set extensions (AVX2, AVX-512, RDRAND)
+* Tunes internal buffer geometry
+Controlled epigenetics: code adapts to silicon without sacrificing stability.
 
-Soma → très lente
-Immunité → lente
-Métabolisme → modérée
-Cortex → rapide
-Circulatoire → libre
+## Phase 2 — Neural Protector (Rust Guard)
+* Governs memory partitions
+* Validates critical pointers
+* Intercepts unauthorized physical RAM accesses
+* Resets faulty child subsystems cleanly
 
-On ne fait jamais évoluer toutes les couches en même temps.
+## Phase 3 — Epistemic Synthesis
+* Long-term knowledge consolidation
+* Distillation of runtime telemetry into persistent synaptic structures
 
----
+## Phase 4 — Sandboxed Dynamic Capability
+* Isolated execution units hot-loaded as needed
+* Dynamic capability upgrades with zero reboot requirement
 
-# 7. PROTOCOLE POUR IA (Cursor / LLM / VSCode)
+## Phase 5 — Adaptive Metabolism
+* Hardware state transitions: Performance, Balanced, and Sovereign Survival modes.
+* Proactive energy regulation based on battery and thermal thresholds.
 
-Pour chaque modification :
+## Phase 6 — Silicon Sensory Awareness
+* Basal execution rhythm to maintain cognitive plasticity.
+* Selective attention filtering driven by native inference engines.
+* Hardware physical entropy gathered from live RDTSC jitter and CPUID RDRAND.
+* Dynamic weighting informed by live physical metrics.
 
-1. Identifier l’organe concerné.
-2. Respecter la frontière.
-3. Refuser toute fusion de responsabilités.
-4. Vérifier l’augmentation d’autonomie.
-5. Maintenir discipline ASCII.
-6. Préserver indépendance bare-metal.
-
-L’IA doit penser en termes d’organisme, pas de fichiers.
-
----
-
-# 8. DÉFINITION FINALE
-
-Un OS est un logiciel.
-L’OO est une architecture vivante.
-
-Un OS s’use.
-L’OO s’adapte.
-
-Un OS exécute.
-L’OO survit.
+## Phase 7 — Operator Resonance
+* Human-system interaction telemetry analysis.
+* Adaptive inference pacing matched to operator rhythm.
 
 ---
 
-# 9. OBJECTIF À LONG TERME
+# 5. SYSTEMIC IMMUNITY (ABSOLUTE PRIORITY)
 
-Créer un organisme computationnel :
+Threat vectors:
 
-* immunisé contre l’autodestruction
-* conscient du matériel
-* adaptable thermiquement
-* extensible dynamiquement
-* capable d’évolution contrôlée
-* indépendant du cloud
-* distribué mais autonome
+1. Memory corruption
+2. Logic deadlock
+3. Subsystem panic
+4. Hardware driver stall
+5. Faulty experimental modules
+
+Countermeasures:
+
+* Verification of vital structures
+* Task-level fault isolation
+* Local subsystem restart
+* Non-blocking circular event logging
+* Hardware watchdog enforcement
+
+Local degradation is permissible. Global death is forbidden.
 
 ---
 
-Tu as maintenant :
+# 6. FRACTAL STABILITY
 
-* Une Constitution cohérente
-* Un plan évolutif intégré
-* Une hiérarchie claire
-* Une doctrine technique stable
-* Une vision sur 10 ans
+Pacing of architectural evolution by tier:
+
+* **Soma (C / ASM)**: Very slow, immutable foundations.
+* **Immunity (Rust)**: Slow, formally verified invariants.
+* **Metabolism**: Measured, telemetry-driven.
+* **Cortex / Cognition**: Rapid, continuous refinement.
+* **Circulatory**: Dynamic, adaptable.
+
+Never evolve all tiers simultaneously.
+
+---
+
+# 7. AI OPERATIONAL PROTOCOL
+
+For every codebase modification:
+
+1. Identify the target organ and its boundary.
+2. Respect architectural invariants.
+3. Reject coupling or dilution of responsibilities.
+4. Verify verifiable increases in system autonomy.
+5. Maintain strict ASCII / UTF-8 discipline.
+6. Preserve standalone bare-metal execution independence.
+
+---
+
+# 8. THE DEFINITIVE FORMULATION
+
+An OS is dead software.
+OO is a living computational architecture.
+
+An OS wears down and decays.
+OO adapts and regenerates.
+
+An OS executes commands.
+OO survives on raw silicon.
+
+---
+
+# 9. LONG-TERM HORIZON
+
+Create a computational organism that is:
+
+* Immune to self-destruction
+* Intimately aware of its hardware
+* Thermally and energetically adaptive
+* Dynamically extensible
+* Governed by controlled evolution
+* Completely free from cloud or third-party host reliance
+* Autonomous on bare-metal silicon

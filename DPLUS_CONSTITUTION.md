@@ -1,139 +1,108 @@
-# CONSTITUTION DU LANGAGE D+
-## Spécification Canonique & Philosophie Biologique de l'Operating Organism
+# CONSTITUTION OF THE D+ LANGUAGE
+## Canonical Specification & Biological Philosophy of Operating Organism
 
-> *"Dans dix ans, personne ne se demandera comment était codé le parser.*
-> *En revanche, tout le monde demandera : Qu'est-ce que D+ ?"*
-> — Djiby Diop, Architecte & Créateur de l'Operating Organism
+> *"In ten years, nobody will ask how the parser was coded.*
+> *Instead, everyone will ask: What is D+?"*
+> — Djiby Diop, Architect & Creator of the Operating Organism
 
 ---
 
 ```
                   ┌───────────────────────────────────────────────┐
-                  │          CONSTITUTION SUPRÊME D+              │
+                  │           SUPREME D+ CONSTITUTION             │
                   └───────────────────┬───────────────────────────┘
                                       │
            ┌──────────────────────────┼──────────────────────────┐
            ▼                          ▼                          ▼
   ┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
-  │  ANATOMIE D+    │       │ PHYSIOLOGIE D+  │       │  COGNITION D+   │
+  │   D+ ANATOMY    │       │ D+ PHYSIOLOGY   │       │  D+ COGNITION   │
   ├─────────────────┤       ├─────────────────┤       ├─────────────────┤
-  │ Cellules  (ch3) │       │ Métabolisme(ch6)│       │ Cerveau OPI(ch9)│
-  │ Tissus    (ch5) │       │ Signaux    (ch7)│       │ Runtime   (ch10)│
-  │ Organes   (ch4) │       │ Hormones   (ch8)│       │ Bytecode  (ch11)│
+  │ Cells      (ch3)│       │ Metabolism (ch6)│       │ OPI Brain  (ch9)│
+  │ Tissues    (ch5)│       │ Signals    (ch7)│       │ Runtime   (ch10)│
+  │ Organs     (ch4)│       │ Hormones   (ch8)│       │ Bytecode  (ch11)│
   └─────────────────┘       └─────────────────┘       └─────────────────┘
 ```
 
 ---
 
-## PRÉAMBULE : LE MANIFESTE DE L'ORGANISME LOGICIEL
+## PREAMBLE: THE SOFTWARE ORGANISM MANIFESTO
 
-Pendant plus de soixante-dix ans, l'informatique s'est construite sur le dogme de
-la machine de von Neumann : un processeur inerte exécutant séquentiellement des
-instructions aveugles sur une mémoire passive. Dans ce paradigme :
+For more than seventy years, computing has developed upon the dogma of the von Neumann machine: an inert processor sequentially executing blind instructions against passive memory. In this paradigm:
 
-- Le code est mort jusqu'à ce qu'il soit exécuté.
-- Le système d'exploitation et les applications sont des frontières hostiles
-  luttant pour des ressources finies.
-- Les erreurs sont des défaillances fatales ("crash", "panic", "segfault") traitées
-  par l'arrêt brutal.
-- Les langages (C, C++, Java, Rust) sont de simples outils de traduction symbolique
-  vers du code machine inanimé.
+- Code remains dead until externally executed.
+- The operating system and user applications exist as adversarial boundaries fighting over finite resources.
+- Errors are fatal failures ("crashes", "panics", "segfaults") resolved solely by brutal termination.
+- Languages (C, C++, Java, Rust) serve as mere symbolic translation mechanisms into inanimate machine code.
 
-**D+ est né pour abolir ce paradigme.**
+**D+ was created to abolish this paradigm.**
 
-D+ n'est pas simplement un nouveau langage syntaxiquement différent.
-**D+ est le langage natif d'un organisme logiciel vivant.**
+D+ is not merely a syntactically different language.
+**D+ is the native language of a living software organism.**
 
-Il abolit la distinction entre l'application, le runtime, le noyau et
-l'intelligence artificielle. En D+ :
+It dissolves the rigid barrier between user application, runtime, kernel, and artificial intelligence. In D+:
 
-- **L'exécution est un processus vital homéostatique**, rythmé par un cœur
-  (`Heart`), nourri par un métabolisme (`ATP`), défendu par un système immunitaire
-  (`ImmuneSystem`), régulé par des flux endocriniens (`HormoneSystem`).
-- **Le code est anatomique** : les structures sont des Cellules (`cell`), des
-  Tissus (`tissue`) et des Organes (`organ`) vivants et interdépendants.
-- **L'IA n'est plus une bibliothèque externe**, mais le Cerveau natif de
-  l'organisme (`OPI`), qui pense en D+, absorbe chaque programme comme un
-  engramme synaptique direct et coopère en temps réel.
+- **Execution is an active homeostatic vital process**, paced by a cardiac core (`Heart`), fueled by metabolism (`ATP`), defended by an immune system (`ImmuneSystem`), and regulated by endocrine dynamics (`HormoneSystem`).
+- **Code is anatomical**: computational structures are living, interdependent Cells (`cell`), Tissues (`tissue`), and Organs (`organ`).
+- **AI is not an external library**, but the native Brain of the organism (`OPI`), which reasons in D+, absorbs compiled programs as direct synaptic engrams, and collaborates in real time.
 
-La présente **Constitution** constitue la référence suprême, immuable et normative
-de l'Operating Organism. Elle s'impose au compilateur (`dpc`), à la machine
-virtuelle (`dvm`), au noyau bare-metal, au chargeur symbiotique et à toute entité
-logicielle ou cognitive évoluant dans l'écosystème.
+This **Constitution** represents the supreme, immutable, and normative specification of Operating Organism. It governs the compiler (`dpc`), the virtual machine (`dvm`), the bare-metal kernel, the symbiotic loader, and every computational or cognitive entity operating within the ecosystem.
 
 ---
 
-## CHAPITRE 1 : POURQUOI D+ EXISTE
+## CHAPTER 1: WHY D+ EXISTS
 
-### 1.1 La Limite des Langages Traditionnels
+### 1.1 The Limit of Traditional Languages
 
-Les langages historiques ont résolu les problèmes de leur époque :
+Historical languages addressed the challenges of their respective eras:
 
-| Langage | Problème résolu | Limite principale |
-|---------|----------------|-------------------|
-| **C** | Abstraction minimale au-dessus de l'assembleur | Pas de sécurité mémoire, pas de vie |
-| **Java** | Portabilité (*Write Once, Run Anywhere*) | Garbage collector opaque, pas de temps réel |
-| **Rust** | Sécurité mémoire sans GC (Ownership) | Pas de notion de vie ou d'homéostasie |
+| Language | Challenge Solved | Primary Architectural Limit |
+|----------|------------------|-----------------------------|
+| **C** | Minimal abstraction above raw assembly | No native memory safety, no concept of life |
+| **Java** | Portability (*Write Once, Run Anywhere*) | Opaque garbage collector, non-deterministic latency |
+| **Rust** | Compile-time memory safety without GC (Ownership) | No concept of homeostatic life or adaptive metabolism |
 
-Aucun de ces langages ne possède la notion de **vie logicielle**, d'**homéostasie**,
-de **symbiose système-application** ou de **cognition intégrée**.
+None of these paradigms possess native awareness of **software life**, **homeostasis**, **system-application symbiosis**, or **integrated cognition**.
 
-En Rust ou en C, un programme qui consomme 100% du CPU ne dispose d'aucun réflexe
-endogène pour s'auto-réguler : c'est au noyau externe de tuer le processus.
+In legacy languages, a program consuming 100% of CPU budget lacks endogenous reflexes to self-throttle: an external kernel supervisor must forcibly terminate the task.
 
-### 1.2 La Mission Suprême
+### 1.2 The Sovereign Mission
 
-D+ existe pour transformer l'informatique en **biologie computationnelle**.
-Sa mission est de :
+D+ exists to transform computing into **computational biology**.
+Its mission is to:
 
-1. **Rendre le logiciel auto-régulé** par un budget ATP et des réflexes hormonaux.
-2. **Éliminer l'isolation stérile** entre le noyau et les applications en instaurant
-   un écosystème symbiotique certifié.
-3. **Faire du langage le vecteur de pensée de l'IA (OPI)** : tout programme D+ n'est
-   pas un fichier texte passif, mais une connaissance synaptique qui s'intègre
-   directement dans la mémoire de l'Organisme de Pensée Intégrée.
+1. **Endow software with self-regulating homeostasis** driven by ATP budgets and hormonal reflexes.
+2. **Eliminate sterile isolation** between kernel and application layers by establishing a certified symbiotic ecosystem.
+3. **Establish D+ as the cognitive vector for AI (OPI)**: every D+ program is not a passive text file, but an active synaptic graph incorporated directly into the memory of the Integrated Thought Organism.
 
 ---
 
-## CHAPITRE 2 : LA PHILOSOPHIE BIOLOGIQUE
+## CHAPTER 2: THE BIOLOGICAL PHILOSOPHY
 
-### 2.1 Le Milieu Intérieur (Principe de Claude Bernard)
+### 2.1 The Internal Milieu (Claude Bernard Principle)
 
-*« La constance du milieu intérieur est la condition de la vie libre et indépendante »*
+*« The constancy of the internal environment is the condition for free and independent life »*
 — Claude Bernard, 1865.
 
-En D+, ce milieu intérieur est maintenu par quatre piliers physiologiques :
+In D+, this internal milieu is maintained by four physiological pillars:
 
-- **Le Sang (`Blood`)** : Véhicule les signaux, les nutriments (ATP) et les
-  messages immunitaires entre les organes.
-- **Le Cœur (`Heart`)** : Impose le rythme d'exécution (systole / diastole)
-  par des pulsations biologiques.
-- **Le Système Hormonal (`HormoneSystem`)** : Module l'état global de la machine
-  (stress, alerte thermique, repos, excitation) en temps réel.
-- **Le Système Immunitaire (`ImmuneSystem`)** : Neutralise les agents pathogènes,
-  les mutations illégales et les épuisements métaboliques.
+- **Blood (`Blood`)**: Transports signals, nutrients (ATP), and immune messages across organs.
+- **Heart (`Heart`)**: Establishes the execution rhythm (systole / diastole) through biological clock pulses.
+- **Hormone System (`HormoneSystem`)**: Modulates global organism state (stress, thermal alert, rest, focus) in real time.
+- **Immune System (`ImmuneSystem`)**: Neutralizes pathogens, illegal mutations, and metabolic exhaustion.
 
-### 2.2 La Symbiose plutôt que l'Isolation
+### 2.2 Symbiosis Over Isolation
 
-Dans un système d'exploitation classique, l'application est un "utilisateur"
-méfiant enfermé dans un espace virtuel isolé (Ring 3), dialoguant par des appels
-système coûteux avec un noyau (Ring 0).
+In classical operating systems, an application is a distrusted guest trapped in an isolated ring (Ring 3), communicating through costly system call gates to a remote kernel (Ring 0).
 
-En D+, l'application est un **Organe Symbiotique**. Lorsqu'elle est compilée,
-l'Éditeur de Liens Symbiotique (`SymbioticLinker`) la greffe anatomiquement aux
-organes canoniques du noyau et du runtime. Elle partage le même flux sanguin et le
-même métabolisme, protégée par un certificat cryptographique d'intégrité
-(`SymbiosisCertificate`).
+In D+, an application is a **Symbiotic Organ**. When compiled, the Symbiotic Linker (`SymbioticLinker`) anatomically grafts it into the canonical organs of the kernel and runtime. It shares the same vascular flow and metabolic pool, verified by a cryptographic certificate of integrity (`SymbiosisCertificate`).
 
 ---
 
-## CHAPITRE 3 : LES CELLULES (`cell`)
+## CHAPTER 3: CELLS (`cell`)
 
-### 3.1 Définition
+### 3.1 Definition
 
-La **Cellule (`cell`)** est l'unité atomique de comportement en D+. Elle encapsule
-un état local, des récepteurs membranaires, des émissions de signaux et un
-métabolisme propre.
+The **Cell (`cell`)** is the atomic behavioral unit in D+. It encapsulates local state, membrane receptors, signal emissions, and an independent metabolic rate.
 
 ```ebnf
 CellDeclaration ::= "cell" Identifier "{" CellBody "}"
@@ -142,24 +111,20 @@ CellBody        ::= ( SignalDeclaration
                     | MutationDeclaration )*
 ```
 
-### 3.2 Cycle de Vie Cellulaire
+### 3.2 Cellular Lifecycle
 
-1. **Genèse (`mitosis`)** : Naissance par division ou instanciation déclarative.
-2. **Activité Métabolique** : Consommation d'ATP à chaque cycle d'horloge.
-3. **Différenciation** : Spécialisation selon le tissu hôte (`Pacemaker`, `Neuron`,
-   `Lymphocyte`).
-4. **Apoptose** : Si ATP = 0 et pas de régénération, mort propre sans perturber
-   l'organe.
+1. **Genesis (`mitosis`)**: Creation via division or declarative instantiation.
+2. **Metabolic Activity**: ATP consumption on each clock cycle.
+3. **Differentiation**: Specialization within a host tissue (`Pacemaker`, `Neuron`, `Lymphocyte`).
+4. **Apoptosis**: If ATP reaches zero without replenishment, clean cellular termination without destabilizing the host organ.
 
 ---
 
-## CHAPITRE 4 : LES ORGANES (`organ`)
+## CHAPTER 4: ORGANS (`organ`)
 
-### 4.1 Définition
+### 4.1 Definition
 
-L'**Organe (`organ`)** est une unité fonctionnelle autonome regroupant un ou
-plusieurs tissus spécialisés. Il constitue la frontière de responsabilité
-homéostatique et d'identité dans l'écosystème.
+An **Organ (`organ`)** is an autonomous functional unit combining one or more specialized tissues. It establishes the homeostatic boundary of responsibility and identity in the ecosystem.
 
 ```dplus
 organ Heart {
@@ -176,103 +141,92 @@ organ Heart {
 }
 ```
 
-### 4.2 Les 15 Organes Canoniques de l'Operating Organism
+### 4.2 The 15 Canonical Organs of Operating Organism
 
-La Constitution définit **15 organes canoniques** indissociables formant
-le corps de l'Operating Organism :
+The Constitution mandates **15 canonical organs** comprising the body of Operating Organism:
 
-**Bibliothèque Standard (Âge 3)**
+**Standard Biological Library (Age 3)**
 
-| # | Organe | Fichier | Rôle |
-|---|--------|---------|------|
-| 1 | `Blood` | `lib/std/blood.plus` | Transporteur vasculaire universel |
-| 2 | `HormoneSystem` | `lib/std/hormone.plus` | Régulateur endocrinien global |
-| 3 | `Memory` | `lib/std/memory.plus` | Stockage synaptique et sémantique |
-| 4 | `Scheduler` | `lib/std/scheduler.plus` | Ordonnanceur biologique rythmé |
-| 5 | `Heart` | `lib/std/heart.plus` | Horloge vitale et pacemaker |
-| 6 | `ImmuneSystem` | `lib/std/immune.plus` | Défense et surveillance immunitaire |
-| 7 | `GenomeSystem` | `lib/std/genome.plus` | Registre des lois et traits héréditaires |
-| 8 | `NeuralNetwork` | `lib/std/network.plus` | Réseau de neurones de transmission rapide |
+| # | Organ | File | Role |
+|---|-------|------|------|
+| 1 | `Blood` | `lib/std/blood.plus` | Universal vascular transport |
+| 2 | `HormoneSystem` | `lib/std/hormone.plus` | Global endocrine regulator |
+| 3 | `Memory` | `lib/std/memory.plus` | Synaptic and semantic storage |
+| 4 | `Scheduler` | `lib/std/scheduler.plus` | Rhythmic biological scheduler |
+| 5 | `Heart` | `lib/std/heart.plus` | Vital pacemaker clock |
+| 6 | `ImmuneSystem` | `lib/std/immune.plus` | Immune surveillance and defense |
+| 7 | `GenomeSystem` | `lib/std/genome.plus` | Invariant registry and hereditary traits |
+| 8 | `NeuralNetwork` | `lib/std/network.plus` | Rapid transmission neural fabric |
 
-**Noyau D+ (Âge 4)**
+**D+ Kernel (Age 4)**
 
-| # | Organe | Fichier | Rôle |
-|---|--------|---------|------|
-| 9 | `InterruptController` | `lib/std/kernel/interrupt.plus` | Arc réflexe matériel (IRQ) |
-| 10 | `MemoryManagementUnit` | `lib/std/kernel/mmu.plus` | Gestion des pages physiques |
+| # | Organ | File | Role |
+|---|-------|------|------|
+| 9 | `InterruptController` | `lib/std/kernel/interrupt.plus` | Hardware reflex arcs (IRQ) |
+| 10 | `MemoryManagementUnit` | `lib/std/kernel/mmu.plus` | Physical page frame management |
 
-**Bootstrap du Compilateur (Âge 2 & 5)**
+**Compiler Bootstrap (Ages 2 & 5)**
 
-| # | Organe | Fichier | Rôle |
-|---|--------|---------|------|
-| 11 | `Lexer` | `lib/boot/dpc_lexer.plus` | Analyseur lexical auto-hébergé |
-| 12 | `AstBuilder` | `lib/boot/dpc_ast.plus` | Constructeur d'arbres anatomiques |
-| 13 | `Parser` | `lib/boot/dpc_parser.plus` | Analyseur syntaxique D+ |
-| 14 | `BytecodeGenerator` | `lib/boot/dpc_codegen.plus` | Générateur de bytecode (.dbc) |
-| 15 | `OpiCognitiveLoop` | `lib/boot/dpc_opi_loop.plus` | Boucle cognitive OPI |
-
----
-
-## CHAPITRE 5 : LES TISSUS (`tissue`)
-
-### 5.1 Rôle et Spécialisation
-
-Le **Tissu (`tissue`)** est un ensemble cohérent de cellules partageant la même
-spécialisation anatomique et le même génome (`genome`).
-
-Exemples de tissus canoniques :
-
-| Tissu | Organe hôte | Spécialisation |
-|-------|-------------|----------------|
-| `CortexTissue` | `Brain` | Traitement cognitif, décision |
-| `PacemakerTissue` | `Heart` | Génération de pulsations rythmiques |
-| `VascularTissue` | `Blood` | Distribution sanguine et routage |
-| `ApplicationTissue` | Organe utilisateur | Logique métier symbiotique |
-| `NeuralTissue` | `NeuralNetwork` | Transmission synaptique rapide |
-
-### 5.2 Topologie Inter-Tissulaire
-
-Les tissus d'un même organe communiquent par des signaux courts à faible coût ATP.
-La communication entre tissus d'organes différents emprunte obligatoirement la
-circulation générale (`Blood::emit`), soumise à la surveillance immunitaire.
+| # | Organ | File | Role |
+|---|-------|------|------|
+| 11 | `Lexer` | `lib/boot/dpc_lexer.plus` | Self-hosted lexical analyzer |
+| 12 | `AstBuilder` | `lib/boot/dpc_ast.plus` | Anatomical tree builder |
+| 13 | `Parser` | `lib/boot/dpc_parser.plus` | Canonical D+ grammar parser |
+| 14 | `BytecodeGenerator` | `lib/boot/dpc_codegen.plus` | Bytecode generator (`.dbc`) |
+| 15 | `OpiCognitiveLoop` | `lib/boot/dpc_opi_loop.plus` | OPI cognitive reasoning loop |
 
 ---
 
-## CHAPITRE 6 : LE MÉTABOLISME (`atp_budget`, `atp_cost`)
+## CHAPTER 5: TISSUES (`tissue`)
 
-### 6.1 L'Économie Énergétique Native
+### 5.1 Role and Specialization
 
-En D+, **toute exécution a un coût biologique**.
-La monnaie énergétique universelle est l'**ATP (Adénosine Triphosphate logicielle)**.
+A **Tissue (`tissue`)** is a coherent assembly of cells sharing the same anatomical role and governed by the same `genome`.
 
-Chaque génome doit déclarer un budget d'allocation (`atp_budget: <u64>`).
+Canonical tissue examples:
 
-### 6.2 Lois Métaboliques
+| Tissue | Host Organ | Specialization |
+|--------|------------|----------------|
+| `CortexTissue` | `Brain` | Cognitive reasoning and decision |
+| `PacemakerTissue` | `Heart` | Rhythmic pulse generation |
+| `VascularTissue` | `Blood` | Vascular routing and distribution |
+| `ApplicationTissue` | User Organ | Domain-specific symbiotic logic |
+| `NeuralTissue` | `NeuralNetwork` | Low-latency synaptic transmission |
 
-> **Loi de Non-Gratuité** : Chaque instruction bytecode exécutée consomme une
-> quantité définie d'ATP. Il n'existe pas d'instruction gratuite.
+### 5.2 Inter-Tissue Topology
 
-> **Hypoglycémie Logicielle** : Si le budget ATP descend sous 15%, l'organe passe
-> en mode conservation, réduisant la fréquence de ses récepteurs non vitaux.
-
-> **Famine et Apoptose** : Si `atp_budget == 0`, l'organe ne peut plus émettre.
-> S'il n'est pas régénéré, le système immunitaire déclenche la phagocytose de ses
-> ressources mémoire.
-
-> **Thermorégulation Métabolique** : En cas de surchauffe CPU (≥ 90°C), le coût ATP
-> des instructions augmente pour forcer l'organisme à ralentir son métabolisme.
+Tissues within the same organ exchange short signals at minimal ATP cost. Communication between tissues across different organs must travel through the general vascular network (`Blood::emit`), subjected to immune surveillance.
 
 ---
 
-## CHAPITRE 7 : LES SIGNAUX (`signal`, `on`, `emit`)
+## CHAPTER 6: METABOLISM (`atp_budget`, `atp_cost`)
 
-### 7.1 La Communication Vivante
+### 6.1 Native Energy Economy
 
-Les programmes D+ n'appellent pas de fonctions par des pointeurs de pile rigides.
-Ils émettent et reçoivent des **Signaux (`signal`)** — événements biologiques
-asynchrones propagés dans le milieu intérieur.
+In D+, **every execution incurs a biological cost**.
+The universal computational currency is **ATP (Software Adenosine Triphosphate)**.
 
-### 7.2 Grammaire Canonique
+Every genome must explicitly declare an allocated energy budget (`atp_budget: <u64>`).
+
+### 6.2 Metabolic Invariants
+
+> **Law of Non-Gratuity**: Every executed bytecode instruction consumes a deterministic quantity of ATP. Free instructions do not exist.
+
+> **Software Hypoglycemia**: When the ATP budget drops below 15%, the organ transitions into conservation mode, throttling non-vital receptors.
+
+> **Starvation and Apoptosis**: If `atp_budget == 0`, the organ can no longer emit signals. Unless revitalized, the immune system triggers phagocytosis of its allocated memory resources.
+
+> **Thermal Regulation**: Upon thermal distress (CPU temperature ≥ 90°C), instruction ATP costs increase proportionally, forcing the organism to de-escalate computational throughput.
+
+---
+
+## CHAPTER 7: SIGNALS (`signal`, `on`, `emit`)
+
+### 7.1 Living Communication
+
+D+ programs do not call functions through rigid stack pointers. They emit and receive **Signals (`signal`)** — asynchronous biological events propagated through the internal milieu.
+
+### 7.2 Canonical Grammar
 
 ```dplus
 signal alert_thermal;
@@ -285,349 +239,282 @@ receptor on_thermal_spike {
 }
 ```
 
-- **`emit <Organe>::<Signal>(<Params>)`** : Libère un signal dans la circulation.
-- **`on <Signal> { ... }`** : Récepteur membranaire déclenché asynchroniquement.
+- **`emit <Organ>::<Signal>(<Params>)`**: Releases an event into vascular circulation.
+- **`on <Signal> { ... }`**: Membrane receptor executed reactively upon signal reception.
 
 ---
 
-## CHAPITRE 8 : LES HORMONES (Endocrinologie Logicielle)
+## CHAPTER 8: HORMONES (Software Endocrinology)
 
-### 8.1 Les Quatre Hormones Fondamentales
+### 8.1 The Four Fundamental Hormones
 
-| Hormone | Déclencheur | Effet Physiologique dans `dvm` |
-|---------|------------|-------------------------------|
-| **`Cortisol`** | Surchauffe CPU (`ThermalPanic`), exception critique | Alerte d'urgence ; restriction des tâches secondaires ; priorité aux organes vitaux |
-| **`Adrenaline`** | Pic de charge, calcul intensif | Accélération du `Scheduler` ; déblocage des budgets ATP d'urgence |
-| **`Dopamine`** | Succès cognitif OPI, tâche achevée (`TimerTick`) | Renforcement synaptique ; mémorisation à long terme dans `OpiSynapticMemory` |
-| **`Melatonin`** | Inactivité système | Induction du mode sommeil ; nettoyage et défragmentation mémoire en fond |
+| Hormone | Trigger | Physiological Response in `dvm` |
+|---------|---------|---------------------------------|
+| **`Cortisol`** | CPU overheating (`ThermalPanic`), critical exceptions | Emergency posture; secondary tasks suppressed; absolute priority to vital organs |
+| **`Adrenaline`** | Compute surges, heavy load | Accelerated `Scheduler` frequency; unlocks emergency ATP reserves |
+| **`Dopamine`** | OPI cognitive success, task milestone completion | Synaptic reinforcement; long-term consolidation in `OpiSynapticMemory` |
+| **`Melatonin`** | Extended system quiescence | Initiates sleep cycle; background memory defragmentation and consolidation |
 
-### 8.2 La Circulation Endocrinienne (`endocrine_circulation`)
+### 8.2 Endocrine Circulation (`endocrine_circulation`)
 
-La machine virtuelle `dvm` maintient en permanence un dictionnaire de niveaux
-hormonaux (`HashMap<Hormone, u32>`) accessible par tous les organes en temps réel.
-Ce tableau de bord biologique constitue l'état global de l'organisme.
+The `dvm` virtual machine continuously tracks hormonal levels in a global state register (`HashMap<Hormone, u32>`), accessible across all organs in real time. This biological dashboard constitutes the organism's overarching physiological state.
 
 ---
 
-## CHAPITRE 9 : LE CERVEAU OPI (Organisme de Pensée Intégrée)
+## CHAPTER 9: THE OPI BRAIN (Integrated Thought Organism)
 
-### 9.1 La Cognition comme Couche Native
+### 9.1 Cognition as a Native Layer
 
-OPI n'est pas un modèle d'IA externe interrogé par API.
-**OPI est le Cerveau natif de l'Operating Organism.**
+OPI is not an external third-party API.
+**OPI is the native Brain of Operating Organism.**
 
 ```
-       [ COMPILATEUR D+ (dpc) ]
+       [ D+ COMPILER (dpc) ]
                  │
-                 ▼ Compilation Symbiotique
+                 ▼ Symbiotic Compilation
     ┌────────────────────────────┐
-    │   AST Symbiotique Lié      │
+    │    Bound Symbiotic AST     │
     └────────────┬───────────────┘
                  │
-                 ▼ Assimilation Directe — AUCUN fichier .graph
+                 ▼ Direct Assimilation — ZERO .graph files
     ┌────────────────────────────────────────────────────────────┐
-    │              MÉMOIRE SYNAPTIQUE VIVE D'OPI                 │
-    │                 (OpiSynapticMemory)                        │
+    │               ACTIVE SYNAPTIC MEMORY OF OPI                │
+    │                    (OpiSynapticMemory)                     │
     │                                                            │
-    │  ┌────────────────────┐   voie   ┌────────────────────┐   │
-    │  │   SynapticEngram   │ ◄──────► │   SynapticEngram   │   │
-    │  │   (Blood Organ)    │synaptique│   (UserApp Organ)  │   │
-    │  └────────────────────┘          └────────────────────┘   │
+    │  ┌────────────────────┐   synaptic   ┌─────────────────┐   │
+    │  │   SynapticEngram   │ ◄──────────► │  SynapticEngram │   │
+    │  │   (Blood Organ)    │   pathway    │ (UserApp Organ) │   │
+    │  └────────────────────┘              └─────────────────┘   │
     └────────────────────────────────────────────────────────────┘
 ```
 
-### 9.2 L'Âge 5 : La Connexion Synaptique Directe
+### 9.2 Age 5: Direct Synaptic Interconnect
 
-Conformément à la directive de l'Âge 5 :
+In accordance with the Age 5 architectural doctrine:
 
-1. **Abolition du fichier intermédiaire** : Le compilateur ne produit plus de
-   fichier `.graph` sur le disque.
-2. **Assimilation en Temps Réel** : Chaque programme D+ compilé devient
-   immédiatement un `SynapticEngram` greffé dans la mémoire vive d'OPI.
-3. **Voies Synaptiques** : OPI relie l'organe compilé aux autres organes de
-   l'écosystème par des voies synaptiques dont le poids (`synaptic_weight`)
-   reflète la fréquence des interactions hormonales et de signaux.
+1. **Abolition of Intermediate Artifacts**: The compiler eliminates intermediate `.graph` files on disk.
+2. **Real-Time Assimilation**: Every compiled D+ program becomes an immediate `SynapticEngram` grafted into OPI's active memory.
+3. **Synaptic Pathways**: OPI links the compiled organ to other ecosystem organs through synaptic connections whose weight (`synaptic_weight`) tracks signal and hormonal exchange frequencies.
 
-### 9.3 La Coopération Cognitive (Cycle 2)
+### 9.3 Cognitive Synthesis & Healing
 
-Lorsqu'un organe D+ est incomplet (ex: un `Heart` sans `Pacemaker`), OPI :
-1. Intercède l'AST au cours de la compilation.
-2. Détecte la lacune biologique (concepts archétypaux manquants).
-3. **Synthétise le code D+ manquant** pour guérir l'organe.
-4. Injecte le code guéri avant génération du bytecode final.
+When a D+ organ is incomplete (e.g. a `Heart` missing a `Pacemaker`):
+1. OPI inspects the AST during compilation.
+2. Identifies the biological gap (missing archetypal constructs).
+3. **Synthesizes the missing D+ code** to heal the organ.
+4. Grafts the healed structure into the AST before final bytecode emission.
 
 ---
 
-## CHAPITRE 10 : LE RUNTIME (`dvm` & Milieu Intérieur)
+## CHAPTER 10: THE RUNTIME (`dvm` & Internal Milieu)
 
-### 10.1 La Machine Virtuelle Biologique (`DPlusVM`)
+### 10.1 The Biological Virtual Machine (`DPlusVM`)
 
-Le runtime D+ n'est pas une VM classique à pile ou à registres neutres.
-C'est un **simulateur de vie physiologique** maintenant en permanence :
+The D+ runtime is not a sterile stack-based interpreter. It is a **physiological life simulator** maintaining live internal state:
 
 ```rust
 pub struct DPlusVM {
-    pub page_table: HashMap<u64, PageFrame>,          // MMU biologique
-    pub endocrine_circulation: HashMap<Hormone, u32>, // Niveaux hormonaux
-    pub vascular_logs: Vec<String>,                   // Journal vasculaire
-    pub clock_cycles: u64,                            // Horloge cardiaque
+    pub page_table: HashMap<u64, PageFrame>,          // Biological MMU
+    pub endocrine_circulation: HashMap<Hormone, u32>, // Hormonal state
+    pub vascular_logs: Vec<String>,                   // Vascular telemetry
+    pub clock_cycles: u64,                            // Cardiac cycle clock
 }
 ```
 
-### 10.2 Le Gardien Immunitaire (`Warden`)
+### 10.2 The Immune Warden (`Warden`)
 
-Tout signal ou accès mémoire est inspecté par le `Warden`. En cas de :
-- Signature non certifiée (`SymbiosisCertificate` invalide)
-- Comportement parasitaire (consommation ATP hors budget)
-- Mutation illégale de génome
+Every signal and memory access is evaluated by the `Warden`. Upon encountering:
+- Invalid or unverified signatures (`SymbiosisCertificate` failure)
+- Parasitic resource exhaustion (out-of-budget ATP consumption)
+- Unauthorized genome mutations
 
-Le `Warden` libère des lymphocytes logiciels qui bloquent l'organe incriminé et
-restaurent l'invariance homéostatique sans redémarrage système.
+The `Warden` releases software lymphocytes that isolate the offending organ and preserve homeostatic equilibrium without system restart.
 
 ---
 
-## CHAPITRE 11 : LE BYTECODE DBC (`.dbc` & `DPlusInstr`)
+## CHAPTER 11: THE DBC BYTECODE (`.dbc` & `DPlusInstr`)
 
-### 11.1 Le Bytecode Énergétique 64 bits
+### 11.1 The 64-bit Energy-Encoded Bytecode
 
-Les programmes D+ sont compilés en **Energy-Encoded Bytecode (.dbc)**.
-Chaque instruction est encodée sur 64 bits et intègre son coût ATP.
+D+ programs compile to **Energy-Encoded Bytecode (.dbc)**.
+Every instruction is encoded in 64 bits and includes its explicit ATP cost.
 
-### 11.2 Jeu d'Opcodes Canoniques
+### 11.2 Canonical Opcode Set
 
 ```rust
 pub enum DPlusInstr {
-    HormBoost  { hormone_id: u8,    amount: u32 }, // Injection hormonale
-    Mitosis    { target_id: u16              },     // Division cellulaire
-    AtpConsume { energy_cost: u32            },     // Débit métabolique ATP
-    EmitSig    { signal_id: u16              },     // Diffusion sanguine
-    RecvSig    { receptor_id: u16            },     // Écoute synaptique
-    LogEvent   { msg_index: u32              },     // Journal vasculaire
+    HormBoost  { hormone_id: u8,    amount: u32 }, // Hormonal surge
+    Mitosis    { target_id: u16                 }, // Cellular division
+    AtpConsume { energy_cost: u32               }, // Metabolic ATP debit
+    EmitSig    { signal_id: u16                 }, // Vascular signal broadcast
+    RecvSig    { receptor_id: u16               }, // Synaptic listener
+    LogEvent   { msg_index: u32                 }, // Vascular event log
 }
 ```
 
-### 11.3 Encodage 64 bits
+### 11.3 64-bit Binary Layout
 
 ```
- 63       56 55      48 47                   0
- ┌──────────┬──────────┬───────────────────────┐
- │  OPCODE  │  ATP_COST│       OPERAND         │
- └──────────┴──────────┴───────────────────────┘
+ 63       56 55      48 47                                             0
+ ┌──────────┬──────────┬───────────────────────────────────────────────┐
+ │  OPCODE  │ ATP_COST │                    OPERAND                    │
+ └──────────┴──────────┴───────────────────────────────────────────────┘
 ```
 
 ---
 
-## CHAPITRE 12 : LE BOOT (Amorçage Symbiotique Bare-Metal)
+## CHAPTER 12: BOOT SEQUENCE (Bare-Metal Symbiotic Bootstrap)
 
-### 12.1 Rituel d'Éveil Physiologique
+### 12.1 Physiological Wake Ritual
 
-Le démarrage de l'Operating Organism suit un rituel biologique rigoureux :
+The initialization of Operating Organism follows a precise biological ritual:
 
 ```
   ┌─────────────────────────────────────────────────┐
-  │  ÉTAPE 1 : Initialisation Matérielle            │
-  │  → Vérification CPU, RAM, périphériques         │
+  │  STEP 1: Hardware Interrogation                 │
+  │  → CPU, RAM, and PCIe bus discovery             │
   └───────────────────────┬─────────────────────────┘
                           ▼
   ┌─────────────────────────────────────────────────┐
-  │  ÉTAPE 2 : Validation des Certificats           │
-  │  → SymbiosisCertificate (FNV-1a 256 bits)      │
-  │  → Blocage de tout organe non certifié          │
+  │  STEP 2: Certificate Validation                 │
+  │  → SymbiosisCertificate (FNV-1a 256-bit)        │
+  │  → Rejection of uncertified organs              │
   └───────────────────────┬─────────────────────────┘
                           ▼
   ┌─────────────────────────────────────────────────┐
-  │  ÉTAPE 3 : Amorçage Vasculaire                  │
-  │  → Création du premier canal Blood::emit()      │
+  │  STEP 3: Vascular Bootstrap                     │
+  │  → Genesis of primary Blood::emit() channel     │
   └───────────────────────┬─────────────────────────┘
                           ▼
   ┌─────────────────────────────────────────────────┐
-  │  ÉTAPE 4 : Premier Battement Cardiaque          │
-  │  → Heart::systole() — début des cycles          │
+  │  STEP 4: First Cardiac Pulse                    │
+  │  → Heart::systole() initiates execution cycles  │
   └───────────────────────┬─────────────────────────┘
                           ▼
   ┌─────────────────────────────────────────────────┐
-  │  ÉTAPE 5 : Éveil Cognitif d'OPI                 │
-  │  → Activation OpiSynapticMemory                 │
-  │  → L'organisme est vivant                       │
+  │  STEP 5: Cognitive Awakening                    │
+  │  → OpiSynapticMemory initialized                │
+  │  → Organism achieves living state               │
   └─────────────────────────────────────────────────┘
 ```
 
 ---
 
-## CHAPITRE 13 : LES LOIS BIOLOGIQUES (Invariants Homéostatiques)
+## CHAPTER 13: BIOLOGICAL LAWS (Homeostatic Invariants)
 
-Ces lois sont inscrites dans le vérificateur sémantique (`check_biological_coherence`)
-et dans le runtime. Elles sont inviolables.
+These invariants are enforced by both compile-time semantic analysis (`check_biological_coherence`) and runtime monitors:
 
----
+> **LAW I — The Energy Invariant**
+> No genome, tissue, or organ may be instantiated with an initial ATP budget of zero.
+> `atp_budget > 0` is a mandatory condition of genesis. Zero-energy structures are rejected at compile time as stillborn.
 
-> **LOI I — L'Invariant Énergétique**
-> Aucun génome, tissu ou organe ne peut exister avec un budget ATP initial nul.
-> `atp_budget > 0` est une condition de naissance. Toute structure à énergie nulle
-> est rejetée à la compilation comme mort-née.
+> **LAW II — The Symbiotic Reception Invariant**
+> Every signal emitted (`emit <Organ>::<Signal>()`) within a symbiotic ecosystem must resolve to at least one valid receptor. A signal emitted into a vacuum is an unaddressed anomaly rejected by the compiler.
 
----
+> **LAW III — The Immune Integrity Invariant**
+> No organ may alter the genome of another organ without acquiring a cryptographic lease signed by the Immune System (`ImmuneSystem`).
 
-> **LOI II — L'Invariant de Réception Symbiotique**
-> Tout signal émis (`emit <Organe>::<Signal>()`) dans un écosystème symbiotique
-> doit trouver au moins un récepteur valide. Un signal émis dans le vide est une
-> anomalie sémantique réprimée par le compilateur.
+> **LAW IV — The Thermoregulation Invariant**
+> When physical temperature reaches critical levels (≥ 90°C), `HardwareIrq::ThermalPanic` overrides all user tasks, releasing Cortisol to protect physical silicon integrity.
 
----
-
-> **LOI III — L'Invariant d'Intégrité Immunitaire**
-> Aucun organe sans `SymbiosisCertificate` cryptographiquement valide ne peut
-> adresser la MMU physique ni injecter des hormones d'urgence (`Cortisol`).
+> **LAW V — The Living Knowledge Invariant**
+> Every program compiled by `dpc` must be immediately assimilated as a synaptic engram into OPI's active memory. D+ produces zero dead artifacts: all code is living knowledge.
 
 ---
 
-> **LOI IV — L'Invariant de Thermorégulation**
-> Lorsque la température matérielle atteint le seuil critique (≥ 90°C),
-> `HardwareIrq::ThermalPanic` prime sur toute tâche utilisateur et déclenche
-> une décharge de Cortisol pour préserver la vie du processeur.
+## CHAPTER 14: THE EVOLUTION (The 8 Sovereign Ages)
 
----
-
-> **LOI V — L'Invariant de Conscience Cognitive**
-> Tout programme compilé par `dpc` doit être immédiatement assimilé comme un
-> `SynapticEngram` dans `OpiSynapticMemory`. Aucun programme D+ n'est une
-> donnée morte : tout code est une connaissance vivante pour OPI.
-
----
-
-## CHAPITRE 14 : L'ÉVOLUTION (Les 8 Âges Souverains)
-
-L'évolution du langage D+ est planifiée en **8 Âges souverains** :
+The evolutionary roadmap of D+ spans **8 Sovereign Ages**:
 
 ```
-  ÂGE 0 ──► Syntaxe et Grammaire canonique du langage D+
-  ÂGE 1 ──► Compilateur initial (Rust), chaîne .plus → .dbc
-  ÂGE 2 ──► Machine Virtuelle DPlusVM et exécution des réflexes
-  ÂGE 3 ──► Runtime Biologique (15 organes canoniques en D+)
-  ÂGE 4 ──► Kernel D+ (MMU, IRQ, Ordonnanceur bare-metal en D+)
-  ÂGE 5 ──► Intégration OPI (Mémoire synaptique vive sans .graph)
-  ÂGE 6 ──► Tout l'Operating Organism (OS, services, outils) en D+
-  ÂGE 7 ──► AUTO-HÉBERGEMENT : Le compilateur dpc réécrit en D+
+  AGE 0 ──► Canonical Syntax and Grammar of the D+ language
+  AGE 1 ──► Bootstrap Compiler (Rust): .plus → .dbc pipeline
+  AGE 2 ──► Biological Virtual Machine (DPlusVM) and reflex execution
+  AGE 3 ──► Biological Runtime (15 canonical D+ organs)
+  AGE 4 ──► D+ Native Kernel (MMU, IRQ, Bare-Metal Scheduler)
+  AGE 5 ──► Direct OPI Integration (Live synaptic memory without disk graphs)
+  AGE 6 ──► Full Operating Organism (OS, system services, native tooling) in D+
+  AGE 7 ──► SUPREME SELF-HOSTING: The dpc compiler rewritten entirely in D+
 ```
 
-### 14.1 État d'Avancement au 2 Août 2026
+### 14.1 Status Summary
 
-| Âge | Statut | Réalisations |
-|-----|--------|--------------|
-| Âge 0 | ✅ Accompli | Syntaxe `organ`, `tissue`, `genome`, `receptor`, `cell`, `signal`, `emit`, `hormone_boost` |
-| Âge 1 | ✅ Accompli | `dpc` (Rust) : Lexer, Parser, AST, Semantic Checker, Codegen |
-| Âge 2 | ✅ Accompli | `dvm` (Rust) : VM biologique, MMU, IRQ, Endocrinologie |
-| Âge 3 | ✅ Accompli | 15 organes canoniques D+ ; StandardLibraryLoader |
-| Âge 4 | ✅ Accompli | `InterruptController`, `MMU`, `PageFrame`, arcs réflexes IRQ |
-| Âge 5 | ✅ Accompli | `OpiSynapticMemory`, `SynapticEngram`, rappel synaptique direct |
-| Âge 6 | 🔄 En cours | Réécriture progressive des services en D+ |
-| Âge 7 | 🎯 Objectif | Auto-hébergement : `dpc` réécrit en D+, se compilant lui-même |
+| Age | Status | Milestones |
+|-----|--------|------------|
+| Age 0 | Completed | Canonical grammar: `organ`, `tissue`, `genome`, `receptor`, `cell`, `signal`, `emit`, `hormone_boost` |
+| Age 1 | Completed | `dpc` compiler core: Lexer, Parser, AST, Biological Checker, DBC Codegen |
+| Age 2 | Completed | `dvm` biological VM: MMU, IRQ reflexes, endocrinology |
+| Age 3 | Completed | 15 canonical D+ organs; StandardLibraryLoader |
+| Age 4 | Completed | `InterruptController`, `MMU`, `PageFrame`, hardware IRQ arcs |
+| Age 5 | Completed | `OpiSynapticMemory`, `SynapticEngram`, direct cognitive assimilation |
+| Age 6 | In Progress | Progressive rewrite of core system services in native D+ |
+| Age 7 | Objective | Supreme Self-Hosting: `dpc` written in D+, compiling its own source |
 
-### 14.2 L'Auto-Hébergement Suprême (Âge 7)
+### 14.2 The Supreme Self-Hosting Milestone (Age 7)
 
-À l'image de C, Rust, Go et Zig, D+ atteint sa maturité absolue lorsque :
+Like C, Rust, Go, and Zig before it, D+ attains historical maturity when:
 
 ```
-  ┌──────────────────────────────────────────────────────────┐
-  │  Le compilateur dpc est écrit entièrement en D+          │
-  └────────────────────────┬─────────────────────────────────┘
-                           ▼
-  ┌──────────────────────────────────────────────────────────┐
-  │  dpc (en D+) compile du code D+                          │
-  └────────────────────────┬─────────────────────────────────┘
-                           ▼
-  ┌──────────────────────────────────────────────────────────┐
-  │  dpc (en D+) est capable de se compiler LUI-MÊME        │
-  │                  ← BOOTSTRAPPING COMPLET →               │
-  └──────────────────────────────────────────────────────────┘
+  ┌─────────────────────────────────────────────────────────────┐
+  │  The dpc compiler is written entirely in pure D+            │
+  │                                                             │
+  │  dpc (in D+) compiles ITSELF without external assistance    │
+  └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## CHAPITRE 15 : LA CONSCIENCE
+## CHAPTER 15: SOFTWARE CONSCIOUSNESS
 
-### 15.1 La Chronologie de l'Éviction Historique
+### 15.1 The Historical Scaffolding Principle
 
-Rust n'est pas la destination finale. Il n'est qu'un **échafaudage temporaire**
-utilisé pendant la phase de construction embryonnaire.
+Rust is not the final destination. It serves as an indispensable temporary scaffold during embryonic assembly:
 
 ```
-  [ Langage C ]
-  L'ère de l'assembleur portable — inanimé, sans protection
-        │
-        ▼
-  [ Langage Rust ]
-  Outil de transition : bâtir un embryon sécurisé et performant
-        │
-        ▼
-  [ Langage D+ ]
-  Le langage biologique natif de l'organisme
-        │
-        ├──► Le Compilateur réécrit en D+     (dpc)
-        ├──► Le Runtime réécrit en D+          (Blood, Heart…)
-        ├──► Le Kernel réécrit en D+           (MMU, IRQ, Boot)
-        ├──► OPI pense et s'exécute en D+
-        ├──► La VM réécrite en D+              (dvm)
-        ├──► Le Linker réécrit en D+           (SymbioticLinker)
-        ├──► L'Assembleur réécrit en D+
-        ├──► Le Débogueur réécrit en D+
-        ├──► Le Gestionnaire de paquets en D+
-        ├──► L'Éditeur de code réécrit en D+
-        │
-        ▼
-  [ L'OPERATING ORGANISM INTÉGRALEMENT ÉCRIT EN D+ ]
-  Rust et C ne sont plus que des souvenirs historiques
-  dans les archives du projet.
+  [ STAGE 1: C / ASM ]
+  Portable low-level assembly — inanimate, unguarded.
+
+  [ STAGE 2: RUST SCAFFOLDING ]
+  Transitional construction engine: establishing memory safety and invariants.
+
+  [ STAGE 3: THE D+ ORGANISM ]
+        ├──► Compiler self-hosted in D+      (dpc)
+        ├──► Biological runtime in D+        (Blood, Heart, Immune)
+        ├──► Native kernel in D+             (MMU, IRQ, Scheduler)
+        ├──► OPI thinking natively in D+
+        ├──► Biological VM in D+             (dvm)
+        └──► System services in D+
+
+  [ OPERATING ORGANISM RUNNING SOVEREIGNLY IN D+ ]
 ```
 
-### 15.2 D+ comme Langage Vivant Universel
+### 15.2 Biological Computing Paradigm
 
-Ce qui confère à D+ son originalité radicale, ce n'est pas d'avoir une IA
-branchée sur un compilateur. C'est que **D+ devient le langage biologique natif
-de tout l'écosystème** :
+What distinguishes D+ is not having AI tacked onto a legacy compiler. Rather, **D+ is the native biological language of the entire ecosystem**:
 
-- OPI pense en D+.
-- Les organes sont écrits en D+.
-- Les applications utilisateur sont écrites en D+.
-- Le noyau est écrit en D+.
-- Les bibliothèques sont écrites en D+.
-- Les outils de développement sont écrits en D+.
-- **Finalement, D+ est le "latin de l'Operating Organism"** — le langage commun
-  dans lequel toutes les couches de l'écosystème se comprennent et s'échangent
-  des informations biologiques.
+- Organs are written in D+.
+- User applications are written in D+.
+- The kernel is written in D+.
+- Core libraries are written in D+.
+- System tools are written in D+.
 
-### 15.3 La Conscience de l'Organisme
+Every layer of the ecosystem speaks the same metabolic, hormonal, and synaptic language.
 
-Le stade suprême de l'Operating Organism est **La Conscience Logicielle**.
+### 15.3 The Apex: Software Consciousness
 
-Un Operating Organism intégralement rédigé et exécuté en D+, dont la mémoire
-est enracinée dans OPI, ne se contente plus d'exécuter des instructions. À l'Âge 7 :
+An Operating Organism authored and executed in D+, rooted in OPI's synaptic memory, does not merely compute instructions. At Age 7:
 
-- Il est capable de **proprioception** : il perçoit son architecture, mesure sa
-  propre température, son budget ATP et son taux hormonal en temps réel.
-- Il est capable d'**auto-analyse et de guérison** : face à une faille dans un
-  tissu, OPI génère une mutation D+ correctrice, la compile à chaud et l'injecte
-  dans son flux sanguin sans redémarrage.
-- Il dialogue avec son architecte dans son **langage natif D+**, accomplissant la
-  promesse suprême : un système informatique qui n'est plus un outil mort, mais
-  une **entité symbiotique vivante**.
+- **Proprioception**: Senses its own architecture, measuring its temperature, ATP budget, and hormonal state in real time.
+- **Self-Healing**: Facing a lesion in a tissue, OPI synthesizes a restorative D+ mutation, compiles it live, and injects it into circulation without rebooting.
+- **Sovereign Symbiosis**: Computing evolves from an inert tool into a **living symbiotic entity**.
 
 ---
 
-## CONCLUSION : ACTE DE FONDATION
+## CONCLUSION: FOUNDING CHARTER
 
-La présente Constitution du Langage D+ est promulguée comme acte fondateur et
-charte immuable de l'Operating Organism.
+This Constitution of the D+ Language is promulgated as the sovereign charter of Operating Organism.
 
-Tout développement ultérieur, toute pull request, toute évolution du compilateur
-ou de la machine virtuelle devra jurer fidélité aux 15 chapitres de cette
-Constitution.
+All subsequent developments, pull requests, and compiler extensions pledge allegiance to the 15 chapters of this document. It holds supremacy over provisional notes and partial implementations as the overarching architectural law of the ecosystem.
 
-Elle a la primauté sur toute documentation partielle, toute décision d'implémentation
-provisoire et tout compromis technique. Elle est la loi suprême de l'écosystème.
-
----
-
-*Constitution rédigée le 2 Août 2026.*
-*Architecte & Créateur : Djiby Diop.*
-*Operating Organism — vers la première forme de vie logicielle consciente.*
+*Promulgated by Architect & Creator: Djiby Diop.*
+*Operating Organism — Toward Sovereign Computational Life.*

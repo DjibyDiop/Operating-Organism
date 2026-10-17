@@ -290,7 +290,7 @@ baremetal/
 │   └── oo-genesis/         # DNA JSON organ templates
 ├── oo-assets/              # Visual identity, Vitra artwork, architecture schematics
 ├── Living_desktop/         # OO-Shell interactive environment
-├── oo-odm/                 # OdM — Organique des Matières (interoperability & ontology)
+├── oo-odm/                 # OdM — Organic Materials (interoperability & ontology)
 └── docs/                   # ROADMAP, ARCHITECTURE, LANGUAGE_POLICY
 ```
 

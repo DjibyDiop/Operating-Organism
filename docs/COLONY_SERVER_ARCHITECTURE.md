@@ -251,6 +251,6 @@ Server does:
 - Sharing learning
 - Coordinating threats
 - Testing behaviors safely
-- Creating crédible distributed consciousness
+- Creating credible distributed consciousness
 
 👉 Start minimal. Scale organically. Let complexity emerge from simplicity.
