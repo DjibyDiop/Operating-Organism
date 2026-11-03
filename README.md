@@ -113,6 +113,9 @@ Key verified milestones on physical hardware (**Lenovo ThinkPad T480**):
 - ✅ **Metamorphic CVM & Thymus Seal**: 8/8 metamorphic self-synthesis routines executed under hardware SHA-256 signatures with zero-tolerance non-self rejection (`ERR -29`).
 - ✅ **Freestanding Sovereign Desktop (`oo-desktop-next`)**: Live multi-window desktop and OPI Sovereign Mind HUD running at 30+ FPS within a strictly bounded 127 KB / 256 KB memory footprint.
 - ✅ **Bare-Metal Neural Substrate & Cross-Reboot Persistence**: Llama 3.2 1B Q8_0 SIMD execution and dual-tier somatic state restoration (`oo_soma.dat`) across system reboots.
+- ✅ **Inter-Organism P2P Mesh & Epistemic Consensus**: Decentralized peer discovery, Anti-Sybil filtering, and asymptotic social quorum ($\le 88\%$) with sovereign self-truth supremacy (INV-11).
+- ✅ **Sovereign Autonomic Evolution & Rollback**: Constitutional D+ sandboxing, hot probationary grafting, and sub-cycle reflex rollback (INV-12).
+- ✅ **Inter-Generational Phylogeny & Dormant Spores**: Multi-generational transmission ($G_0 \to G_1 \to G_2 \to G_3$), filial survival veto, bounded ancestral heritage, and bit-invariant neural substrate (INV-13).
 
 For detailed test contracts and empirical qualification records, consult **[QUALIFICATION_PROOFS.md](QUALIFICATION_PROOFS.md)**.
 
