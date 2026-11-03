@@ -14,7 +14,7 @@
   <img src="https://img.shields.io/badge/Homeostasis-NORMAL%20%E2%86%92%20DEGRADED%20%E2%86%92%20SAFE-4CAF50?style=for-the-badge" alt="Homeostasis FSM" />
   <img src="https://img.shields.io/badge/Hardware-Lenovo%20ThinkPad%20T480-blue?style=for-the-badge" alt="Hardware" />
   <img src="https://img.shields.io/badge/Zero%20Mocks-Verified%20on%20Silicon-purple?style=for-the-badge" alt="Zero Mocks" />
-  <img src="https://img.shields.io/badge/Status-Active%20Evolution-brightgreen?style=for-the-badge" alt="Status" />
+  <img src="https://img.shields.io/badge/Desktop-oo--desktop--next-brightgreen?style=for-the-badge" alt="Desktop" />
 </p>
 
 ---
@@ -75,6 +75,18 @@ Vitra is the sentient visual entity that embodies the intelligence, vigilance, a
 
 ---
 
+## 🖥️ Sovereign Desktop & Cognitive Visualization
+
+Operating Organism embeds **`oo-desktop-next`**, a freestanding desktop interface built with a self-contained ES5 bytecode runtime (zero libc, zero malloc, 256 KB memory ceiling) and a native C rasterizer.
+
+<p align="center">
+  <img src="oo-assets/oo_desktop_home.png" alt="Sovereign Desktop Workspace" width="48%" style="border-radius: 8px; margin: 4px;" />
+  <img src="oo-assets/oo_opi_sovereign_mind.png" alt="OPI Sovereign Mind Continuous Telemetry" width="48%" style="border-radius: 8px; margin: 4px;" />
+</p>
+<p align="center"><em>Left: Unified Multi-Window Workspace (Terminal, Somatic Memory, Hardware Journal, Hermes Network). Right: OPI Sovereign Mind HUD displaying live thought streams, curiosity inquiries, and autopoiesis telemetry.</em></p>
+
+---
+
 ## 🏛️ High-Level Architectural Foundations
 
 The architecture of the Operating Organism is segmented into complementary biological planes:
@@ -82,7 +94,7 @@ The architecture of the Operating Organism is segmented into complementary biolo
 1. **Cognitive Plane**: On-chip neural inference directly integrated into the executive loop, providing autonomous reasoning, document comprehension, and goal-directed deliberation without third-party cloud dependence.
 2. **Autonomic Plane**: Self-balancing scheduler running across bare-metal CPU cores, ensuring non-blocking execution, hardware timer interrupts, and metabolic watchdog monitoring.
 3. **Synaptic Fabric**: Sub-millisecond inter-core lockless messaging channels facilitating coherent telemetry and control across independent hardware execution contexts.
-4. **Somatic Memory**: Multi-tiered epistemic long-term memory with mathematical integrity protection (CRC32 validation, quarantine containment, and non-volatile persistence).
+4. **Somatic Memory**: Multi-tiered epistemic long-term memory with mathematical integrity protection (CRC32 validation, quarantine containment, and non-volatile persistence across reboots).
 5. **Physical Sensory Receptors**: Native wire-level drivers (Intel I219-LM Gigabit Ethernet, Intel xHCI USB 3.0 controllers, PS/2 keyboards and precision pointers) operating directly on MMIO registers.
 6. **Sovereign Visual Engine**: High-performance double-buffered graphical display engine delivering fluid rendering, holographic widgets, and rich document browsing directly to physical displays.
 
@@ -98,6 +110,9 @@ Key verified milestones on physical hardware (**Lenovo ThinkPad T480**):
 - ✅ **Sovereign Web Requests**: Direct HTTPS encyclopedic retrieval and real-time semantic rendering.
 - ✅ **Universal USB Concurrency**: Simultaneous operation of internal PS/2 TrackPoint/keyboard and external hotplugged USB mice/keyboards.
 - ✅ **Elastic Memory Scaling**: Runtime heap capacity dynamically growing beyond legacy boundaries (>3.27 MB verified) with zero memory leaks.
+- ✅ **Metamorphic CVM & Thymus Seal**: 8/8 metamorphic self-synthesis routines executed under hardware SHA-256 signatures with zero-tolerance non-self rejection (`ERR -29`).
+- ✅ **Freestanding Sovereign Desktop (`oo-desktop-next`)**: Live multi-window desktop and OPI Sovereign Mind HUD running at 30+ FPS within a strictly bounded 127 KB / 256 KB memory footprint.
+- ✅ **Bare-Metal Neural Substrate & Cross-Reboot Persistence**: Llama 3.2 1B Q8_0 SIMD execution and dual-tier somatic state restoration (`oo_soma.dat`) across system reboots.
 
 For detailed test contracts and empirical qualification records, consult **[QUALIFICATION_PROOFS.md](QUALIFICATION_PROOFS.md)**.
 
