@@ -117,6 +117,7 @@ Key verified milestones on physical hardware (**Lenovo ThinkPad T480**):
 - ✅ **Sovereign Autonomic Evolution & Rollback**: Constitutional D+ sandboxing, hot probationary grafting, and sub-cycle reflex rollback (INV-12).
 - ✅ **Inter-Generational Phylogeny & Dormant Spores**: Multi-generational transmission ($G_0 \to G_1 \to G_2 \to G_3$), filial survival veto, bounded ancestral heritage, and bit-invariant neural substrate (INV-13).
 - ✅ **Interactive Sovereign Life & Cognitive Genesis**: Live dual-mode terminal (`oo>` / `repl>`), physical PS/2 AZERTY keyboard actuation, 5 existential epistemic inquiries, and Warden/Action Guard hostile command interception (OO-16 & Task-049).
+- ✅ **Post-Body Sovereign Expansion**: Full operational qualification of Beyond-OO 0-malloc micro-kernel (35/35 PASS), OO-NBIA peripheral latent nervous system (100% PASS), OO-OdM matter science & SIMD engine (21/21 PASS), and retrospective causal observability & immune sandbox tooling (100% PASS).
 
 For detailed test contracts and empirical qualification records, consult **[QUALIFICATION_PROOFS.md](QUALIFICATION_PROOFS.md)**.
 

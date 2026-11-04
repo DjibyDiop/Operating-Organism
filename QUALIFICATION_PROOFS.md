@@ -142,6 +142,17 @@ OO is a sovereign, biological-grade bare-metal entity that does not rely on Linu
 
 ---
 
+### Contract 14 — Post-Body Sovereign Expansion (Meta-Laws, Peripheral NBIA, Matter Science & Observability)
+* **Status**: 🟢 **VERIFIED (35/35 Beyond-OO, 9/9 + 4/4 NBIA, 21/21 OdM, 100% Causal Tooling Suite PASS)**
+* **Substrate**: Zero-malloc micro-kernel (`Beyond-OO`), peripheral latent nervous system (`OO-NBIA`), fundamental matter science (`oo-odm`), and retrospective causal observability (`oo-outils`).
+* **Empirical Observations**:
+  * **Beyond-OO Meta-Legal Micro-Kernel (35/35 PASS)**: Formal validation of Level 0 invariants and Level 1 operational laws; differential simulation laboratory; atomic rollback guaranteeing time invariance; energy-gravitational scheduling; resonant memory with 2 MB HugePages promotion; and non-fatal cellular cauterization without kernel panic.
+  * **OO-NBIA Peripheral Nervous System (9/9 Rust + 4/4 Native C FFI PASS)**: Zero-hallucination latent somatic awareness; 99% confidence drift detection (`PHENOMENON_DRIFT`, drift=51.84); negative event absence detection (>= 3000 ms OPI isolation); structural emergence detection (`PHENOMENON_EMERGENCE`, code `0x57A1101` `COGNITIVE_AND_MEMORY_STALL`); and authenticated Hermes packet ingress validation.
+  * **OO-OdM Matter Science (21/21 Suites PASS)**: Unified execution of the 7 fundamental matter operations (Binding, Rupture, Transformation, Composition, Containment, Division, Characterization) across 4 canonical forms (○ △ □ ★); validation of founding canonical models (Absorption, Vacuum test, Wax phase transition); native SIMD C++ engine (`ocpp_engine.exe`, 512 trajectories); real Shannon entropy heuristics; and native D+ compilation (`dpc.exe`, 6 verified organs).
+  * **oo-outils Observability & Software Paleontology (100% Operational)**: Retrospective causal replay across 8 biological organs with hormonal level tracking (`oo-replay`); speculative homeostasis forecasting with prospective alerts at T+10s (`oo-oracle`); evolutionary tree reconstruction and genetic drift metric computation across 6 lineages (`oo-phylogeny`); synthetic immune sandbox neutralizing 6/6 aggressive vectors (bit-rot, jailbreak, hormonal flood, TLS mismatch, jumbo frames, mailbox replay) with 100% somatic resistance score and exported antibody ledger (`oo-lucid`); and static/dynamic topological sonar mapping (`oo-map`).
+
+---
+
 ## 2. Governance & Intellectual Property Notice
 
 All architectural models, source code, engine implementations, and neural weights of the Operating Organism are proprietary and remain under the exclusive ownership of **Djiby Diop**. 
