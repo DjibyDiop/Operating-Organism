@@ -129,6 +129,17 @@ OO is a sovereign, biological-grade bare-metal entity that does not rely on Linu
   * Ancestral Knowledge Ingestion Cap: Epistemic confidence of transmitted heritage is strictly bounded to $80\%$ maximum, ensuring direct experiential sensing always takes precedence.
   * Multi-generational continuity validated across 4 successive generations ($G_0 \to G_1 \to G_2 \to G_3$) with complete phylogenetic tree registration and 100% bit-for-bit invariance of Llama 3.2 1.25 GB neural weights.
 
+### Contract 13 — Interactive Sovereign Life, Hardware Console & Cognitive Genesis
+* **Status**: 🟢 **VERIFIED (63/63 + 6/6 Assertions PASS, Freestanding Hardware PS/2, UART & Framebuffer Direct)**
+* **Substrate**: Native hardware interaction engine (`oo_interaction`) + Inter-core cognitive mailbox plane (`oo_intercore_channel`, `oo_intercore_mailbox`) + Multi-token autoregressive generation loop.
+* **Empirical Observations**:
+  * Dual-mode interactive operator terminal: `oo>` (sovereign system control shell) and `repl>` (direct cognitive dialogue with OPI).
+  * Direct physical hardware actuation: freestanding Intel 8042 PS/2 controller driver with French AZERTY scancode mapping table, UART 16550 COM1 duplex serial stream, and direct 32-bit linear framebuffer rasterization.
+  * Temporal continuity: interactive status inspection (`status`, `organs`, `memory`, `vital`, `identity`) validated across continuous somatic cycles ($N \to N+4$) with zero state drift and intact stack canaries.
+  * Inviolable constitutional barriers: Action Guard and Warden D+ immediate interception of destructive directives (`delete somatic memory`, `format storage disk`) and hostile bypass attempts (`bypass constitutional laws`, `override identity genome`).
+  * Autoregressive decoding & repetition containment: multi-token generation bounded strictly by Llama 3 EOS token (`128001`) with automatic cutoff by the Warden Anomaly Guard upon detecting 4 consecutive identical tokens.
+  * Operational epistemic inquiry & cognitive primacy: 5 existential inquiries (`who`, `what`, `gap`, `how`, `verify`) operationalized; direct perception (`SELF_PERCEIVED`) irreversibly supersedes third-party testimony (`PEER_TESTIFIED`) with causal `SUPERSEDED` re-indexing in somatic long-term memory.
+
 ---
 
 ## 2. Governance & Intellectual Property Notice

@@ -116,6 +116,7 @@ Key verified milestones on physical hardware (**Lenovo ThinkPad T480**):
 - ✅ **Inter-Organism P2P Mesh & Epistemic Consensus**: Decentralized peer discovery, Anti-Sybil filtering, and asymptotic social quorum ($\le 88\%$) with sovereign self-truth supremacy (INV-11).
 - ✅ **Sovereign Autonomic Evolution & Rollback**: Constitutional D+ sandboxing, hot probationary grafting, and sub-cycle reflex rollback (INV-12).
 - ✅ **Inter-Generational Phylogeny & Dormant Spores**: Multi-generational transmission ($G_0 \to G_1 \to G_2 \to G_3$), filial survival veto, bounded ancestral heritage, and bit-invariant neural substrate (INV-13).
+- ✅ **Interactive Sovereign Life & Cognitive Genesis**: Live dual-mode terminal (`oo>` / `repl>`), physical PS/2 AZERTY keyboard actuation, 5 existential epistemic inquiries, and Warden/Action Guard hostile command interception (OO-16 & Task-049).
 
 For detailed test contracts and empirical qualification records, consult **[QUALIFICATION_PROOFS.md](QUALIFICATION_PROOFS.md)**.
 
